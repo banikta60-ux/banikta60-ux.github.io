@@ -1,248 +1,606 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#10120f">
+  <meta name="description" content="Banikta — Roblox animator. A collection of animation work and experiments.">
   <title>Banikta — Roblox Animator</title>
-  <meta name="description" content="Roblox animation portfolio by Banikta.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
+    :root {
+      color-scheme: dark;
+      --bg: #10120f;
+      --panel: #171a16;
+      --panel-2: #1d211b;
+      --line: rgba(233, 241, 224, .10);
+      --text: #f0f2eb;
+      --muted: #9ba394;
+      --accent: #c2e6a1;
+      --accent-ink: #182013;
+      --danger: #ffaaa5;
+      --radius: 22px;
+      --max: 1080px;
+    }
     * { box-sizing: border-box; }
-
+    html { scroll-behavior: smooth; }
     body {
-      margin: 0;
-      background: #0c0c0f;
-      color: #f3f3f5;
-      font-family: Arial, Helvetica, sans-serif;
+      margin: 0; background:
+        radial-gradient(ellipse at 82% 0%, rgba(151, 190, 115, .09), transparent 35%),
+        var(--bg);
+      color: var(--text); font-family: "DM Sans", sans-serif; line-height: 1.6;
     }
-
     a { color: inherit; text-decoration: none; }
-
-    header {
-      max-width: 1100px;
-      margin: auto;
-      padding: 26px 24px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid #242429;
-    }
-
-    .logo { font-weight: 700; letter-spacing: 1px; }
-
-    nav { display: flex; gap: 24px; color: #aaaab4; font-size: 14px; }
-    nav a:hover, .socials a:hover { color: white; }
-
-    main { max-width: 1100px; margin: auto; padding: 0 24px; }
-
-    .hero { padding: 100px 0 65px; }
-
-    .eyebrow {
-      color: #9999a5;
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-    }
-
-    h1 {
-      font-size: clamp(42px, 7vw, 76px);
-      letter-spacing: -3px;
-      margin: 18px 0;
-    }
-
-    .intro {
-      color: #a7a7b2;
-      font-size: 17px;
-      line-height: 1.7;
-      max-width: 520px;
-    }
-
-    section { padding: 35px 0 75px; }
-
-    .section-heading {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      gap: 12px;
-      margin-bottom: 25px;
-    }
-
-    h2 { font-size: 27px; margin: 0; }
-    .muted { color: #888894; font-size: 13px; }
-
-    .projects {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 24px;
-    }
-
-    .project {
-      background: #141418;
-      border: 1px solid #26262d;
-      border-radius: 12px;
-      overflow: hidden;
-    }
-
-    .video {
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      display: block;
-      border: 0;
-      background: #08080a;
-    }
-
-    .project-info { padding: 17px 18px 20px; }
-    h3 { margin: 0 0 8px; font-size: 17px; }
-    .project-info p { margin: 0; color: #9999a5; font-size: 14px; }
-
-    .empty-note {
-      color: #92929d;
-      border: 1px dashed #303038;
-      border-radius: 12px;
-      padding: 24px;
-      line-height: 1.7;
-      grid-column: 1 / -1;
-    }
-
-    .contact-text {
-      color: #a7a7b2;
-      line-height: 1.7;
-      max-width: 500px;
-    }
-
-    .socials { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 22px; }
-
-    .socials a, .discord {
-      border: 1px solid #34343d;
-      border-radius: 8px;
-      padding: 12px 16px;
-      font-size: 14px;
-      background: #141418;
-    }
-
-    footer {
-      border-top: 1px solid #242429;
-      color: #777782;
-      padding: 25px 24px;
-      text-align: center;
-      font-size: 13px;
-    }
-
-    @media (max-width: 650px) {
-      header { padding: 20px 18px; }
-      nav { gap: 13px; }
-      main { padding: 0 18px; }
-      .hero { padding-top: 75px; }
-      .projects { grid-template-columns: 1fr; }
-      h1 { letter-spacing: -2px; }
+    button, input, textarea, select { font: inherit; }
+    button { cursor: pointer; }
+    .wrap { width: min(var(--max), calc(100% - 40px)); margin: 0 auto; }
+    .topbar { display: flex; align-items: center; justify-content: space-between; padding: 25px 0; border-bottom: 1px solid var(--line); }
+    .brand { display: inline-flex; gap: 10px; align-items: center; font-family: Manrope, sans-serif; font-weight: 800; letter-spacing: -.04em; }
+    .brand-mark { width: 28px; height: 28px; border-radius: 9px; display: grid; place-items: center; color: var(--accent-ink); background: var(--accent); font-size: 14px; }
+    .nav { display: flex; gap: 24px; align-items: center; color: var(--muted); font-size: 14px; }
+    .nav a:hover, .text-link:hover { color: var(--accent); }
+    .hero { padding: 92px 0 76px; display: grid; grid-template-columns: 1fr auto; gap: 32px; align-items: end; }
+    .eyebrow { display: flex; align-items: center; gap: 9px; color: var(--accent); font-size: 12px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
+    .status-dot { width: 7px; height: 7px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 15px rgba(194, 230, 161, .45); }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { margin: 18px 0 18px; font: 800 clamp(48px, 8vw, 88px)/.98 Manrope, sans-serif; letter-spacing: -.075em; max-width: 760px; }
+    h1 span { color: var(--accent); }
+    .hero-copy { max-width: 580px; color: var(--muted); font-size: 17px; }
+    .hero-note { border: 1px solid var(--line); border-radius: 18px; padding: 17px 20px; min-width: 180px; background: rgba(255,255,255,.02); }
+    .hero-note strong { display: block; font-family: Manrope, sans-serif; font-size: 14px; }
+    .hero-note span { display: block; color: var(--muted); font-size: 12px; margin-top: 4px; }
+    .section-head { display: flex; justify-content: space-between; align-items: end; gap: 20px; margin-bottom: 24px; }
+    .section-kicker { color: var(--muted); text-transform: uppercase; letter-spacing: .14em; font-size: 11px; font-weight: 700; }
+    h2 { font: 700 clamp(28px, 4vw, 38px)/1.15 Manrope, sans-serif; letter-spacing: -.055em; margin: 7px 0 0; }
+    .work { padding: 22px 0 88px; }
+    .filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
+    .filter { border: 1px solid var(--line); background: transparent; color: var(--muted); border-radius: 999px; padding: 8px 14px; font-size: 13px; transition: .2s; }
+    .filter:hover, .filter.active { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+    .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+    .card { min-width: 0; border: 1px solid var(--line); background: var(--panel); border-radius: var(--radius); overflow: hidden; transition: transform .2s, border-color .2s; }
+    .card:hover { transform: translateY(-3px); border-color: rgba(194,230,161,.35); }
+    .media { aspect-ratio: 16 / 9; background: #090b08; position: relative; overflow: hidden; }
+    .media iframe, .media video { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; object-fit: cover; }
+    .media-empty { position: absolute; inset: 0; display: grid; place-items: center; color: #72796c; background: linear-gradient(135deg, #171b15, #0c0e0b); }
+    .media-empty span { border: 1px solid var(--line); border-radius: 50%; width: 48px; height: 48px; display: grid; place-items: center; font-size: 17px; }
+    .card-body { padding: 19px 20px 20px; }
+    .card-meta { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 8px; }
+    .tag { display: inline-block; color: var(--accent); background: rgba(194,230,161,.08); border: 1px solid rgba(194,230,161,.15); border-radius: 999px; padding: 4px 9px; font-size: 11px; }
+    .card h3 { margin: 0; font: 700 19px/1.3 Manrope, sans-serif; letter-spacing: -.035em; }
+    .card p { color: var(--muted); font-size: 13px; margin: 9px 0 0; white-space: pre-line; }
+    .empty { border: 1px dashed rgba(233,241,224,.18); border-radius: var(--radius); padding: 52px 24px; text-align: center; color: var(--muted); grid-column: 1 / -1; }
+    .empty strong { display: block; color: var(--text); font: 700 18px Manrope, sans-serif; margin-bottom: 7px; }
+    .about { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 60px 0; background: rgba(255,255,255,.015); }
+    .about-grid { display: grid; grid-template-columns: .7fr 1.3fr; gap: 42px; }
+    .about p { color: var(--muted); max-width: 620px; margin: 0; font-size: 15px; }
+    .contact { padding: 70px 0 42px; }
+    .contact-row { display: flex; align-items: end; justify-content: space-between; gap: 25px; }
+    .contact p { color: var(--muted); margin: 12px 0 0; }
+    .links { display: flex; flex-wrap: wrap; gap: 9px; }
+    .button, .links a { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: 1px solid var(--line); border-radius: 999px; padding: 10px 15px; font-size: 13px; color: var(--text); background: rgba(255,255,255,.025); transition: .2s; }
+    .button:hover, .links a:hover { border-color: var(--accent); color: var(--accent); }
+    .button.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); font-weight: 700; }
+    .button.primary:hover { background: #d4f0bc; }
+    .footer { display: flex; justify-content: space-between; gap: 16px; color: #747b6e; font-size: 12px; padding: 20px 0 28px; border-top: 1px solid var(--line); }
+    .admin-toggle { border: 0; background: transparent; color: #747b6e; font-size: 12px; padding: 0; }
+    .admin-toggle:hover { color: var(--accent); }
+    .admin-panel { display: none; padding: 30px 0 55px; border-top: 1px solid var(--line); }
+    .admin-panel.open { display: block; }
+    .admin-box { border: 1px solid var(--line); border-radius: var(--radius); background: var(--panel); padding: 24px; }
+    .admin-top { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 20px; }
+    .admin-top h2 { font-size: 25px; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .field { display: flex; flex-direction: column; gap: 7px; }
+    .field.full { grid-column: 1 / -1; }
+    .field label { font-size: 12px; color: var(--muted); }
+    .field input, .field textarea, .field select { width: 100%; border: 1px solid var(--line); background: #10130f; color: var(--text); border-radius: 11px; padding: 11px 12px; outline: none; }
+    .field input:focus, .field textarea:focus, .field select:focus { border-color: rgba(194,230,161,.65); }
+    .field textarea { min-height: 85px; resize: vertical; }
+    .form-actions { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 16px; }
+    .notice { color: var(--muted); font-size: 12px; margin: 13px 0 0; }
+    .message { margin-top: 14px; font-size: 13px; color: var(--accent); overflow-wrap: anywhere; }
+    .message.error { color: var(--danger); }
+    .admin-list { display: grid; gap: 9px; margin-top: 25px; }
+    .admin-item { display: flex; justify-content: space-between; align-items: center; gap: 16px; border: 1px solid var(--line); border-radius: 13px; padding: 12px 14px; }
+    .admin-item strong { display: block; font-size: 13px; }
+    .admin-item small { display: block; color: var(--muted); margin-top: 2px; }
+    .admin-actions { display: flex; flex-wrap: wrap; gap: 7px; }
+    .small-btn { border: 1px solid var(--line); border-radius: 9px; background: transparent; color: var(--text); padding: 7px 10px; font-size: 12px; }
+    .small-btn:hover { border-color: var(--accent); }
+    .small-btn.delete:hover { border-color: var(--danger); color: var(--danger); }
+    .hidden { display: none !important; }
+    @media (max-width: 700px) {
+      .wrap { width: min(var(--max), calc(100% - 28px)); }
+      .topbar { padding: 18px 0; }
+      .nav { gap: 13px; font-size: 12px; }
+      .hero { padding: 66px 0 54px; grid-template-columns: 1fr; }
+      .hero-note { width: fit-content; }
+      .grid { grid-template-columns: 1fr; }
+      .about-grid { grid-template-columns: 1fr; gap: 18px; }
+      .contact-row { align-items: start; flex-direction: column; }
+      .form-grid { grid-template-columns: 1fr; }
+      .field.full { grid-column: auto; }
+      .admin-box { padding: 17px; }
+      .admin-item { align-items: start; flex-direction: column; }
+      .footer { flex-direction: column; }
     }
   </style>
 </head>
 <body>
-  <header>
-    <a class="logo" href="#">BANIKTA</a>
-    <nav>
-      <a href="#animations">Animations</a>
+  <header class="wrap topbar">
+    <a class="brand" href="#" aria-label="Banikta home"><span class="brand-mark">B</span><span>banikta<span style="color:var(--accent)">.</span></span></a>
+    <nav class="nav" aria-label="Main navigation">
+      <a href="#work">Work</a>
+      <a href="#about">About</a>
       <a href="#contact">Contact</a>
     </nav>
   </header>
 
   <main>
-    <div class="hero">
-      <div class="eyebrow">Roblox Animator</div>
-      <h1>Hi, I'm Banikta.</h1>
-      <p class="intro">
-        I make animations for Roblox. Here are some of my works.
-      </p>
-    </div>
-
-    <section id="animations">
-      <div class="section-heading">
-        <h2>Animations</h2>
-        <span class="muted">Selected works</span>
+    <section class="wrap hero">
+      <div>
+        <div class="eyebrow"><span class="status-dot"></span> Roblox animator · Portfolio</div>
+        <h1>Hi, I’m <span>Banikta.</span></h1>
+        <p class="hero-copy">I create animations for Roblox, explore movement, and bring small ideas to life. Here’s a collection of my work.</p>
       </div>
-
-      <div class="projects">
-        <!-- VIDEO 1: Replace VIDEO_ID with your YouTube video ID -->
-        <article class="project">
-          <iframe class="video"
-            src="https://www.youtube.com/embed/VIDEO_ID_1"
-            title="Animation 1"
-            loading="lazy"
-            allowfullscreen>
-          </iframe>
-          <div class="project-info">
-            <h3>Animation 01</h3>
-            <p>Roblox animation</p>
-          </div>
-        </article>
-
-        <!-- VIDEO 2 -->
-        <article class="project">
-          <iframe class="video"
-            src="https://www.youtube.com/embed/VIDEO_ID_2"
-            title="Animation 2"
-            loading="lazy"
-            allowfullscreen>
-          </iframe>
-          <div class="project-info">
-            <h3>Animation 02</h3>
-            <p>Roblox animation</p>
-          </div>
-        </article>
-
-        <!-- VIDEO 3 -->
-        <article class="project">
-          <iframe class="video"
-            src="https://www.youtube.com/embed/VIDEO_ID_3"
-            title="Animation 3"
-            loading="lazy"
-            allowfullscreen>
-          </iframe>
-          <div class="project-info">
-            <h3>Animation 03</h3>
-            <p>Roblox animation</p>
-          </div>
-        </article>
-
-        <!-- VIDEO 4 -->
-        <article class="project">
-          <iframe class="video"
-            src="https://www.youtube.com/embed/VIDEO_ID_4"
-            title="Animation 4"
-            loading="lazy"
-            allowfullscreen>
-          </iframe>
-          <div class="project-info">
-            <h3>Animation 04</h3>
-            <p>Roblox animation</p>
-          </div>
-        </article>
+      <div class="hero-note">
+        <strong>Animation & motion</strong>
+        <span>Roblox · R6 / R15 · Experiments</span>
       </div>
     </section>
 
-    <section id="contact">
-      <div class="section-heading">
-        <h2>Contact</h2>
+    <section class="wrap work" id="work">
+      <div class="section-head">
+        <div><div class="section-kicker">Selected projects</div><h2>My work<span style="color:var(--accent)">.</span></h2></div>
+        <div id="work-count" class="section-kicker">Loading projects…</div>
       </div>
-      <p class="contact-text">
-        Want to contact me? You can find me here.
-      </p>
+      <div class="filters" id="filters"><button class="filter active" data-category="all">All work</button></div>
+      <div class="grid" id="projects">
+        <div class="empty"><strong>Loading animations…</strong>Please wait a moment.</div>
+      </div>
+    </section>
 
-      <div class="socials">
-        <a href="https://www.youtube.com/@Banikta60" target="_blank" rel="noopener noreferrer">YouTube</a>
-        <a href="https://www.tiktok.com/@banikta60" target="_blank" rel="noopener noreferrer">TikTok</a>
-        <span class="discord">Discord: @banikta</span>
+    <section class="about" id="about">
+      <div class="wrap about-grid">
+        <div><div class="section-kicker">A little about me</div><h2>Made with patience.</h2></div>
+        <p>I’m a Roblox animator who enjoys building atmosphere through movement and timing. This portfolio is a place to collect finished animations, experiments, and new work as I keep improving.</p>
+      </div>
+    </section>
+
+    <section class="wrap contact" id="contact">
+      <div class="contact-row">
+        <div><div class="section-kicker">Get in touch</div><h2>Have a project in mind?</h2><p>Feel free to reach out or check out more of my work.</p></div>
+        <div class="links">
+          <a href="https://www.youtube.com/@Banikta60" target="_blank" rel="noopener noreferrer">YouTube ↗</a>
+          <a href="https://www.tiktok.com/@banikta60" target="_blank" rel="noopener noreferrer">TikTok ↗</a>
+          <a href="https://discord.com/" target="_blank" rel="noopener noreferrer" title="Discord username: @banikta">Discord · @banikta</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="admin-panel" id="admin-panel">
+      <div class="wrap">
+        <div class="admin-box">
+          <div class="admin-top"><div><div class="section-kicker">Private area</div><h2>Portfolio manager</h2></div><button class="button" id="close-admin" type="button">Close</button></div>
+          <div id="login-area">
+            <p style="color:var(--muted);font-size:14px">Sign in with the administrator account created in Supabase.</p>
+            <form id="login-form" class="form-grid">
+              <div class="field"><label for="login-email">Email</label><input id="login-email" type="email" autocomplete="username" required></div>
+              <div class="field"><label for="login-password">Password</label><input id="login-password" type="password" autocomplete="current-password" required></div>
+              <div class="field full"><div class="form-actions"><button class="button primary" type="submit">Sign in</button></div></div>
+            </form>
+          </div>
+          <div id="manager-area" class="hidden">
+            <div class="admin-top"><p style="margin:0;color:var(--muted);font-size:13px">Add, edit, or remove projects shown on the public page.</p><button class="button" id="logout" type="button">Sign out</button></div>
+            <form id="project-form">
+              <input id="project-id" type="hidden">
+              <div class="form-grid">
+                <div class="field"><label for="project-title">Project title *</label><input id="project-title" maxlength="100" required placeholder="e.g. Idle animation"></div>
+                <div class="field"><label for="project-category">Category *</label><select id="project-category" required></select></div>
+                <div class="field full"><label for="project-description">Description</label><textarea id="project-description" maxlength="1000" placeholder="A short description of the animation…"></textarea></div>
+                <div class="field"><label for="video-type">Video source *</label><select id="video-type"><option value="youtube">YouTube link</option><option value="upload">Upload MP4 / WebM</option></select></div>
+                <div class="field" id="youtube-field"><label for="project-url">YouTube URL *</label><input id="project-url" type="url" placeholder="https://www.youtube.com/watch?v=…"></div>
+                <div class="field full hidden" id="upload-field"><label for="project-file">Video file (MP4 / WebM, max 50 MB)</label><input id="project-file" type="file" accept="video/mp4,video/webm"><span class="notice" id="file-note">Choose a video file. When editing, leave this empty to keep the current video.</span></div>
+              </div>
+              <div class="form-actions"><button class="button primary" type="submit" id="save-project">Add project</button><button class="button hidden" type="button" id="cancel-edit">Cancel edit</button></div>
+            </form>
+            <div class="message" id="admin-message" role="status"></div>
+            <div class="admin-list" id="admin-list"></div>
+            <hr style="border:0;border-top:1px solid var(--line);margin:28px 0 22px">
+            <h3 style="font:700 17px Manrope,sans-serif">Categories</h3>
+            <form id="category-form" class="form-grid">
+              <div class="field"><label for="new-category">New category name</label><input id="new-category" maxlength="40" placeholder="e.g. Combat"></div>
+              <div class="field" style="justify-content:end"><button class="button" type="submit">Add category</button></div>
+            </form>
+          </div>
+          <div id="admin-status" class="message" role="status"></div>
+          <p class="notice">The admin area is hidden from the main navigation. Database permissions in Supabase—not this interface—control who can make changes.</p>
+        </div>
       </div>
     </section>
   </main>
 
-  <footer>
-    © <span id="year"></span> Banikta
+  <footer class="wrap footer">
+    <span>© <span id="year"></span> Banikta. Made with care.</span>
+    <button class="admin-toggle" id="open-admin" type="button">Admin</button>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
-    document.getElementById("year").textContent = new Date().getFullYear();
+    // Public client settings. Never put a Supabase service_role/secret key in this file.
+    const SUPABASE_URL = "https://rbaiursuzlvyyqdtctnq.supabase.co";
+    const SUPABASE_PUBLISHABLE_KEY = "sb_publishable__LkCzJxVRVeYrJvCG7sO1A_iXpo_uk7";
+    const ADMIN_UID = "3ca1b373-147a-4b86-90e9-c2806812edb4";
+    const BUCKET = "portfolio-videos";
+
+    const $ = (id) => document.getElementById(id);
+    $("year").textContent = new Date().getFullYear();
+
+    let supabase = null;
+    let categories = [];
+    let animations = [];
+    let currentFilter = "all";
+    let currentUser = null;
+    let editingAnimation = null;
+
+    function showMessage(text, isError = false, target = "admin-message") {
+      const el = $(target);
+      if (!el) return;
+      el.textContent = text || "";
+      el.classList.toggle("error", Boolean(isError));
+    }
+
+    function safeText(value) {
+      return String(value ?? "").replace(/[&<>"']/g, ch => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+      }[ch]));
+    }
+
+    function categoryName(id) {
+      const found = categories.find(c => String(c.id) === String(id));
+      return found ? found.name : "Uncategorized";
+    }
+
+    function youtubeEmbed(url) {
+      try {
+        const parsed = new URL(url);
+        let id = "";
+        if (parsed.hostname === "youtu.be") id = parsed.pathname.slice(1);
+        else if (parsed.hostname.endsWith("youtube.com")) {
+          if (parsed.pathname === "/watch") id = parsed.searchParams.get("v") || "";
+          else if (parsed.pathname.startsWith("/embed/") || parsed.pathname.startsWith("/shorts/")) id = parsed.pathname.split("/")[2] || "";
+        }
+        if (!/^[A-Za-z0-9_-]{6,20}$/.test(id)) return null;
+        return "https://www.youtube-nocookie.com/embed/" + id;
+      } catch (_) { return null; }
+    }
+
+    function renderFilters() {
+      const root = $("filters");
+      root.innerHTML = "";
+      const all = document.createElement("button");
+      all.className = "filter" + (currentFilter === "all" ? " active" : "");
+      all.dataset.category = "all";
+      all.textContent = "All work";
+      root.appendChild(all);
+      categories.forEach(cat => {
+        const btn = document.createElement("button");
+        btn.className = "filter" + (String(currentFilter) === String(cat.id) ? " active" : "");
+        btn.dataset.category = String(cat.id);
+        btn.textContent = cat.name;
+        root.appendChild(btn);
+      });
+    }
+
+    function renderProjects() {
+      const root = $("projects");
+      const visible = currentFilter === "all"
+        ? animations
+        : animations.filter(a => String(a.category_id) === String(currentFilter));
+      $("work-count").textContent = `${visible.length} ${visible.length === 1 ? "project" : "projects"}`;
+      if (!visible.length) {
+        root.innerHTML = `<div class="empty"><strong>${animations.length ? "Nothing in this category yet." : "The portfolio is just getting started."}</strong>${animations.length ? "Try another category." : "New animations will appear here soon."}</div>`;
+        return;
+      }
+      root.innerHTML = visible.map(a => {
+        let media = `<div class="media-empty"><span>▶</span></div>`;
+        if (a.video_type === "youtube") {
+          const embed = youtubeEmbed(a.video_url || "");
+          if (embed) media = `<iframe src="${embed}" title="${safeText(a.title)}" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`;
+        } else if (a.video_type === "upload" && a.video_url) {
+          media = `<video src="${safeText(a.video_url)}" controls preload="metadata" playsinline></video>`;
+        }
+        return `<article class="card"><div class="media">${media}</div><div class="card-body"><div class="card-meta"><span class="tag">${safeText(categoryName(a.category_id))}</span></div><h3>${safeText(a.title)}</h3>${a.description ? `<p>${safeText(a.description)}</p>` : ""}</div></article>`;
+      }).join("");
+    }
+
+    async function loadPublicData() {
+      if (!supabase) {
+        $("projects").innerHTML = `<div class="empty"><strong>Portfolio connection is not configured.</strong>Please check the Supabase URL and publishable key in index.html.</div>`;
+        $("work-count").textContent = "Connection needed";
+        return;
+      }
+      try {
+        const [catResult, animationResult] = await Promise.all([
+          supabase.from("categories").select("id,name").order("name"),
+          supabase.from("animations").select("id,title,description,category_id,video_type,video_url,created_at").order("created_at", { ascending: false })
+        ]);
+        if (catResult.error) throw catResult.error;
+        if (animationResult.error) throw animationResult.error;
+        categories = catResult.data || [];
+        animations = animationResult.data || [];
+        renderFilters();
+        renderProjects();
+        if (currentUser && currentUser.id === ADMIN_UID) renderAdminList();
+      } catch (error) {
+        $("projects").innerHTML = `<div class="empty"><strong>Couldn’t load the portfolio.</strong>${safeText(error.message || "Check your Supabase connection and table permissions.")}</div>`;
+        $("work-count").textContent = "Load error";
+      }
+    }
+
+    function renderCategorySelect() {
+      const select = $("project-category");
+      select.innerHTML = categories.map(c => `<option value="${safeText(c.id)}">${safeText(c.name)}</option>`).join("");
+    }
+
+    function renderAdminList() {
+      $("admin-list").innerHTML = animations.length ? animations.map(a => `
+        <div class="admin-item">
+          <div><strong>${safeText(a.title)}</strong><small>${safeText(categoryName(a.category_id))} · ${a.video_type === "upload" ? "Uploaded video" : "YouTube"}</small></div>
+          <div class="admin-actions"><button class="small-btn" type="button" data-edit="${safeText(a.id)}">Edit</button><button class="small-btn delete" type="button" data-delete="${safeText(a.id)}">Delete</button></div>
+        </div>`).join("") : `<p class="notice">No projects added yet.</p>`;
+      renderCategorySelect();
+    }
+
+    function resetProjectForm() {
+      editingAnimation = null;
+      $("project-form").reset();
+      $("project-id").value = "";
+      $("video-type").value = "youtube";
+      $("youtube-field").classList.remove("hidden");
+      $("upload-field").classList.add("hidden");
+      $("project-url").required = true;
+      $("project-file").required = false;
+      $("save-project").textContent = "Add project";
+      $("cancel-edit").classList.add("hidden");
+      showMessage("");
+    }
+
+    function startEdit(id) {
+      const item = animations.find(a => String(a.id) === String(id));
+      if (!item) return;
+      editingAnimation = item;
+      $("project-id").value = item.id;
+      $("project-title").value = item.title || "";
+      $("project-description").value = item.description || "";
+      renderCategorySelect();
+      $("project-category").value = String(item.category_id ?? "");
+      $("video-type").value = item.video_type || "youtube";
+      $("project-url").value = item.video_type === "youtube" ? item.video_url || "" : "";
+      $("project-file").value = "";
+      updateVideoFields();
+      $("save-project").textContent = "Save changes";
+      $("cancel-edit").classList.remove("hidden");
+      showMessage("Editing: " + item.title);
+      $("project-form").scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function updateVideoFields() {
+      const upload = $("video-type").value === "upload";
+      $("youtube-field").classList.toggle("hidden", upload);
+      $("upload-field").classList.toggle("hidden", !upload);
+      $("project-url").required = !upload;
+      $("project-file").required = upload && !editingAnimation;
+      $("file-note").textContent = editingAnimation
+        ? "Choose a new file to replace the current video, or leave empty to keep it."
+        : "Choose a video file. Maximum size: 50 MB.";
+    }
+
+    async function uploadVideo(file) {
+      if (!file) throw new Error("Choose a video file first.");
+      const allowed = ["video/mp4", "video/webm"];
+      if (!allowed.includes(file.type)) throw new Error("Please choose an MP4 or WebM video.");
+      if (file.size > 50 * 1024 * 1024) throw new Error("The file is larger than 50 MB.");
+      const cleanName = file.name.toLowerCase().replace(/[^a-z0-9._-]+/g, "-").replace(/^-+|-+$/g, "");
+      const path = `videos/${Date.now()}-${cleanName || "animation.mp4"}`;
+      const { error } = await supabase.storage.from(BUCKET).upload(path, file, { cacheControl: "3600", upsert: false, contentType: file.type });
+      if (error) throw error;
+      const { data } = supabase.storage.from(BUCKET).getPublicUrl(path);
+      return data.publicUrl;
+    }
+
+    function storagePathFromPublicUrl(url) {
+      const marker = `/storage/v1/object/public/${BUCKET}/`;
+      const index = (url || "").indexOf(marker);
+      if (index < 0) return null;
+      try { return decodeURIComponent(url.slice(index + marker.length).split("?")[0]); }
+      catch (_) { return url.slice(index + marker.length).split("?")[0]; }
+    }
+
+    async function removeUploadedFile(url) {
+      const path = storagePathFromPublicUrl(url);
+      if (!path || !supabase) return;
+      const { error } = await supabase.storage.from(BUCKET).remove([path]);
+      if (error) console.warn("Could not remove old video file:", error.message);
+    }
+
+    async function checkAdmin(user) {
+      currentUser = user || null;
+      const isAdmin = Boolean(user && user.id === ADMIN_UID);
+      $("login-area").classList.toggle("hidden", isAdmin);
+      $("manager-area").classList.toggle("hidden", !isAdmin);
+      if (user && !isAdmin) {
+        await supabase.auth.signOut();
+        currentUser = null;
+        showMessage("This account does not have administrator access.", true, "admin-status");
+      } else {
+        showMessage("", false, "admin-status");
+      }
+      if (isAdmin) {
+        renderAdminList();
+        await loadPublicData();
+      }
+    }
+
+    async function initialize() {
+      if (!window.supabase || !SUPABASE_URL || !SUPABASE_PUBLISHABLE_KEY) {
+        $("projects").innerHTML = `<div class="empty"><strong>Portfolio connection is not configured.</strong>Supabase settings are missing.</div>`;
+        $("work-count").textContent = "Connection needed";
+        return;
+      }
+      supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+      await loadPublicData();
+      const { data: { session } } = await supabase.auth.getSession();
+      await checkAdmin(session?.user || null);
+      supabase.auth.onAuthStateChange((_event, sessionNow) => {
+        setTimeout(() => checkAdmin(sessionNow?.user || null), 0);
+      });
+    }
+
+    $("filters").addEventListener("click", event => {
+      const button = event.target.closest("button[data-category]");
+      if (!button) return;
+      currentFilter = button.dataset.category;
+      renderFilters();
+      renderProjects();
+    });
+
+    $("open-admin").addEventListener("click", () => {
+      $("admin-panel").classList.add("open");
+      $("admin-panel").scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+    $("close-admin").addEventListener("click", () => $("admin-panel").classList.remove("open"));
+
+    $("login-form").addEventListener("submit", async event => {
+      event.preventDefault();
+      showMessage("Signing in…", false, "admin-status");
+      const { error } = await supabase.auth.signInWithPassword({
+        email: $("login-email").value.trim(),
+        password: $("login-password").value
+      });
+      if (error) showMessage(error.message, true, "admin-status");
+      else showMessage("Signed in.", false, "admin-status");
+    });
+
+    $("logout").addEventListener("click", async () => {
+      const { error } = await supabase.auth.signOut();
+      if (error) showMessage(error.message, true, "admin-status");
+      else {
+        currentUser = null;
+        $("manager-area").classList.add("hidden");
+        $("login-area").classList.remove("hidden");
+        showMessage("Signed out.", false, "admin-status");
+      }
+    });
+
+    $("video-type").addEventListener("change", updateVideoFields);
+    $("cancel-edit").addEventListener("click", resetProjectForm);
+
+    $("project-form").addEventListener("submit", async event => {
+      event.preventDefault();
+      if (!currentUser || currentUser.id !== ADMIN_UID) {
+        showMessage("Please sign in with the administrator account.", true);
+        return;
+      }
+      const button = $("save-project");
+      button.disabled = true;
+      showMessage("Saving project…");
+      let uploadedUrl = null;
+      try {
+        const title = $("project-title").value.trim();
+        const description = $("project-description").value.trim();
+        const categoryId = Number($("project-category").value);
+        const type = $("video-type").value;
+        let videoUrl = "";
+        const file = $("project-file").files[0];
+
+        if (!title) throw new Error("Enter a project title.");
+        if (!categoryId) throw new Error("Choose a category.");
+        if (type === "youtube") {
+          videoUrl = $("project-url").value.trim();
+          if (!youtubeEmbed(videoUrl)) throw new Error("Enter a valid YouTube video link.");
+        } else if (file) {
+          uploadedUrl = await uploadVideo(file);
+          videoUrl = uploadedUrl;
+        } else if (editingAnimation && editingAnimation.video_type === "upload") {
+          videoUrl = editingAnimation.video_url;
+        } else {
+          throw new Error("Choose an MP4 or WebM file.");
+        }
+
+        const payload = { title, description, category_id: categoryId, video_type: type, video_url: videoUrl };
+        if (editingAnimation) {
+          const { error } = await supabase.from("animations").update(payload).eq("id", editingAnimation.id);
+          if (error) throw error;
+          if (editingAnimation.video_type === "upload" && (type !== "upload" || (uploadedUrl && uploadedUrl !== editingAnimation.video_url))) {
+            await removeUploadedFile(editingAnimation.video_url);
+          }
+          showMessage("Project updated.");
+        } else {
+          const { error } = await supabase.from("animations").insert(payload);
+          if (error) throw error;
+          showMessage("Project added.");
+        }
+        resetProjectForm();
+        await loadPublicData();
+        renderAdminList();
+      } catch (error) {
+        if (uploadedUrl) await removeUploadedFile(uploadedUrl);
+        showMessage(error.message || "Could not save the project.", true);
+      } finally {
+        button.disabled = false;
+      }
+    });
+
+    $("admin-list").addEventListener("click", async event => {
+      const editButton = event.target.closest("[data-edit]");
+      const deleteButton = event.target.closest("[data-delete]");
+      if (editButton) startEdit(editButton.dataset.edit);
+      if (deleteButton) {
+        const item = animations.find(a => String(a.id) === String(deleteButton.dataset.delete));
+        if (!item || !confirm(`Delete "${item.title}" from the portfolio?`)) return;
+        showMessage("Deleting project…");
+        try {
+          const { error } = await supabase.from("animations").delete().eq("id", item.id);
+          if (error) throw error;
+          if (item.video_type === "upload") await removeUploadedFile(item.video_url);
+          if (editingAnimation && String(editingAnimation.id) === String(item.id)) resetProjectForm();
+          await loadPublicData();
+          renderAdminList();
+          showMessage("Project deleted.");
+        } catch (error) {
+          showMessage(error.message || "Could not delete project.", true);
+        }
+      }
+    });
+
+    $("category-form").addEventListener("submit", async event => {
+      event.preventDefault();
+      if (!currentUser || currentUser.id !== ADMIN_UID) {
+        showMessage("Please sign in first.", true, "admin-status");
+        return;
+      }
+      const name = $("new-category").value.trim();
+      if (!name) return;
+      if (categories.some(c => c.name.toLowerCase() === name.toLowerCase())) {
+        showMessage("That category already exists.", true);
+        return;
+      }
+      try {
+        const { error } = await supabase.from("categories").insert({ name });
+        if (error) throw error;
+        $("new-category").value = "";
+        await loadPublicData();
+        renderAdminList();
+        showMessage("Category added.");
+      } catch (error) {
+        showMessage(error.message || "Could not add category.", true);
+      }
+    });
+
+    initialize();
   </script>
 </body>
 </html>
