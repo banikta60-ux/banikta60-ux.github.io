@@ -200,9 +200,9 @@
                 <div class="field"><label for="project-title">Project title *</label><input id="project-title" maxlength="100" required placeholder="e.g. Idle animation"></div>
                 <div class="field"><label for="project-category">Category *</label><select id="project-category" required></select></div>
                 <div class="field full"><label for="project-description">Description</label><textarea id="project-description" maxlength="1000" placeholder="A short description of the animation…"></textarea></div>
-                <div class="field"><label for="video-type">Video source *</label><select id="video-type"><option value="youtube">YouTube link</option><option value="upload">Upload MP4 / WebM</option></select></div>
+                <div class="field"><label for="video-type">Video source *</label><select id="video-type"><option value="youtube">YouTube link</option><option value="upload">Upload MP4 / WebM</option><option value="image">Upload PNG render</option></select></div>
                 <div class="field" id="youtube-field"><label for="project-url">YouTube URL *</label><input id="project-url" type="url" placeholder="https://www.youtube.com/watch?v=…"></div>
-                <div class="field full hidden" id="upload-field"><label for="project-file">Video file (MP4 / WebM, max 50 MB)</label><input id="project-file" type="file" accept="video/mp4,video/webm"><span class="notice" id="file-note">Choose a video file. When editing, leave this empty to keep the current video.</span></div>
+                <div class="field full hidden" id="upload-field"><label for="project-file" id="file-label">Video file (MP4 / WebM, max 50 MB)</label><input id="project-file" type="file" accept="video/mp4,video/webm"><span class="notice" id="file-note">Choose a video file. When editing, leave this empty to keep the current file.</span></div>
               </div>
               <div class="form-actions"><button class="button primary" type="submit" id="save-project">Add project</button><button class="button hidden" type="button" id="cancel-edit">Cancel edit</button></div>
             </form>
@@ -214,6 +214,7 @@
               <div class="field"><label for="new-category">New category name</label><input id="new-category" maxlength="40" placeholder="e.g. Combat"></div>
               <div class="field" style="justify-content:end"><button class="button" type="submit">Add category</button></div>
             </form>
+            <div class="admin-list" id="category-list"></div>
           </div>
           <div id="admin-status" class="message" role="status"></div>
           <p class="notice">The admin area is hidden from the main navigation. Database permissions in Supabase—not this interface—control who can make changes.</p>
@@ -311,21 +312,23 @@
           if (embed) media = `<iframe src="${embed}" title="${safeText(a.title)}" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`;
         } else if (a.video_type === "upload" && a.video_url) {
           media = `<video src="${safeText(a.video_url)}" controls preload="metadata" playsinline></video>`;
+        } else if (a.video_type === "image" && a.video_url) {
+          media = `<img src="${safeText(a.video_url)}" alt="${safeText(a.title)} render" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#090b08">`;
         }
         return `<article class="card"><div class="media">${media}</div><div class="card-body"><div class="card-meta"><span class="tag">${safeText(categoryName(a.category_id))}</span></div><h3>${safeText(a.title)}</h3>${a.description ? `<p>${safeText(a.description)}</p>` : ""}</div></article>`;
       }).join("");
     }
 
     async function loadPublicData() {
-      if (!supabase) {
+      if (!supabaseClient) {
         $("projects").innerHTML = `<div class="empty"><strong>Portfolio connection is not configured.</strong>Please check the Supabase URL and publishable key in index.html.</div>`;
         $("work-count").textContent = "Connection needed";
         return;
       }
       try {
         const [catResult, animationResult] = await Promise.all([
-          supabase.from("categories").select("id,name").order("name"),
-          supabase.from("animations").select("id,title,description,category_id,video_type,video_url,created_at").order("created_at", { ascending: false })
+          supabaseClient.from("categories").select("id,name").order("name"),
+          supabaseClient.from("animations").select("id,title,description,category_id,video_type,video_url,created_at").order("created_at", { ascending: false })
         ]);
         if (catResult.error) throw catResult.error;
         if (animationResult.error) throw animationResult.error;
@@ -348,10 +351,15 @@
     function renderAdminList() {
       $("admin-list").innerHTML = animations.length ? animations.map(a => `
         <div class="admin-item">
-          <div><strong>${safeText(a.title)}</strong><small>${safeText(categoryName(a.category_id))} · ${a.video_type === "upload" ? "Uploaded video" : "YouTube"}</small></div>
+          <div><strong>${safeText(a.title)}</strong><small>${safeText(categoryName(a.category_id))} · ${a.video_type === "upload" ? "Uploaded video" : a.video_type === "image" ? "PNG render" : "YouTube"}</small></div>
           <div class="admin-actions"><button class="small-btn" type="button" data-edit="${safeText(a.id)}">Edit</button><button class="small-btn delete" type="button" data-delete="${safeText(a.id)}">Delete</button></div>
         </div>`).join("") : `<p class="notice">No projects added yet.</p>`;
       renderCategorySelect();
+      const categoryRoot = $("category-list");
+      categoryRoot.innerHTML = categories.length ? categories.map(c => {
+        const count = animations.filter(a => String(a.category_id) === String(c.id)).length;
+        return `<div class="admin-item"><div><strong>${safeText(c.name)}</strong><small>${count} ${count === 1 ? "project" : "projects"}</small></div><div class="admin-actions"><button class="small-btn delete" type="button" data-delete-category="${safeText(c.id)}">Delete category</button></div></div>`;
+      }).join("") : `<p class="notice">No categories yet.</p>`;
     }
 
     function resetProjectForm() {
@@ -359,10 +367,12 @@
       $("project-form").reset();
       $("project-id").value = "";
       $("video-type").value = "youtube";
+      $("project-file").accept = "video/mp4,video/webm";
       $("youtube-field").classList.remove("hidden");
       $("upload-field").classList.add("hidden");
       $("project-url").required = true;
       $("project-file").required = false;
+      updateVideoFields();
       $("save-project").textContent = "Add project";
       $("cancel-edit").classList.add("hidden");
       showMessage("");
@@ -388,26 +398,33 @@
     }
 
     function updateVideoFields() {
-      const upload = $("video-type").value === "upload";
-      $("youtube-field").classList.toggle("hidden", upload);
-      $("upload-field").classList.toggle("hidden", !upload);
-      $("project-url").required = !upload;
-      $("project-file").required = upload && !editingAnimation;
+      const type = $("video-type").value;
+      const youtube = type === "youtube";
+      const image = type === "image";
+      $("youtube-field").classList.toggle("hidden", !youtube);
+      $("upload-field").classList.toggle("hidden", youtube);
+      $("project-url").required = youtube;
+      $("project-file").required = !youtube && !editingAnimation;
+      $("project-file").accept = image ? "image/png" : "video/mp4,video/webm";
+      $("file-label").textContent = image ? "PNG render (max 50 MB)" : "Video file (MP4 / WebM, max 50 MB)";
       $("file-note").textContent = editingAnimation
-        ? "Choose a new file to replace the current video, or leave empty to keep it."
-        : "Choose a video file. Maximum size: 50 MB.";
+        ? "Choose a new file to replace the current media, or leave empty to keep it."
+        : image ? "Choose a PNG image for this render project. Maximum size: 50 MB."
+          : "Choose an MP4 or WebM video. Maximum size: 50 MB.";
     }
 
-    async function uploadVideo(file) {
-      if (!file) throw new Error("Choose a video file first.");
-      const allowed = ["video/mp4", "video/webm"];
-      if (!allowed.includes(file.type)) throw new Error("Please choose an MP4 or WebM video.");
+    async function uploadMedia(file, type) {
+      if (!file) throw new Error(type === "image" ? "Choose a PNG image first." : "Choose a video file first.");
+      const allowed = type === "image" ? ["image/png"] : ["video/mp4", "video/webm"];
+      if (!allowed.includes(file.type)) throw new Error(type === "image" ? "Please choose a PNG image." : "Please choose an MP4 or WebM video.");
       if (file.size > 50 * 1024 * 1024) throw new Error("The file is larger than 50 MB.");
       const cleanName = file.name.toLowerCase().replace(/[^a-z0-9._-]+/g, "-").replace(/^-+|-+$/g, "");
-      const path = `videos/${Date.now()}-${cleanName || "animation.mp4"}`;
-      const { error } = await supabase.storage.from(BUCKET).upload(path, file, { cacheControl: "3600", upsert: false, contentType: file.type });
+      const folder = type === "image" ? "renders" : "videos";
+      const fallback = type === "image" ? "render.png" : "animation.mp4";
+      const path = `${folder}/${Date.now()}-${cleanName || fallback}`;
+      const { error } = await supabaseClient.storage.from(BUCKET).upload(path, file, { cacheControl: "3600", upsert: false, contentType: file.type });
       if (error) throw error;
-      const { data } = supabase.storage.from(BUCKET).getPublicUrl(path);
+      const { data } = supabaseClient.storage.from(BUCKET).getPublicUrl(path);
       return data.publicUrl;
     }
 
@@ -421,8 +438,8 @@
 
     async function removeUploadedFile(url) {
       const path = storagePathFromPublicUrl(url);
-      if (!path || !supabase) return;
-      const { error } = await supabase.storage.from(BUCKET).remove([path]);
+      if (!path || !supabaseClient) return;
+      const { error } = await supabaseClient.storage.from(BUCKET).remove([path]);
       if (error) console.warn("Could not remove old video file:", error.message);
     }
 
@@ -432,7 +449,7 @@
       $("login-area").classList.toggle("hidden", isAdmin);
       $("manager-area").classList.toggle("hidden", !isAdmin);
       if (user && !isAdmin) {
-        await supabase.auth.signOut();
+        await supabaseClient.auth.signOut();
         currentUser = null;
         showMessage("This account does not have administrator access.", true, "admin-status");
       } else {
@@ -450,11 +467,11 @@
         $("work-count").textContent = "Connection needed";
         return;
       }
-      supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+      supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
       await loadPublicData();
-      const { data: { session } } = await supabase.auth.getSession();
+      const { data: { session } } = await supabaseClient.auth.getSession();
       await checkAdmin(session?.user || null);
-      supabase.auth.onAuthStateChange((_event, sessionNow) => {
+      supabaseClient.auth.onAuthStateChange((_event, sessionNow) => {
         setTimeout(() => checkAdmin(sessionNow?.user || null), 0);
       });
     }
@@ -476,7 +493,7 @@
     $("login-form").addEventListener("submit", async event => {
       event.preventDefault();
       showMessage("Signing in…", false, "admin-status");
-      const { error } = await supabase.auth.signInWithPassword({
+      const { error } = await supabaseClient.auth.signInWithPassword({
         email: $("login-email").value.trim(),
         password: $("login-password").value
       });
@@ -485,7 +502,7 @@
     });
 
     $("logout").addEventListener("click", async () => {
-      const { error } = await supabase.auth.signOut();
+      const { error } = await supabaseClient.auth.signOut();
       if (error) showMessage(error.message, true, "admin-status");
       else {
         currentUser = null;
@@ -522,24 +539,24 @@
           videoUrl = $("project-url").value.trim();
           if (!youtubeEmbed(videoUrl)) throw new Error("Enter a valid YouTube video link.");
         } else if (file) {
-          uploadedUrl = await uploadVideo(file);
+          uploadedUrl = await uploadMedia(file, type);
           videoUrl = uploadedUrl;
-        } else if (editingAnimation && editingAnimation.video_type === "upload") {
+        } else if (editingAnimation && editingAnimation.video_type === type) {
           videoUrl = editingAnimation.video_url;
         } else {
-          throw new Error("Choose an MP4 or WebM file.");
+          throw new Error(type === "image" ? "Choose a PNG image." : "Choose an MP4 or WebM file.");
         }
 
         const payload = { title, description, category_id: categoryId, video_type: type, video_url: videoUrl };
         if (editingAnimation) {
-          const { error } = await supabase.from("animations").update(payload).eq("id", editingAnimation.id);
+          const { error } = await supabaseClient.from("animations").update(payload).eq("id", editingAnimation.id);
           if (error) throw error;
-          if (editingAnimation.video_type === "upload" && (type !== "upload" || (uploadedUrl && uploadedUrl !== editingAnimation.video_url))) {
+          if (["upload", "image"].includes(editingAnimation.video_type) && (type !== editingAnimation.video_type || (uploadedUrl && uploadedUrl !== editingAnimation.video_url))) {
             await removeUploadedFile(editingAnimation.video_url);
           }
           showMessage("Project updated.");
         } else {
-          const { error } = await supabase.from("animations").insert(payload);
+          const { error } = await supabaseClient.from("animations").insert(payload);
           if (error) throw error;
           showMessage("Project added.");
         }
@@ -563,9 +580,9 @@
         if (!item || !confirm(`Delete "${item.title}" from the portfolio?`)) return;
         showMessage("Deleting project…");
         try {
-          const { error } = await supabase.from("animations").delete().eq("id", item.id);
+          const { error } = await supabaseClient.from("animations").delete().eq("id", item.id);
           if (error) throw error;
-          if (item.video_type === "upload") await removeUploadedFile(item.video_url);
+          if (["upload", "image"].includes(item.video_type)) await removeUploadedFile(item.video_url);
           if (editingAnimation && String(editingAnimation.id) === String(item.id)) resetProjectForm();
           await loadPublicData();
           renderAdminList();
@@ -573,6 +590,57 @@
         } catch (error) {
           showMessage(error.message || "Could not delete project.", true);
         }
+      }
+    });
+
+    $("category-list").addEventListener("click", async event => {
+      const button = event.target.closest("[data-delete-category]");
+      if (!button) return;
+      if (!currentUser || currentUser.id !== ADMIN_UID) {
+        showMessage("Please sign in first.", true, "admin-status");
+        return;
+      }
+      const category = categories.find(c => String(c.id) === String(button.dataset.deleteCategory));
+      if (!category) return;
+      const attached = animations.filter(a => String(a.category_id) === String(category.id));
+      let destination = null;
+      if (attached.length) {
+        const options = categories.filter(c => String(c.id) !== String(category.id));
+        if (!options.length) {
+          showMessage("Create another category first, then move this category's projects before deleting it.", true);
+          return;
+        }
+        const names = options.map(c => c.name).join(", ");
+        const targetName = prompt(`Category “${category.name}” contains ${attached.length} project(s).
+
+Enter the name of another category to move them into:
+${names}
+
+Cancel to keep this category.`);
+        if (targetName === null || !targetName.trim()) return;
+        destination = options.find(c => c.name.toLowerCase() === targetName.trim().toLowerCase());
+        if (!destination) {
+          showMessage("No category matched that name. Nothing was deleted.", true);
+          return;
+        }
+        if (!confirm(`Move ${attached.length} project(s) to “${destination.name}” and delete “${category.name}”?`)) return;
+      } else if (!confirm(`Delete empty category “${category.name}”?`)) {
+        return;
+      }
+      try {
+        showMessage("Deleting category…");
+        if (destination) {
+          const { error: moveError } = await supabaseClient.from("animations").update({ category_id: destination.id }).eq("category_id", category.id);
+          if (moveError) throw moveError;
+        }
+        const { error } = await supabaseClient.from("categories").delete().eq("id", category.id);
+        if (error) throw error;
+        if (String(currentFilter) === String(category.id)) currentFilter = "all";
+        await loadPublicData();
+        renderAdminList();
+        showMessage(`Category “${category.name}” deleted.`);
+      } catch (error) {
+        showMessage(error.message || "Could not delete category.", true);
       }
     });
 
@@ -589,7 +657,7 @@
         return;
       }
       try {
-        const { error } = await supabase.from("categories").insert({ name });
+        const { error } = await supabaseClient.from("categories").insert({ name });
         if (error) throw error;
         $("new-category").value = "";
         await loadPublicData();
