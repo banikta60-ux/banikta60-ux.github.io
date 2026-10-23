@@ -34,27 +34,26 @@
     }
     /* Visible, slow-moving green aurora layer. Keep it above the body background and behind content. */
     body::before {
-      content: ""; position: fixed; inset: -35%; z-index: 0; pointer-events: none;
+      content: ""; position: fixed; inset: -45%; z-index: 0; pointer-events: none;
       background:
-        radial-gradient(ellipse at 18% 24%, rgba(44, 160, 78, .30), transparent 30%),
-        radial-gradient(ellipse at 78% 30%, rgba(135, 190, 79, .22), transparent 29%),
-        radial-gradient(ellipse at 54% 82%, rgba(18, 116, 65, .28), transparent 34%);
-      filter: blur(44px); opacity: .95;
+        radial-gradient(ellipse at 16% 22%, rgba(32, 190, 83, .40), transparent 32%),
+        radial-gradient(ellipse at 82% 28%, rgba(151, 218, 84, .32), transparent 31%),
+        radial-gradient(ellipse at 54% 84%, rgba(12, 145, 77, .38), transparent 36%),
+        radial-gradient(ellipse at 42% 48%, rgba(31, 105, 54, .22), transparent 38%);
+      filter: blur(58px); opacity: 1; mix-blend-mode: screen;
       transform: translate3d(-4%, -2%, 0) scale(1.04);
-      animation: auroraShift 12s ease-in-out infinite alternate;
+      animation: auroraShift 7s ease-in-out infinite alternate;
       will-change: transform;
     }
     body > * { position: relative; z-index: 1; }
     @keyframes auroraShift {
-      0% { transform: translate3d(-5%, -3%, 0) scale(1.02) rotate(-2deg); }
-      35% { transform: translate3d(4%, 2%, 0) scale(1.10) rotate(2deg); }
-      70% { transform: translate3d(-1%, 5%, 0) scale(1.06) rotate(-1deg); }
-      100% { transform: translate3d(5%, -2%, 0) scale(1.13) rotate(3deg); }
+      0% { transform: translate3d(-7%, -5%, 0) scale(1.02) rotate(-4deg); }
+      33% { transform: translate3d(5%, 3%, 0) scale(1.13) rotate(3deg); }
+      66% { transform: translate3d(-2%, 7%, 0) scale(1.08) rotate(-2deg); }
+      100% { transform: translate3d(7%, -4%, 0) scale(1.16) rotate(5deg); }
     }
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto !important; }
-      /* Keep the requested background aurora moving; reduce only non-essential UI transitions. */
-      .card, .nav a, .contact-modal, .contact-dialog { transition-duration: .01ms !important; }
     }
     a { color: inherit; text-decoration: none; }
     button, input, textarea, select { font: inherit; }
@@ -65,7 +64,8 @@
     .brand-mark { width: 28px; height: 28px; border-radius: 9px; display: grid; place-items: center; color: var(--accent-ink); background: var(--accent); font-size: 14px; }
     .nav { display: flex; gap: 10px; align-items: center; color: var(--muted); font-size: 15px; }
     .nav a { display: inline-flex; align-items: center; justify-content: center; padding: 11px 19px; border: 1px solid transparent; border-radius: 999px; transition: background .2s, border-color .2s, color .2s, transform .2s; }
-    .nav a:hover { color: var(--accent); border-color: rgba(194,230,161,.22); background: rgba(194,230,161,.07); transform: translateY(-1px); }
+    .nav a:hover, .nav-contact:hover { color: var(--accent); border-color: rgba(194,230,161,.22); background: rgba(194,230,161,.07); transform: translateY(-1px); }
+    .nav-contact { display:inline-flex; align-items:center; justify-content:center; padding:11px 19px; border:1px solid rgba(194,230,161,.30); border-radius:999px; color:var(--text); background:rgba(194,230,161,.06); transition:background .25s,border-color .25s,color .25s,transform .25s; }
     .nav a:focus-visible, button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
     .hero { padding: 70px 0 52px; display: grid; grid-template-columns: 1fr auto; gap: 32px; align-items: end; }
     .eyebrow { display: flex; align-items: center; gap: 9px; color: var(--accent); font-size: 12px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
@@ -194,7 +194,7 @@
     <nav class="nav" aria-label="Main navigation">
       <a href="#work">Work</a>
       <a href="#about">About</a>
-      <a href="#contact">Contact</a>
+      <button type="button" class="nav-contact" data-open-contact>Contact</button>
     </nav>
   </header>
 
@@ -204,10 +204,6 @@
         <div class="eyebrow"><span class="status-dot"></span> Roblox animator · Portfolio</div>
         <h1>Hi, I’m <span>Banikta.</span></h1>
         <p class="hero-copy">Animations/Builds/GFX-Artist (renders)/Coder... who is that? That's me! Banikta!</p>
-      </div>
-      <div class="hero-note">
-        <strong>Animation & motion</strong>
-        <span>Roblox · R6 / R15 · Experiments</span>
       </div>
     </section>
 
@@ -438,7 +434,7 @@
       try {
         const [catResult, animationResult] = await Promise.all([
           supabaseClient.from("categories").select("id,name").order("name"),
-          supabaseClient.from("animations").select("id,title,description,category_id,video_type,video_url,created_at").order("created_at", { ascending: false })
+          supabaseClient.from("animations").select("id,title,description,category_id,video_type,video_url,created_at,sort_order").order("sort_order", { ascending: true }).order("created_at", { ascending: false })
         ]);
         if (catResult.error) throw catResult.error;
         if (animationResult.error) throw animationResult.error;
@@ -462,7 +458,7 @@
       $("admin-list").innerHTML = animations.length ? animations.map(a => `
         <div class="admin-item">
           <div><strong>${safeText(a.title)}</strong><small>${safeText(categoryName(a.category_id))} · ${a.video_type === "upload" ? "Uploaded video" : a.video_type === "image" ? "PNG render" : "YouTube"}</small></div>
-          <div class="admin-actions"><button class="small-btn" type="button" data-edit="${safeText(a.id)}">Edit</button><button class="small-btn delete" type="button" data-delete="${safeText(a.id)}">Delete</button></div>
+          <div class="admin-actions"><button class="small-btn" type="button" data-move="up" data-id="${safeText(a.id)}" aria-label="Move ${safeText(a.title)} up" title="Move up">↑</button><button class="small-btn" type="button" data-move="down" data-id="${safeText(a.id)}" aria-label="Move ${safeText(a.title)} down" title="Move down">↓</button><button class="small-btn" type="button" data-edit="${safeText(a.id)}">Edit</button><button class="small-btn delete" type="button" data-delete="${safeText(a.id)}">Delete</button></div>
         </div>`).join("") : `<p class="notice">No projects added yet.</p>`;
       renderCategorySelect();
       const categoryRoot = $("category-list");
@@ -666,6 +662,7 @@
           }
           showMessage("Project updated.");
         } else {
+          payload.sort_order = animations.length ? Math.max(...animations.map(a => Number(a.sort_order) || 0)) + 1 : 1;
           const { error } = await supabaseClient.from("animations").insert(payload);
           if (error) throw error;
           showMessage("Project added.");
@@ -684,6 +681,26 @@
     $("admin-list").addEventListener("click", async event => {
       const editButton = event.target.closest("[data-edit]");
       const deleteButton = event.target.closest("[data-delete]");
+      const moveButton = event.target.closest("[data-move]");
+      if (moveButton) {
+        if (!currentUser || currentUser.id !== ADMIN_UID) { showMessage("Please sign in first.", true); return; }
+        const index = animations.findIndex(a => String(a.id) === String(moveButton.dataset.id));
+        const nextIndex = index + (moveButton.dataset.move === "up" ? -1 : 1);
+        if (index < 0 || nextIndex < 0 || nextIndex >= animations.length) return;
+        const ordered = [...animations];
+        [ordered[index], ordered[nextIndex]] = [ordered[nextIndex], ordered[index]];
+        showMessage("Updating portfolio order…");
+        try {
+          for (let i = 0; i < ordered.length; i++) {
+            const { error } = await supabaseClient.from("animations").update({ sort_order: i + 1 }).eq("id", ordered[i].id);
+            if (error) throw error;
+          }
+          await loadPublicData();
+          renderAdminList();
+          showMessage("Portfolio order saved.");
+        } catch (error) { showMessage(error.message || "Could not reorder projects.", true); }
+        return;
+      }
       if (editButton) startEdit(editButton.dataset.edit);
       if (deleteButton) {
         const item = animations.find(a => String(a.id) === String(deleteButton.dataset.delete));
