@@ -30,25 +30,31 @@
       margin: 0;
       background: var(--bg);
       color: var(--text); font-family: "DM Sans", sans-serif; line-height: 1.6;
-      isolation: isolate;
+      isolation: isolate; position: relative;
     }
-    /* Slow, soft green aurora behind the whole page */
+    /* Visible, slow-moving green aurora layer. Keep it above the body background and behind content. */
     body::before {
-      content: ""; position: fixed; inset: -18%; z-index: -1; pointer-events: none;
+      content: ""; position: fixed; inset: -35%; z-index: 0; pointer-events: none;
       background:
-        radial-gradient(ellipse at 16% 18%, rgba(61, 130, 76, .22), transparent 34%),
-        radial-gradient(ellipse at 82% 34%, rgba(129, 177, 84, .15), transparent 31%),
-        radial-gradient(ellipse at 52% 88%, rgba(31, 94, 57, .19), transparent 36%);
-      filter: blur(28px); opacity: .9;
-      animation: auroraShift 19s ease-in-out infinite alternate;
+        radial-gradient(ellipse at 18% 24%, rgba(44, 160, 78, .30), transparent 30%),
+        radial-gradient(ellipse at 78% 30%, rgba(135, 190, 79, .22), transparent 29%),
+        radial-gradient(ellipse at 54% 82%, rgba(18, 116, 65, .28), transparent 34%);
+      filter: blur(44px); opacity: .95;
+      transform: translate3d(-4%, -2%, 0) scale(1.04);
+      animation: auroraShift 12s ease-in-out infinite alternate;
+      will-change: transform;
     }
+    body > * { position: relative; z-index: 1; }
     @keyframes auroraShift {
-      0% { transform: translate3d(-2%, -1%, 0) scale(1); }
-      50% { transform: translate3d(2%, 1.5%, 0) scale(1.06); }
-      100% { transform: translate3d(-1%, 2%, 0) scale(1.025); }
+      0% { transform: translate3d(-5%, -3%, 0) scale(1.02) rotate(-2deg); }
+      35% { transform: translate3d(4%, 2%, 0) scale(1.10) rotate(2deg); }
+      70% { transform: translate3d(-1%, 5%, 0) scale(1.06) rotate(-1deg); }
+      100% { transform: translate3d(5%, -2%, 0) scale(1.13) rotate(3deg); }
     }
     @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; }
+      html { scroll-behavior: auto !important; }
+      /* Keep the requested background aurora moving; reduce only non-essential UI transitions. */
+      .card, .nav a, .contact-modal, .contact-dialog { transition-duration: .01ms !important; }
     }
     a { color: inherit; text-decoration: none; }
     button, input, textarea, select { font: inherit; }
@@ -57,8 +63,10 @@
     .topbar { display: flex; align-items: center; justify-content: space-between; padding: 25px 0; border-bottom: 1px solid var(--line); }
     .brand { display: inline-flex; gap: 10px; align-items: center; font-family: Manrope, sans-serif; font-weight: 800; letter-spacing: -.04em; }
     .brand-mark { width: 28px; height: 28px; border-radius: 9px; display: grid; place-items: center; color: var(--accent-ink); background: var(--accent); font-size: 14px; }
-    .nav { display: flex; gap: 24px; align-items: center; color: var(--muted); font-size: 14px; }
-    .nav a:hover, .text-link:hover { color: var(--accent); }
+    .nav { display: flex; gap: 10px; align-items: center; color: var(--muted); font-size: 15px; }
+    .nav a { display: inline-flex; align-items: center; justify-content: center; padding: 11px 19px; border: 1px solid transparent; border-radius: 999px; transition: background .2s, border-color .2s, color .2s, transform .2s; }
+    .nav a:hover { color: var(--accent); border-color: rgba(194,230,161,.22); background: rgba(194,230,161,.07); transform: translateY(-1px); }
+    .nav a:focus-visible, button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
     .hero { padding: 70px 0 52px; display: grid; grid-template-columns: 1fr auto; gap: 32px; align-items: end; }
     .eyebrow { display: flex; align-items: center; gap: 9px; color: var(--accent); font-size: 12px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
     .status-dot { width: 7px; height: 7px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 15px rgba(194, 230, 161, .45); }
@@ -104,8 +112,10 @@
     .contact { padding: 70px 0 42px; }
     .contact-row { display: flex; align-items: end; justify-content: space-between; gap: 25px; }
     .contact p { color: var(--muted); margin: 12px 0 0; }
-    .links { display: flex; flex-wrap: wrap; gap: 9px; }
-    .button, .links a { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: 1px solid var(--line); border-radius: 999px; padding: 10px 15px; font-size: 13px; color: var(--text); background: rgba(255,255,255,.025); transition: .2s; }
+    .links { display: flex; flex-wrap: wrap; gap: 9px; align-items: center; }
+    .button, .links a { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: 1px solid var(--line); border-radius: 999px; padding: 11px 17px; font-size: 14px; color: var(--text); background: rgba(255,255,255,.04); transition: .2s; }
+    .contact-trigger { border-color: rgba(194,230,161,.42); background: var(--accent); color: var(--accent-ink); font-weight: 800; box-shadow: 0 0 28px rgba(95,166,69,.12); }
+    .contact-trigger:hover { background: #d4f0bc !important; color: var(--accent-ink) !important; transform: translateY(-2px); }
     .button:hover, .links a:hover { border-color: var(--accent); color: var(--accent); }
     .button.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); font-weight: 700; }
     .button.primary:hover { background: #d4f0bc; }
@@ -137,10 +147,23 @@
     .small-btn:hover { border-color: var(--accent); }
     .small-btn.delete:hover { border-color: var(--danger); color: var(--danger); }
     .hidden { display: none !important; }
+    .contact-modal { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; padding: 20px; background: rgba(4,7,4,.74); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); opacity: 0; visibility: hidden; transition: opacity .22s, visibility .22s; }
+    .contact-modal.open { opacity: 1; visibility: visible; }
+    .contact-dialog { width: min(100%, 420px); position: relative; padding: 30px; text-align: center; border: 1px solid rgba(194,230,161,.24); border-radius: 26px; background: linear-gradient(145deg, rgba(27,36,26,.98), rgba(13,18,13,.98)); box-shadow: 0 30px 100px rgba(0,0,0,.5), 0 0 45px rgba(61,130,76,.12); transform: translateY(12px) scale(.98); transition: transform .22s; }
+    .contact-modal.open .contact-dialog { transform: translateY(0) scale(1); }
+    .modal-close { position: absolute; top: 13px; right: 13px; width: 36px; height: 36px; border: 1px solid var(--line); border-radius: 50%; color: var(--muted); background: rgba(255,255,255,.04); font-size: 20px; }
+    .profile-avatar { width: 92px; height: 92px; display: grid; place-items: center; margin: 2px auto 17px; overflow: hidden; border: 2px solid rgba(194,230,161,.65); border-radius: 50%; background: rgba(194,230,161,.12); color: var(--accent); font: 800 34px Manrope, sans-serif; box-shadow: 0 0 35px rgba(93,161,71,.18); }
+    .profile-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .contact-dialog h2 { margin: 0 0 8px; font-size: 28px; }
+    .contact-dialog p { color: var(--muted); font-size: 14px; margin: 0 0 19px; }
+    .discord-name { display: block; padding: 13px 15px; margin-bottom: 14px; border: 1px solid rgba(194,230,161,.18); border-radius: 13px; background: rgba(255,255,255,.035); color: var(--accent); font-weight: 700; letter-spacing: .02em; }
+    .modal-actions { display: flex; justify-content: center; flex-wrap: wrap; gap: 9px; }
+    .profile-settings { border-top: 1px solid var(--line); margin-top: 30px; padding-top: 24px; }
     @media (max-width: 700px) {
       .wrap { width: min(var(--max), calc(100% - 28px)); }
       .topbar { padding: 18px 0; }
-      .nav { gap: 13px; font-size: 12px; }
+      .nav { gap: 4px; font-size: 13px; }
+      .nav a { padding: 9px 12px; }
       .hero { padding: 52px 0 38px; grid-template-columns: 1fr; gap: 20px; }
       .hero-note { width: fit-content; }
       .filters { top: 6px; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: thin; }
@@ -156,6 +179,7 @@
       .admin-box { padding: 17px; }
       .admin-item { align-items: start; flex-direction: column; }
       .footer { flex-direction: column; }
+      .contact-dialog { padding: 27px 20px 22px; }
     }
     @media (max-width: 420px) {
       .grid { grid-template-columns: 1fr; }
@@ -200,18 +224,18 @@
 
     <section class="about" id="about">
       <div class="wrap about-grid">
-        <div><div class="section-kicker">A little about me</div><h2>Made with patience.</h2></div>
-        <p>I’m a Roblox animator who enjoys building atmosphere through movement and timing. This portfolio is a place to collect finished animations, experiments, and new work as I keep improving.</p>
+        <div><div class="section-kicker">Beyond animation</div><h2>Different skills. One creator.</h2></div>
+        <p>Animations, builds, GFX renders, and coding experiments — I like exploring different parts of Roblox creation and turning ideas into something real. This is where I collect the work I’m proud of and the things I’m learning along the way.</p>
       </div>
     </section>
 
     <section class="wrap contact" id="contact">
       <div class="contact-row">
-        <div><div class="section-kicker">Get in touch</div><h2>Have a project in mind?</h2><p>Feel free to reach out or check out more of my work.</p></div>
+        <div><div class="section-kicker">My Socials</div><h2>Find me around the internet.</h2><p>Want to ask about a project or just say hi? Discord is the easiest way to reach me.</p></div>
         <div class="links">
           <a href="https://www.youtube.com/@Banikta60" target="_blank" rel="noopener noreferrer">YouTube ↗</a>
           <a href="https://www.tiktok.com/@banikta60" target="_blank" rel="noopener noreferrer">TikTok ↗</a>
-          <a href="https://discord.com/" target="_blank" rel="noopener noreferrer" title="Discord username: @banikta">Discord · @banikta</a>
+          <button class="button contact-trigger" type="button" data-open-contact>Contact Me ↗</button>
         </div>
       </div>
     </section>
@@ -244,6 +268,16 @@
             </form>
             <div class="message" id="admin-message" role="status"></div>
             <div class="admin-list" id="admin-list"></div>
+            <div class="profile-settings">
+              <h3 style="font:700 17px Manrope,sans-serif;margin-bottom:5px">Public profile & contact</h3>
+              <p class="notice" style="margin-top:0;margin-bottom:15px">These details appear in the Contact Me popup. Changes are saved to Supabase and shown to visitors.</p>
+              <form id="profile-form" class="form-grid">
+                <div class="field"><label for="discord-username">Discord username</label><input id="discord-username" maxlength="80" value="@banikta" placeholder="@banikta" required></div>
+                <div class="field"><label for="profile-avatar-file">Avatar image (PNG, max 5 MB)</label><input id="profile-avatar-file" type="file" accept="image/png"><span class="notice">Upload a square PNG for the cleanest result.</span></div>
+                <div class="field full"><div id="profile-preview-row" style="display:flex;align-items:center;gap:12px"><div class="profile-avatar" id="admin-avatar-preview" style="width:54px;height:54px;margin:0;font-size:20px">B</div><span class="notice" id="profile-save-note">Current profile preview</span></div></div>
+                <div class="field full"><div class="form-actions"><button class="button primary" type="submit" id="save-profile">Save profile settings</button></div></div>
+              </form>
+            </div>
             <hr style="border:0;border-top:1px solid var(--line);margin:28px 0 22px">
             <h3 style="font:700 17px Manrope,sans-serif">Categories</h3>
             <form id="category-form" class="form-grid">
@@ -264,6 +298,19 @@
     <button class="admin-toggle" id="open-admin" type="button">Admin</button>
   </footer>
 
+  <div class="contact-modal" id="contact-modal" aria-hidden="true">
+    <div class="contact-dialog" role="dialog" aria-modal="true" aria-labelledby="contact-modal-title">
+      <button class="modal-close" type="button" id="close-contact" aria-label="Close contact window">×</button>
+      <div class="profile-avatar" id="public-avatar">B</div>
+      <div class="section-kicker">Let’s talk</div>
+      <h2 id="contact-modal-title">Contact Banikta</h2>
+      <p>Have a question, an idea, or want to work together? Send me a message on Discord.</p>
+      <span class="discord-name" id="public-discord-username">@banikta</span>
+      <div class="modal-actions"><button class="button primary" type="button" id="copy-discord">Copy username</button><a class="button" href="https://discord.com/app" target="_blank" rel="noopener noreferrer">Open Discord ↗</a></div>
+      <div class="message" id="contact-copy-message" role="status" aria-live="polite"></div>
+    </div>
+  </div>
+
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
     // Public client settings. Never put a Supabase service_role/secret key in this file.
@@ -281,6 +328,7 @@
     let currentFilter = "all";
     let currentUser = null;
     let editingAnimation = null;
+    let profileSettings = { discord_username: "@banikta", avatar_url: "" };
 
     function showMessage(text, isError = false, target = "admin-message") {
       const el = $(target);
@@ -353,6 +401,32 @@
         }
         return `<article class="card"><div class="media">${media}</div><div class="card-body"><div class="card-meta"><span class="tag">${safeText(categoryName(a.category_id))}</span></div><h3>${safeText(a.title)}</h3>${a.description ? `<p>${safeText(a.description)}</p>` : ""}</div></article>`;
       }).join("");
+    }
+
+    function renderAvatar(container, url) {
+      if (!container) return;
+      container.innerHTML = url ? `<img src="${safeText(url)}" alt="Banikta avatar">` : "B";
+    }
+
+    function renderProfileSettings() {
+      const username = profileSettings.discord_username || "@banikta";
+      $("public-discord-username").textContent = username;
+      renderAvatar($("public-avatar"), profileSettings.avatar_url);
+      renderAvatar($("admin-avatar-preview"), profileSettings.avatar_url);
+      if ($("discord-username")) $("discord-username").value = username;
+    }
+
+    async function loadProfileSettings() {
+      if (!supabaseClient) return;
+      try {
+        const { data, error } = await supabaseClient.from("portfolio_settings").select("discord_username,avatar_url").eq("id", 1).maybeSingle();
+        if (error) throw error;
+        if (data) profileSettings = { discord_username: data.discord_username || "@banikta", avatar_url: data.avatar_url || "" };
+        renderProfileSettings();
+      } catch (error) {
+        console.warn("Could not load public profile settings. Run the setup SQL from the instructions.", error.message);
+        renderProfileSettings();
+      }
     }
 
     async function loadPublicData() {
@@ -504,7 +578,7 @@
         return;
       }
       supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
-      await loadPublicData();
+      await Promise.all([loadPublicData(), loadProfileSettings()]);
       const { data: { session } } = await supabaseClient.auth.getSession();
       await checkAdmin(session?.user || null);
       supabaseClient.auth.onAuthStateChange((_event, sessionNow) => {
@@ -701,6 +775,70 @@ Cancel to keep this category.`);
         showMessage("Category added.");
       } catch (error) {
         showMessage(error.message || "Could not add category.", true);
+      }
+    });
+
+    function openContactModal() {
+      $("contact-modal").classList.add("open");
+      $("contact-modal").setAttribute("aria-hidden", "false");
+      $("contact-copy-message").textContent = "";
+      document.body.style.overflow = "hidden";
+      $("close-contact").focus();
+    }
+    function closeContactModal() {
+      $("contact-modal").classList.remove("open");
+      $("contact-modal").setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+    }
+    document.querySelectorAll("[data-open-contact]").forEach(button => button.addEventListener("click", openContactModal));
+    $("close-contact").addEventListener("click", closeContactModal);
+    $("contact-modal").addEventListener("click", event => { if (event.target === $("contact-modal")) closeContactModal(); });
+    document.addEventListener("keydown", event => { if (event.key === "Escape" && $("contact-modal").classList.contains("open")) closeContactModal(); });
+    $("copy-discord").addEventListener("click", async () => {
+      const username = profileSettings.discord_username || "@banikta";
+      try {
+        await navigator.clipboard.writeText(username);
+        $("contact-copy-message").textContent = "Username copied! Paste it into Discord to message me.";
+      } catch (_) {
+        $("contact-copy-message").textContent = "Your Discord username is " + username + " — select and copy it above.";
+      }
+    });
+
+    $("profile-form").addEventListener("submit", async event => {
+      event.preventDefault();
+      if (!currentUser || currentUser.id !== ADMIN_UID) {
+        showMessage("Please sign in with the administrator account.", true, "admin-status");
+        return;
+      }
+      const button = $("save-profile");
+      button.disabled = true;
+      $("profile-save-note").textContent = "Saving…";
+      try {
+        const username = $("discord-username").value.trim();
+        if (!username) throw new Error("Enter your Discord username.");
+        const file = $("profile-avatar-file").files[0];
+        let avatarUrl = profileSettings.avatar_url || null;
+        if (file) {
+          if (file.type !== "image/png") throw new Error("Please choose a PNG image for your avatar.");
+          if (file.size > 5 * 1024 * 1024) throw new Error("Avatar must be 5 MB or smaller.");
+          const path = `profile/avatar-${Date.now()}.png`;
+          const { error: uploadError } = await supabaseClient.storage.from(BUCKET).upload(path, file, { cacheControl: "3600", upsert: true, contentType: "image/png" });
+          if (uploadError) throw uploadError;
+          avatarUrl = supabaseClient.storage.from(BUCKET).getPublicUrl(path).data.publicUrl;
+        }
+        const row = { id: 1, discord_username: username, avatar_url: avatarUrl };
+        const { error } = await supabaseClient.from("portfolio_settings").upsert(row, { onConflict: "id" });
+        if (error) throw error;
+        profileSettings = { discord_username: username, avatar_url: avatarUrl || "" };
+        renderProfileSettings();
+        $("profile-avatar-file").value = "";
+        $("profile-save-note").textContent = "Saved! The public popup is updated.";
+        showMessage("Public profile settings saved.", false, "admin-status");
+      } catch (error) {
+        $("profile-save-note").textContent = error.message || "Could not save profile settings.";
+        showMessage(error.message || "Could not save profile settings.", true, "admin-status");
+      } finally {
+        button.disabled = false;
       }
     });
 
