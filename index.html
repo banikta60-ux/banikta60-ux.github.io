@@ -238,7 +238,7 @@
     const $ = (id) => document.getElementById(id);
     $("year").textContent = new Date().getFullYear();
 
-    let supabase = null;
+    let supabaseClient = null;
     let categories = [];
     let animations = [];
     let currentFilter = "all";
