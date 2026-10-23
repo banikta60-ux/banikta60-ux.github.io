@@ -32,46 +32,33 @@
       color: var(--text); font-family: "DM Sans", sans-serif; line-height: 1.6;
       isolation: isolate; position: relative;
     }
-    /* Moving forest-green aurora: visible enough to notice, never neon. */
+    /* Lightweight green atmosphere: avoids giant blurred layers and blend-mode repainting. */
     body::before {
-      content: ""; position: fixed; inset: -38%; z-index: 0; pointer-events: none;
+      content: ""; position: fixed; inset: 0; z-index: 0; pointer-events: none;
       background:
-        radial-gradient(ellipse at 16% 22%, rgba(17, 91, 48, .42), transparent 33%),
-        radial-gradient(ellipse at 82% 28%, rgba(24, 91, 47, .34), transparent 32%),
-        radial-gradient(ellipse at 54% 84%, rgba(13, 79, 48, .38), transparent 37%),
-        radial-gradient(ellipse at 42% 48%, rgba(20, 77, 43, .30), transparent 39%);
-      filter: blur(72px); opacity: .95; mix-blend-mode: screen;
-      transform: translate3d(-4%, -2%, 0) scale(1.04);
-      animation: auroraShift 9s cubic-bezier(.45,0,.55,1) infinite alternate;
-      will-change: transform;
+        radial-gradient(ellipse at 12% 18%, rgba(17, 91, 48, .28), transparent 38%),
+        radial-gradient(ellipse at 86% 30%, rgba(24, 91, 47, .23), transparent 35%),
+        radial-gradient(ellipse at 54% 88%, rgba(13, 79, 48, .24), transparent 42%);
+      opacity: .9; transform: translate3d(0, 0, 0);
+      animation: auroraShift 24s ease-in-out infinite alternate;
     }
     body::after {
-      content: ""; position: fixed; inset: -25%; z-index: 0; pointer-events: none;
-      background:
-        radial-gradient(ellipse at 24% 72%, rgba(37, 91, 55, .19), transparent 30%),
-        radial-gradient(ellipse at 76% 55%, rgba(25, 83, 47, .17), transparent 34%);
-      filter: blur(58px); opacity: .8;
-      animation: fogDrift 16s ease-in-out infinite alternate;
-      will-change: transform;
+      content: ""; position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background: radial-gradient(ellipse at 50% 50%, rgba(25, 83, 47, .10), transparent 65%);
+      opacity: .8;
     }
     body > * { position: relative; z-index: 1; }
     @keyframes auroraShift {
-      0% { transform: translate3d(-8%, -5%, 0) scale(1.02) rotate(-4deg); }
-      30% { transform: translate3d(4%, 3%, 0) scale(1.12) rotate(3deg); }
-      66% { transform: translate3d(-3%, 8%, 0) scale(1.07) rotate(-2deg); }
-      100% { transform: translate3d(8%, -5%, 0) scale(1.17) rotate(5deg); }
-    }
-    @keyframes fogDrift {
-      from { transform: translate3d(-5%, 3%, 0) scale(1); }
-      to { transform: translate3d(6%, -4%, 0) scale(1.13); }
+      from { transform: translate3d(-1.5%, -1%, 0); }
+      to { transform: translate3d(1.5%, 1%, 0); }
     }
     @keyframes enterUp {
-      from { opacity: 0; transform: translateY(22px); filter: blur(5px); }
-      to { opacity: 1; transform: translateY(0); filter: blur(0); }
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
     }
     @keyframes cardEnter {
-      from { opacity: 0; transform: translateY(18px) scale(.985); filter: blur(3px); }
-      to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
     @keyframes fogAcross {
       0% { transform: translateX(-9%) scale(1); opacity: .42; }
@@ -128,18 +115,23 @@
       display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px;
       position: sticky; top: 10px; z-index: 5; padding: 10px;
       border: 1px solid rgba(63,128,87,.12); border-radius: 16px;
-      background: rgba(13, 16, 17, .88); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+      background: rgba(13, 20, 15, .97);
       box-shadow: 0 10px 35px rgba(0,0,0,.12);
     }
     .filter { flex: 0 0 auto; border: 1px solid var(--line); background: rgba(255,255,255,.025); color: var(--muted); border-radius: 999px; padding: 8px 14px; font-size: 13px; transition: .2s; }
     .filter:hover, .filter.active { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); box-shadow: 0 0 22px rgba(37, 91, 55, .12); }
     .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 15px; align-items: start; }
-    .card { min-width: 0; border: 1px solid rgba(233,241,224,.11); background: linear-gradient(145deg, rgba(18,30,22,.97), rgba(10,17,12,.99)); border-radius: 18px; overflow: hidden; transition: transform .32s cubic-bezier(.2,.8,.2,1), border-color .32s ease, box-shadow .32s ease; animation: cardEnter .65s cubic-bezier(.2,.8,.2,1) both; }
+    .card { content-visibility: auto; contain-intrinsic-size: auto 250px; min-width: 0; border: 1px solid rgba(233,241,224,.11); background: linear-gradient(145deg, rgba(18,30,22,.97), rgba(10,17,12,.99)); border-radius: 18px; overflow: hidden; transition: transform .32s cubic-bezier(.2,.8,.2,1), border-color .32s ease, box-shadow .32s ease; animation: cardEnter .65s cubic-bezier(.2,.8,.2,1) both; }
     .card:nth-child(3n + 2) { animation-delay: .07s; }
     .card:nth-child(3n) { animation-delay: .14s; }
     .card:hover { transform: translateY(-4px); border-color: rgba(63,128,87,.42); box-shadow: 0 16px 38px rgba(0,0,0,.22), 0 0 25px rgba(37,91,55,.05); }
     .media { aspect-ratio: 16 / 9; background: #070c08; position: relative; overflow: hidden; }
     .media iframe, .media video { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; object-fit: cover; }
+    .yt-preview { position: absolute; inset: 0; width: 100%; height: 100%; padding: 0; border: 0; background: #070c08; color: white; display: grid; place-items: center; }
+    .yt-preview img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .yt-preview::after { content: ""; position: absolute; inset: 0; background: rgba(0,0,0,.16); }
+    .yt-play { position: relative; z-index: 1; display: grid; place-items: center; width: 54px; height: 38px; border-radius: 12px; background: #c4302b; box-shadow: 0 4px 18px rgba(0,0,0,.3); font-size: 18px; transition: transform .18s ease; }
+    .yt-preview:hover .yt-play { transform: scale(1.08); }
     .media-empty { position: absolute; inset: 0; display: grid; place-items: center; color: #718776; background: linear-gradient(135deg, #142019, #080d0a); }
     .media-empty span { border: 1px solid var(--line); border-radius: 50%; width: 48px; height: 48px; display: grid; place-items: center; font-size: 17px; }
     .card-body { padding: 15px 16px 17px; }
@@ -153,12 +145,12 @@
     .work-actions { display: flex; justify-content: center; align-items: center; position: relative; isolation: isolate; margin-top: 24px; padding: 22px 0 18px; overflow: visible; }
     .work-actions[hidden] { display: none; }
     /* Soft fog fades in and out around the button, with no hard horizontal cutoff. */
-    .work-actions::before { content: ""; position: absolute; z-index: -1; pointer-events: none; left: -12vw; right: -12vw; top: -24px; bottom: -24px; background: radial-gradient(ellipse at 20% 55%, rgba(29,91,50,.30), transparent 35%), radial-gradient(ellipse at 52% 48%, rgba(62,105,76,.22), transparent 36%), radial-gradient(ellipse at 82% 45%, rgba(21,82,45,.30), transparent 34%); filter: blur(24px); opacity: .72; animation: fogAcross 10s ease-in-out infinite alternate; -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 26%, #000 72%, transparent 100%); mask-image: linear-gradient(to bottom, transparent 0%, #000 26%, #000 72%, transparent 100%); }
-    .show-more { position: relative; isolation: isolate; overflow: hidden; display: inline-flex; align-items: center; justify-content: center; gap: 9px; padding: 13px 24px; border: 1px solid rgba(72,139,91,.48); border-radius: 999px; background: rgba(16,42,25,.72); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); color: var(--text); font-weight: 700; box-shadow: 0 8px 28px rgba(0,0,0,.16), 0 0 30px rgba(35,103,57,.13); transition: background .3s, border-color .3s, transform .3s, box-shadow .3s; animation: enterUp .65s .2s both; }
+    .work-actions::before { content: ""; position: absolute; z-index: -1; pointer-events: none; left: -12vw; right: -12vw; top: -24px; bottom: -24px; background: radial-gradient(ellipse at 20% 55%, rgba(29,91,50,.30), transparent 35%), radial-gradient(ellipse at 52% 48%, rgba(62,105,76,.22), transparent 36%), radial-gradient(ellipse at 82% 45%, rgba(21,82,45,.30), transparent 34%); opacity: .62; -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 26%, #000 72%, transparent 100%); mask-image: linear-gradient(to bottom, transparent 0%, #000 26%, #000 72%, transparent 100%); }
+    .show-more { position: relative; isolation: isolate; overflow: hidden; display: inline-flex; align-items: center; justify-content: center; gap: 9px; padding: 13px 24px; border: 1px solid rgba(72,139,91,.48); border-radius: 999px; background: rgba(16,42,25,.96); color: var(--text); font-weight: 700; box-shadow: 0 8px 28px rgba(0,0,0,.16), 0 0 30px rgba(35,103,57,.13); transition: background .3s, border-color .3s, transform .3s, box-shadow .3s; animation: enterUp .65s .2s both; }
     .show-more::before { content: ""; position: absolute; z-index: -1; inset: -80% -35%; background: linear-gradient(105deg, transparent 35%, rgba(140,190,149,.13) 48%, rgba(140,190,149,.28) 50%, transparent 65%); transform: translateX(-70%) rotate(8deg); transition: transform .7s ease; }
     .show-more:hover { background: rgba(24,67,37,.84); border-color: rgba(105,165,120,.78); transform: translateY(-3px); box-shadow: 0 12px 35px rgba(0,0,0,.2), 0 0 35px rgba(35,103,57,.2); }
     .show-more:hover::before { transform: translateX(70%) rotate(8deg); }
-    .category-screen { position: fixed; inset: 0; z-index: 90; overflow-y: auto; padding: 24px 0 60px; background: rgba(6,11,8,.98); backdrop-filter: blur(20px); opacity: 0; visibility: hidden; transform: translateY(8px); transition: opacity .2s, visibility .2s, transform .2s; }
+    .category-screen { position: fixed; inset: 0; z-index: 90; overflow-y: auto; padding: 24px 0 60px; background: rgba(6,11,8,.99); opacity: 0; visibility: hidden; transform: translateY(8px); transition: opacity .2s, visibility .2s, transform .2s; }
     .category-screen.open { opacity: 1; visibility: visible; transform: translateY(0); }
     .category-screen-top { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding-bottom: 22px; margin-bottom: 28px; border-bottom: 1px solid var(--line); }
     .category-screen-top h2 { margin-top: 5px; }
@@ -181,6 +173,24 @@
     .footer { display: flex; justify-content: space-between; align-items: center; gap: 16px; color: #849487; font-size: 12px; padding: 20px 0 28px; border-top: 1px solid var(--line); animation: enterUp .7s .25s both; }
     .visitor-counter { display: inline-flex; align-items: center; gap: 7px; color: #a0b5a4; white-space: nowrap; }
     .visitor-counter::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: #4d9561; box-shadow: 0 0 12px rgba(77,149,97,.65); }
+
+    /* Contributed-to portfolio cards */
+    .contributed-section { padding: 54px 0 68px; }
+    .contributed-head { display:flex; align-items:end; justify-content:space-between; gap:18px; margin-bottom:22px; }
+    .contributed-head h2 { margin-top:7px; }
+    .contributed-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px; }
+    .contributed-card { display:flex; align-items:center; gap:14px; min-width:0; padding:16px; border:1px solid var(--line); border-radius:16px; background:rgba(15,25,18,.74); text-decoration:none; color:var(--text); transition:border-color .2s, transform .2s, background .2s; }
+    .contributed-card:hover { border-color:rgba(104,168,119,.48); transform:translateY(-2px); background:rgba(19,34,23,.92); }
+    .contributed-avatar { width:58px; height:58px; flex:0 0 58px; border-radius:15px; overflow:hidden; display:grid; place-items:center; background:rgba(76,128,86,.18); color:var(--accent); font-weight:800; font-size:20px; }
+    .contributed-avatar img { width:100%; height:100%; object-fit:cover; display:block; }
+    .contributed-info { min-width:0; }
+    .contributed-info strong { display:block; overflow-wrap:anywhere; font-size:14px; }
+    .contributed-info span { display:block; margin-top:5px; color:var(--muted); font-size:11px; text-transform:uppercase; letter-spacing:.09em; }
+    .contributed-empty { color:var(--muted); font-size:13px; padding:16px 0; }
+    .contributed-admin-form { margin-top:18px; padding:18px; border:1px solid var(--line); border-radius:14px; }
+    .contributed-preview { display:flex; align-items:center; gap:10px; }
+    .contributed-preview .contributed-avatar { width:44px; height:44px; flex-basis:44px; }
+    @media (max-width:700px) { .contributed-head { align-items:start; flex-direction:column; } .contributed-grid { grid-template-columns:1fr; } }
     .admin-toggle { border: 0; background: transparent; color: #747b6e; font-size: 12px; padding: 0; }
     .admin-toggle:hover { color: var(--accent); }
     .admin-panel { display: none; padding: 30px 0 55px; border-top: 1px solid var(--line); }
@@ -208,7 +218,7 @@
     .small-btn:hover { border-color: var(--accent); }
     .small-btn.delete:hover { border-color: var(--danger); color: var(--danger); }
     .hidden { display: none !important; }
-    .contact-modal { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; padding: 20px; background: rgba(4,7,4,.74); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); opacity: 0; visibility: hidden; transition: opacity .22s, visibility .22s; }
+    .contact-modal { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; padding: 20px; background: rgba(4,7,4,.90); opacity: 0; visibility: hidden; transition: opacity .22s, visibility .22s; }
     .contact-modal.open { opacity: 1; visibility: visible; }
     .contact-dialog { width: min(100%, 420px); position: relative; padding: 30px; text-align: center; border: 1px solid rgba(63,128,87,.24); border-radius: 26px; background: linear-gradient(145deg, rgba(18,31,22,.99), rgba(9,15,11,.99)); box-shadow: 0 30px 100px rgba(0,0,0,.5), 0 0 45px rgba(74,101,94,.08); transform: translateY(12px) scale(.98); transition: transform .22s; }
     .contact-modal.open .contact-dialog { transform: translateY(0) scale(1); }
@@ -220,14 +230,18 @@
     .discord-name { display: block; padding: 13px 15px; margin-bottom: 14px; border: 1px solid rgba(63,128,87,.18); border-radius: 13px; background: rgba(255,255,255,.035); color: var(--accent); font-weight: 700; letter-spacing: .02em; }
     .modal-actions { display: flex; justify-content: center; flex-wrap: wrap; gap: 9px; }
     .profile-settings { border-top: 1px solid var(--line); margin-top: 30px; padding-top: 24px; }
-    .scroll-reveal { opacity: 0; transform: translateY(22px); filter: blur(4px); transition: opacity .8s ease var(--reveal-delay, 0ms), transform .8s cubic-bezier(.2,.8,.2,1) var(--reveal-delay, 0ms), filter .8s ease var(--reveal-delay, 0ms); }
-    .scroll-reveal.is-visible { opacity: 1; transform: translateY(0); filter: blur(0); }
+    .scroll-reveal { opacity: 0; transform: translateY(22px); transition: opacity .45s ease var(--reveal-delay, 0ms), transform .45s cubic-bezier(.2,.8,.2,1) var(--reveal-delay, 0ms); }
+    .scroll-reveal.is-visible { opacity: 1; transform: translateY(0); }
     .nav a, .nav-contact, .button, .links a, .filter, .brand-mark, .admin-toggle { transition-timing-function: cubic-bezier(.2,.8,.2,1); }
     .brand-mark { transition: transform .35s ease, box-shadow .35s ease; }
     .brand:hover .brand-mark { transform: rotate(-8deg) scale(1.08); box-shadow: 0 0 22px rgba(63,128,87,.35); }
-    .status-dot { animation: statusPulse 2.8s ease-in-out infinite; }
+    .status-dot { animation: none; }
     @keyframes statusPulse { 0%,100% { box-shadow: 0 0 5px rgba(63,128,87,.25); } 50% { box-shadow: 0 0 17px rgba(77,149,97,.8); } }
     @media (max-width: 700px) {
+      body::before { animation-duration: 40s; opacity: .72; }
+      .card { animation: none; }
+      .work-actions::before { display: none; }
+      .filters { backdrop-filter: none; -webkit-backdrop-filter: none; }
       .wrap { width: min(var(--max), calc(100% - 28px)); }
       .topbar { padding: 18px 0; }
       .nav { gap: 4px; font-size: 13px; }
@@ -332,6 +346,13 @@
       </div>
     </section>
 
+    <section class="wrap contributed-section" id="contributed-to">
+      <div class="contributed-head">
+        <div><div class="section-kicker">Community & collaborations</div><h2>Contributed to</h2><p style="color:var(--muted);margin-top:8px">Games, creators, and communities I’ve been part of.</p></div>
+      </div>
+      <div class="contributed-grid" id="contributed-grid"><p class="contributed-empty">Loading contributions…</p></div>
+    </section>
+
     <section class="wrap contact" id="contact">
       <div class="contact-row">
         <div><div class="section-kicker">My Socials</div><h2>Find me around the internet.</h2><p>Want to ask about a project or just say hi? Discord is the easiest way to reach me.</p></div>
@@ -388,6 +409,27 @@
               <div class="field" style="justify-content:end"><button class="button" type="submit">Add category</button></div>
             </form>
             <div class="admin-list" id="category-list"></div>
+            <hr style="border:0;border-top:1px solid var(--line);margin:28px 0 22px">
+            <h3 style="font:700 17px Manrope,sans-serif">Contributed to</h3>
+            <p class="notice" style="margin-top:6px">Add games, YouTubers, or Discord servers. Paste their public page/invite link; the site will try to load the matching avatar automatically. You can also provide an image URL as a fallback.</p>
+            <form id="contributed-category-form" class="form-grid">
+              <div class="field"><label for="contributed-new-category">New contribution category</label><input id="contributed-new-category" maxlength="50" placeholder="e.g. Games"></div>
+              <div class="field" style="justify-content:end"><button class="button" type="submit">Add category</button></div>
+            </form>
+            <div class="admin-list" id="contributed-category-list"></div>
+            <form id="contributed-form" class="contributed-admin-form">
+              <input id="contributed-id" type="hidden">
+              <div class="form-grid">
+                <div class="field"><label for="contributed-name">Name *</label><input id="contributed-name" maxlength="100" required placeholder="Game, YouTuber, or Discord server"></div>
+                <div class="field"><label for="contributed-kind">Type *</label><select id="contributed-kind"><option value="game">Game</option><option value="youtube">YouTuber</option><option value="discord">Discord server</option><option value="other">Other</option></select></div>
+                <div class="field"><label for="contributed-category">Category *</label><select id="contributed-category" required></select></div>
+                <div class="field"><label for="contributed-url">Public link *</label><input id="contributed-url" type="url" required placeholder="https://…"></div>
+                <div class="field full"><label for="contributed-avatar-url">Custom avatar image URL (optional)</label><input id="contributed-avatar-url" type="url" placeholder="https://…"><span class="notice">Leave blank to try to load the avatar from YouTube, Discord, or Roblox automatically.</span></div>
+                <div class="field full"><div class="contributed-preview"><div class="contributed-avatar" id="contributed-preview-avatar">?</div><span class="notice" id="contributed-preview-note">Avatar preview</span></div></div>
+              </div>
+              <div class="form-actions"><button class="button primary" type="submit" id="save-contributed">Add contribution</button><button class="button hidden" type="button" id="cancel-contributed-edit">Cancel edit</button></div>
+            </form>
+            <div class="admin-list" id="contributed-item-list"></div>
           </div>
           <div id="admin-status" class="message" role="status"></div>
           <p class="notice">The admin area is hidden from the main navigation. Database permissions in Supabase—not this interface—control who can make changes.</p>
@@ -445,6 +487,9 @@
     let currentUser = null;
     let editingAnimation = null;
     let profileSettings = { discord_username: "@banikta", avatar_url: "" };
+    let contributedCategories = [];
+    let contributedItems = [];
+    let editingContribution = null;
 
     function showMessage(text, isError = false, target = "admin-message") {
       const el = $(target);
@@ -478,6 +523,186 @@
       } catch (_) { return null; }
     }
 
+
+    function contributionCategoryName(id) {
+      return contributedCategories.find(c => String(c.id) === String(id))?.name || "Other";
+    }
+
+    function initials(value) {
+      const words = String(value || "?").trim().split(/\s+/).filter(Boolean);
+      return (words.length > 1 ? words[0][0] + words[1][0] : (words[0] || "?").slice(0, 2)).toUpperCase();
+    }
+
+    function normalizeContributionUrl(kind, rawUrl) {
+      const value = String(rawUrl || "").trim();
+      if (!value) return "";
+      try {
+        const u = new URL(value);
+        if (!["http:", "https:"].includes(u.protocol)) return "";
+        return u.href;
+      } catch (_) { return ""; }
+    }
+
+    function youtubeHandleFromUrl(url) {
+      try {
+        const u = new URL(url);
+        if (!/(^|\.)youtube\.com$/i.test(u.hostname) && u.hostname !== "youtu.be") return "";
+        const parts = u.pathname.split("/").filter(Boolean);
+        if (!parts.length) return "";
+        if (parts[0].startsWith("@")) return parts[0].slice(1);
+        if (["channel", "c", "user"].includes(parts[0].toLowerCase())) return parts[1] || "";
+        return "";
+      } catch (_) { return ""; }
+    }
+
+    function discordInviteCode(url) {
+      try {
+        const u = new URL(url);
+        if (!/(^|\.)discord\.gg$/i.test(u.hostname) && !/(^|\.)discord\.com$/i.test(u.hostname) && !/(^|\.)discordapp\.com$/i.test(u.hostname)) return "";
+        const parts = u.pathname.split("/").filter(Boolean);
+        if (u.hostname.toLowerCase() === "discord.gg") return parts[0] || "";
+        const inviteIndex = parts.findIndex(p => p.toLowerCase() === "invite");
+        return inviteIndex >= 0 ? parts[inviteIndex + 1] || "" : "";
+      } catch (_) { return ""; }
+    }
+
+    function robloxPlaceId(url) {
+      try {
+        const u = new URL(url);
+        if (!/(^|\.)roblox\.com$/i.test(u.hostname)) return "";
+        const m = u.pathname.match(/\/games\/(\d+)/i);
+        return m ? m[1] : "";
+      } catch (_) { return ""; }
+    }
+
+    async function discoverContributionAvatar(kind, url) {
+      // External public endpoints are best-effort; custom image URL remains available as a fallback.
+      if (kind === "youtube") {
+        const handle = youtubeHandleFromUrl(url);
+        if (handle) return `https://unavatar.io/youtube/${encodeURIComponent(handle)}`;
+      }
+      if (kind === "discord") {
+        const invite = discordInviteCode(url);
+        if (invite) {
+          try {
+            const response = await fetch(`https://discord.com/api/v10/invites/${encodeURIComponent(invite)}?with_counts=true`, { headers: { "Accept": "application/json" } });
+            if (response.ok) {
+              const data = await response.json();
+              if (data.guild?.id && data.guild?.icon) {
+                const ext = data.guild.icon.startsWith("a_") ? "gif" : "png";
+                return `https://cdn.discordapp.com/icons/${data.guild.id}/${data.guild.icon}.${ext}?size=128`;
+              }
+            }
+          } catch (_) {}
+        }
+      }
+      if (kind === "game") {
+        const placeId = robloxPlaceId(url);
+        if (placeId) {
+          try {
+            const universeResponse = await fetch(`https://apis.roblox.com/universes/v1/places/${placeId}/universe`);
+            if (universeResponse.ok) {
+              const universeData = await universeResponse.json();
+              if (universeData.universeId) {
+                const imageResponse = await fetch(`https://thumbnails.roblox.com/v1/games/icons?universeIds=${universeData.universeId}&size=150x150&format=Png&isCircular=false`);
+                if (imageResponse.ok) {
+                  const imageData = await imageResponse.json();
+                  if (imageData.data?.[0]?.imageUrl) return imageData.data[0].imageUrl;
+                }
+              }
+            }
+          } catch (_) {}
+        }
+      }
+      return "";
+    }
+
+    function avatarMarkup(name, url, className = "contributed-avatar") {
+      const fallback = initials(name);
+      return `<div class="${className}">${url ? `<img src="${safeText(url)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove();this.parentElement.textContent='${safeText(fallback)}'">` : safeText(fallback)}</div>`;
+    }
+
+    function renderContributedPublic() {
+      const root = $("contributed-grid");
+      if (!root) return;
+      if (!contributedItems.length) {
+        root.innerHTML = `<p class="contributed-empty">No contributions added yet.</p>`;
+        return;
+      }
+      root.innerHTML = contributedItems.map(item => {
+        const kindLabel = ({game:"Game",youtube:"YouTuber",discord:"Discord server",other:"Other"})[item.kind] || "Other";
+        const avatar = item.avatar_url || "";
+        return `<a class="contributed-card" href="${safeText(item.url)}" target="_blank" rel="noopener noreferrer">
+          ${avatarMarkup(item.name, avatar)}
+          <div class="contributed-info"><strong>${safeText(item.name)}</strong><span>${safeText(contributionCategoryName(item.category_id))} · ${kindLabel}</span></div>
+        </a>`;
+      }).join("");
+    }
+
+    async function loadContributedData() {
+      const root = $("contributed-grid");
+      try {
+        const [catResult, itemResult] = await Promise.all([
+          supabaseClient.from("contributed_categories").select("id,name,sort_order").order("sort_order", {ascending:true}).order("name"),
+          supabaseClient.from("contributed_items").select("id,name,kind,url,avatar_url,category_id,created_at").order("created_at", {ascending:false})
+        ]);
+        if (catResult.error) throw catResult.error;
+        if (itemResult.error) throw itemResult.error;
+        contributedCategories = catResult.data || [];
+        contributedItems = itemResult.data || [];
+        renderContributedPublic();
+        renderContributedAdmin();
+      } catch (error) {
+        if (root) root.innerHTML = `<p class="contributed-empty">Couldn’t load contributions yet. The admin setup SQL may need to be run.</p>`;
+        console.warn("Could not load contributed-to data:", error.message);
+      }
+    }
+
+    function renderContributedAdmin() {
+      const categorySelect = $("contributed-category");
+      if (!categorySelect) return;
+      categorySelect.innerHTML = contributedCategories.map(c => `<option value="${safeText(c.id)}">${safeText(c.name)}</option>`).join("");
+      $("contributed-category-list").innerHTML = contributedCategories.length ? contributedCategories.map(c => {
+        const count = contributedItems.filter(i => String(i.category_id) === String(c.id)).length;
+        return `<div class="admin-item"><div><strong>${safeText(c.name)}</strong><small>${count} contribution(s)</small></div><div class="admin-actions"><button class="small-btn" type="button" data-rename-contrib-category="${safeText(c.id)}">Rename</button><button class="small-btn delete" type="button" data-delete-contrib-category="${safeText(c.id)}">Delete</button></div></div>`;
+      }).join("") : `<p class="notice">No contribution categories yet. Add one above.</p>`;
+      $("contributed-item-list").innerHTML = contributedItems.length ? contributedItems.map(item => `
+        <div class="admin-item"><div><strong>${safeText(item.name)}</strong><small>${safeText(contributionCategoryName(item.category_id))} · ${safeText(item.kind)} </small></div>
+        <div class="admin-actions"><button class="small-btn" type="button" data-edit-contribution="${safeText(item.id)}">Edit</button><button class="small-btn delete" type="button" data-delete-contribution="${safeText(item.id)}">Delete</button></div></div>`).join("") : `<p class="notice">No contributions yet.</p>`;
+    }
+
+    function resetContributionForm() {
+      editingContribution = null;
+      $("contributed-form").reset();
+      $("contributed-id").value = "";
+      $("save-contributed").textContent = "Add contribution";
+      $("cancel-contributed-edit").classList.add("hidden");
+      $("contributed-preview-avatar").textContent = "?";
+      $("contributed-preview-note").textContent = "Avatar preview";
+    }
+
+    function editContribution(id) {
+      const item = contributedItems.find(i => String(i.id) === String(id));
+      if (!item) return;
+      editingContribution = item;
+      $("contributed-id").value = item.id;
+      $("contributed-name").value = item.name || "";
+      $("contributed-kind").value = item.kind || "other";
+      $("contributed-category").value = String(item.category_id || "");
+      $("contributed-url").value = item.url || "";
+      $("contributed-avatar-url").value = item.avatar_url || "";
+      $("save-contributed").textContent = "Save contribution";
+      $("cancel-contributed-edit").classList.remove("hidden");
+      setContributionPreview(item.avatar_url || "", item.name || "");
+      $("contributed-form").scrollIntoView({behavior:"smooth", block:"center"});
+    }
+
+    function setContributionPreview(url, name) {
+      const root = $("contributed-preview-avatar");
+      root.innerHTML = url ? `<img src="${safeText(url)}" alt="" style="width:100%;height:100%;object-fit:cover" onerror="this.remove();this.parentElement.textContent='${safeText(initials(name))}'">` : safeText(initials(name));
+      $("contributed-preview-note").textContent = url ? "Avatar URL set (auto-loaded or custom)" : "No avatar found yet — initials will be shown as fallback";
+    }
+
     function renderFilters() {
       const root = $("filters");
       root.innerHTML = "";
@@ -502,7 +727,10 @@
       let media = `<div class="media-empty"><span>▶</span></div>`;
       if (a.video_type === "youtube") {
         const embed = youtubeEmbed(a.video_url || "");
-        if (embed) media = `<iframe src="${embed}" title="${safeText(a.title)}" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`;
+        if (embed) {
+          const videoId = embed.split("/").pop();
+          media = `<button class="yt-preview" type="button" data-embed="${embed}" aria-label="Play ${safeText(a.title)}"><img src="https://i.ytimg.com/vi/${videoId}/hqdefault.jpg" alt="" loading="lazy" decoding="async"><span class="yt-play" aria-hidden="true">▶</span></button>`;
+        }
       } else if (a.video_type === "upload" && a.video_url) {
         media = `<video src="${safeText(a.video_url)}" controls preload="metadata" playsinline></video>`;
       } else if (a.video_type === "image" && a.video_url) {
@@ -775,13 +1003,32 @@
         return;
       }
       supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
-      await Promise.all([loadPublicData(), loadProfileSettings(), loadVisitorCount()]);
+      await Promise.all([loadPublicData(), loadProfileSettings(), loadVisitorCount(), loadContributedData()]);
       const { data: { session } } = await supabaseClient.auth.getSession();
       await checkAdmin(session?.user || null);
       supabaseClient.auth.onAuthStateChange((_event, sessionNow) => {
         setTimeout(() => checkAdmin(sessionNow?.user || null), 0);
       });
     }
+
+    function setupYoutubeClickToLoad(container) {
+      container.addEventListener("click", event => {
+        const button = event.target.closest("button.yt-preview[data-embed]");
+        if (!button || !container.contains(button)) return;
+        const embed = button.dataset.embed;
+        if (!embed || !/^https:\/\/www\.youtube-nocookie\.com\/embed\/[A-Za-z0-9_-]{6,20}$/.test(embed)) return;
+        const frame = document.createElement("iframe");
+        frame.src = embed + "?autoplay=1";
+        frame.title = button.getAttribute("aria-label") || "YouTube video";
+        frame.loading = "lazy";
+        frame.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+        frame.allowFullscreen = true;
+        frame.referrerPolicy = "strict-origin-when-cross-origin";
+        button.replaceWith(frame);
+      });
+    }
+    setupYoutubeClickToLoad($("projects"));
+    setupYoutubeClickToLoad($("category-screen-projects"));
 
     $("filters").addEventListener("click", event => {
       const button = event.target.closest("button[data-category]");
@@ -999,6 +1246,103 @@ Cancel to keep this category.`);
       } catch (error) {
         showMessage(error.message || "Could not add category.", true);
       }
+    });
+
+
+    $("contributed-name").addEventListener("input", () => setContributionPreview($("contributed-avatar-url").value.trim(), $("contributed-name").value));
+    $("contributed-avatar-url").addEventListener("input", () => setContributionPreview($("contributed-avatar-url").value.trim(), $("contributed-name").value));
+
+    $("contributed-form").addEventListener("submit", async event => {
+      event.preventDefault();
+      if (!currentUser || currentUser.id !== ADMIN_UID) { showMessage("Please sign in first.", true, "admin-status"); return; }
+      const button = $("save-contributed");
+      button.disabled = true;
+      try {
+        const name = $("contributed-name").value.trim();
+        const kind = $("contributed-kind").value;
+        const categoryId = Number($("contributed-category").value);
+        const url = normalizeContributionUrl(kind, $("contributed-url").value);
+        let avatarUrl = normalizeContributionUrl(kind, $("contributed-avatar-url").value);
+        if (!name) throw new Error("Enter a name.");
+        if (!url) throw new Error("Enter a valid public link.");
+        if (!categoryId) throw new Error("Create/select a contribution category first.");
+        if (!avatarUrl) avatarUrl = await discoverContributionAvatar(kind, url);
+        const payload = { name, kind, category_id: categoryId, url, avatar_url: avatarUrl || null };
+        const { error } = editingContribution
+          ? await supabaseClient.from("contributed_items").update(payload).eq("id", editingContribution.id)
+          : await supabaseClient.from("contributed_items").insert(payload);
+        if (error) throw error;
+        resetContributionForm();
+        await loadContributedData();
+        showMessage("Contribution saved.");
+      } catch (error) {
+        showMessage(error.message || "Could not save contribution.", true);
+      } finally { button.disabled = false; }
+    });
+
+    $("cancel-contributed-edit").addEventListener("click", resetContributionForm);
+
+    $("contributed-category-form").addEventListener("submit", async event => {
+      event.preventDefault();
+      if (!currentUser || currentUser.id !== ADMIN_UID) { showMessage("Please sign in first.", true, "admin-status"); return; }
+      const name = $("contributed-new-category").value.trim();
+      if (!name) return;
+      if (contributedCategories.some(c => c.name.toLowerCase() === name.toLowerCase())) {
+        showMessage("That contribution category already exists.", true); return;
+      }
+      try {
+        const { error } = await supabaseClient.from("contributed_categories").insert({name, sort_order: contributedCategories.length + 1});
+        if (error) throw error;
+        $("contributed-new-category").value = "";
+        await loadContributedData();
+        showMessage("Contribution category added.");
+      } catch (error) { showMessage(error.message || "Could not add contribution category.", true); }
+    });
+
+    $("contributed-category-list").addEventListener("click", async event => {
+      const rename = event.target.closest("[data-rename-contrib-category]");
+      const del = event.target.closest("[data-delete-contrib-category]");
+      const id = rename?.dataset.renameContribCategory || del?.dataset.deleteContribCategory;
+      if (!id) return;
+      if (!currentUser || currentUser.id !== ADMIN_UID) { showMessage("Please sign in first.", true, "admin-status"); return; }
+      const category = contributedCategories.find(c => String(c.id) === String(id));
+      if (!category) return;
+      try {
+        if (rename) {
+          const name = prompt("New category name:", category.name);
+          if (name === null || !name.trim()) return;
+          if (contributedCategories.some(c => c.id !== category.id && c.name.toLowerCase() === name.trim().toLowerCase())) {
+            showMessage("That category already exists.", true); return;
+          }
+          const { error } = await supabaseClient.from("contributed_categories").update({name:name.trim()}).eq("id", category.id);
+          if (error) throw error;
+          showMessage("Category renamed.");
+        } else {
+          const count = contributedItems.filter(i => String(i.category_id) === String(category.id)).length;
+          if (count && !confirm(`Delete "${category.name}" and its ${count} contribution(s)?`)) return;
+          if (!count && !confirm(`Delete category "${category.name}"?`)) return;
+          const { error } = await supabaseClient.from("contributed_categories").delete().eq("id", category.id);
+          if (error) throw error;
+          showMessage("Category deleted.");
+        }
+        await loadContributedData();
+      } catch (error) { showMessage(error.message || "Could not change category.", true); }
+    });
+
+    $("contributed-item-list").addEventListener("click", async event => {
+      const edit = event.target.closest("[data-edit-contribution]");
+      const del = event.target.closest("[data-delete-contribution]");
+      if (edit) { editContribution(edit.dataset.editContribution); return; }
+      if (!del) return;
+      if (!currentUser || currentUser.id !== ADMIN_UID) { showMessage("Please sign in first.", true, "admin-status"); return; }
+      const item = contributedItems.find(i => String(i.id) === String(del.dataset.deleteContribution));
+      if (!item || !confirm(`Delete "${item.name}" from Contributed to?`)) return;
+      try {
+        const { error } = await supabaseClient.from("contributed_items").delete().eq("id", item.id);
+        if (error) throw error;
+        await loadContributedData();
+        showMessage("Contribution deleted.");
+      } catch (error) { showMessage(error.message || "Could not delete contribution.", true); }
     });
 
     function openContactModal() {
