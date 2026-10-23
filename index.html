@@ -20,6 +20,11 @@
       --muted: #9aa99d;
       --accent: #3f8057;
       --accent-ink: #f0f7f1;
+      --contrib-card: #0f1912;
+      --contrib-gradient-a: #16321f;
+      --contrib-gradient-b: #0a110c;
+      --contrib-glow: #438b55;
+      --contrib-glow-strength: .22;
       --danger: #ffaaa5;
       --radius: 22px;
       --max: 1080px;
@@ -179,8 +184,9 @@
     .contributed-head { display:flex; align-items:end; justify-content:space-between; gap:18px; margin-bottom:22px; }
     .contributed-head h2 { margin-top:7px; }
     .contributed-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px; }
-    .contributed-card { display:flex; align-items:center; gap:14px; min-width:0; padding:16px; border:1px solid var(--line); border-radius:16px; background:rgba(15,25,18,.74); text-decoration:none; color:var(--text); transition:border-color .2s, transform .2s, background .2s; }
-    .contributed-card:hover { border-color:rgba(104,168,119,.48); transform:translateY(-2px); background:rgba(19,34,23,.92); }
+    .contributed-card { position:relative; isolation:isolate; display:flex; align-items:center; gap:14px; min-width:0; padding:16px; border:1px solid color-mix(in srgb, var(--contrib-glow) 28%, transparent); border-radius:16px; background:linear-gradient(135deg, color-mix(in srgb, var(--contrib-gradient-a) 72%, var(--contrib-card)), var(--contrib-card) 58%, var(--contrib-gradient-b)); text-decoration:none; color:var(--text); transition:border-color .2s, transform .2s, box-shadow .2s; box-shadow:0 0 24px color-mix(in srgb, var(--contrib-glow) calc(var(--contrib-glow-strength) * 100%), transparent); }
+    .contributed-card::before { content:""; position:absolute; z-index:-1; inset:-1px; border-radius:inherit; pointer-events:none; background:radial-gradient(ellipse at 18% 50%, color-mix(in srgb, var(--contrib-glow) calc(var(--contrib-glow-strength) * 100%), transparent), transparent 68%); opacity:.9; }
+    .contributed-card:hover { border-color:color-mix(in srgb, var(--contrib-glow) 70%, transparent); transform:translateY(-2px); box-shadow:0 8px 28px color-mix(in srgb, var(--contrib-glow) calc(var(--contrib-glow-strength) * 130%), transparent); }
     .contributed-avatar { width:58px; height:58px; flex:0 0 58px; border-radius:15px; overflow:hidden; display:grid; place-items:center; background:rgba(76,128,86,.18); color:var(--accent); font-weight:800; font-size:20px; }
     .contributed-avatar img { width:100%; height:100%; object-fit:cover; display:block; }
     .contributed-info { min-width:0; }
@@ -393,6 +399,13 @@
                 <div class="field"><label for="profile-avatar-file">Avatar image (PNG, max 5 MB)</label><input id="profile-avatar-file" type="file" accept="image/png"><span class="notice">Upload a square PNG for the cleanest result.</span></div>
                 <div class="field full"><div id="profile-preview-row" style="display:flex;align-items:center;gap:12px"><div class="profile-avatar" id="admin-avatar-preview" style="width:54px;height:54px;margin:0;font-size:20px">B</div><span class="notice" id="profile-save-note">Current profile preview</span></div></div>
                 <div class="field full"><div class="form-actions"><button class="button primary" type="submit" id="save-profile">Save profile settings</button></div></div>
+                <div class="field full"><hr style="width:100%;border:0;border-top:1px solid var(--line);margin:10px 0 2px"><h3 style="font:700 17px Manrope,sans-serif;margin:4px 0 0">Contributed to appearance</h3><p class="notice" style="margin:0">Customize the cards and the soft colored glow around them. These settings are shared with all visitors.</p></div>
+                <div class="field"><label for="contrib-card-color">Card base color</label><input id="contrib-card-color" type="color" value="#0f1912"></div>
+                <div class="field"><label for="contrib-gradient-a">Gradient color 1</label><input id="contrib-gradient-a" type="color" value="#16321f"></div>
+                <div class="field"><label for="contrib-gradient-b">Gradient color 2</label><input id="contrib-gradient-b" type="color" value="#0a110c"></div>
+                <div class="field"><label for="contrib-glow-color">Glow around cards</label><input id="contrib-glow-color" type="color" value="#438b55"></div>
+                <div class="field full"><label for="contrib-glow-strength">Glow intensity: <strong id="contrib-glow-value">22%</strong></label><input id="contrib-glow-strength" type="range" min="0" max="70" value="22" step="1"></div>
+                <div class="field full"><div class="form-actions"><button class="button primary" type="button" id="save-contrib-appearance">Save appearance</button><button class="button" type="button" id="reset-contrib-appearance">Reset colors</button></div><p class="notice" id="contrib-appearance-status" aria-live="polite"></p></div>
               </form>
             </div>
             <hr style="border:0;border-top:1px solid var(--line);margin:28px 0 22px">
@@ -479,7 +492,7 @@
     let categoryScreenOpen = false;
     let currentUser = null;
     let editingAnimation = null;
-    let profileSettings = { discord_username: "@banikta", avatar_url: "" };
+    let profileSettings = { discord_username: "@banikta", avatar_url: "", contrib_card_color: "#0f1912", contrib_gradient_a: "#16321f", contrib_gradient_b: "#0a110c", contrib_glow_color: "#438b55", contrib_glow_strength: 22 };
     let contributedCategories = [];
     let contributedItems = [];
     let editingContribution = null;
@@ -786,14 +799,37 @@
       renderAvatar($("public-avatar"), profileSettings.avatar_url);
       renderAvatar($("admin-avatar-preview"), profileSettings.avatar_url);
       if ($("discord-username")) $("discord-username").value = username;
+      applyContributedAppearance(profileSettings);
+      const appearanceFields = {"contrib-card-color":"contrib_card_color", "contrib-gradient-a":"contrib_gradient_a", "contrib-gradient-b":"contrib_gradient_b", "contrib-glow-color":"contrib_glow_color", "contrib-glow-strength":"contrib_glow_strength"};
+      for (const [field, key] of Object.entries(appearanceFields)) if ($(field)) $(field).value = profileSettings[key] ?? (field === "contrib-glow-strength" ? 22 : "#0f1912");
+      if ($("contrib-glow-value")) $("contrib-glow-value").textContent = `${Number(profileSettings.contrib_glow_strength ?? 22)}%`;
+    }
+
+    function applyContributedAppearance(settings) {
+      const root = document.documentElement;
+      root.style.setProperty("--contrib-card", settings.contrib_card_color || "#0f1912");
+      root.style.setProperty("--contrib-gradient-a", settings.contrib_gradient_a || "#16321f");
+      root.style.setProperty("--contrib-gradient-b", settings.contrib_gradient_b || "#0a110c");
+      root.style.setProperty("--contrib-glow", settings.contrib_glow_color || "#438b55");
+      root.style.setProperty("--contrib-glow-strength", Math.max(0, Math.min(70, Number(settings.contrib_glow_strength ?? 22))) / 100);
+    }
+
+    function readContributedAppearanceForm() {
+      return {
+        contrib_card_color: $("contrib-card-color").value,
+        contrib_gradient_a: $("contrib-gradient-a").value,
+        contrib_gradient_b: $("contrib-gradient-b").value,
+        contrib_glow_color: $("contrib-glow-color").value,
+        contrib_glow_strength: Number($("contrib-glow-strength").value)
+      };
     }
 
     async function loadProfileSettings() {
       if (!supabaseClient) return;
       try {
-        const { data, error } = await supabaseClient.from("portfolio_settings").select("discord_username,avatar_url").eq("id", 1).maybeSingle();
+        const { data, error } = await supabaseClient.from("portfolio_settings").select("discord_username,avatar_url,contrib_card_color,contrib_gradient_a,contrib_gradient_b,contrib_glow_color,contrib_glow_strength").eq("id", 1).maybeSingle();
         if (error) throw error;
-        if (data) profileSettings = { discord_username: data.discord_username || "@banikta", avatar_url: data.avatar_url || "" };
+        if (data) profileSettings = { discord_username: data.discord_username || "@banikta", avatar_url: data.avatar_url || "", contrib_card_color: data.contrib_card_color || "#0f1912", contrib_gradient_a: data.contrib_gradient_a || "#16321f", contrib_gradient_b: data.contrib_gradient_b || "#0a110c", contrib_glow_color: data.contrib_glow_color || "#438b55", contrib_glow_strength: Number(data.contrib_glow_strength ?? 22) };
         renderProfileSettings();
       } catch (error) {
         console.warn("Could not load public profile settings. Run the setup SQL from the instructions.", error.message);
@@ -1386,10 +1422,10 @@ Cancel to keep this category.`);
           if (uploadError) throw uploadError;
           avatarUrl = supabaseClient.storage.from(BUCKET).getPublicUrl(path).data.publicUrl;
         }
-        const row = { id: 1, discord_username: username, avatar_url: avatarUrl };
+        const row = { id: 1, discord_username: username, avatar_url: avatarUrl, ...readContributedAppearanceForm() };
         const { error } = await supabaseClient.from("portfolio_settings").upsert(row, { onConflict: "id" });
         if (error) throw error;
-        profileSettings = { discord_username: username, avatar_url: avatarUrl || "" };
+        profileSettings = { ...profileSettings, ...row, discord_username: username, avatar_url: avatarUrl || "" };
         renderProfileSettings();
         $("profile-avatar-file").value = "";
         $("profile-save-note").textContent = "Saved! The public popup is updated.";
@@ -1400,6 +1436,48 @@ Cancel to keep this category.`);
       } finally {
         button.disabled = false;
       }
+    });
+
+    ["contrib-card-color", "contrib-gradient-a", "contrib-gradient-b", "contrib-glow-color", "contrib-glow-strength"].forEach(id => {
+      $(id).addEventListener("input", () => {
+        const previewSettings = readContributedAppearanceForm();
+        applyContributedAppearance(previewSettings);
+        $("contrib-glow-value").textContent = `${previewSettings.contrib_glow_strength}%`;
+        $("contrib-appearance-status").textContent = "Preview only — click Save appearance to publish for everyone.";
+      });
+    });
+    $("save-contrib-appearance").addEventListener("click", async () => {
+      if (!currentUser || currentUser.id !== ADMIN_UID) {
+        $("contrib-appearance-status").textContent = "Please sign in with the administrator account.";
+        return;
+      }
+      const button = $("save-contrib-appearance");
+      button.disabled = true;
+      $("contrib-appearance-status").textContent = "Saving…";
+      try {
+        const appearance = readContributedAppearanceForm();
+        const row = { id: 1, discord_username: profileSettings.discord_username || "@banikta", avatar_url: profileSettings.avatar_url || null, ...appearance };
+        const { error } = await supabaseClient.from("portfolio_settings").upsert(row, { onConflict: "id" });
+        if (error) throw error;
+        profileSettings = { ...profileSettings, ...appearance };
+        applyContributedAppearance(profileSettings);
+        $("contrib-appearance-status").textContent = "Saved! Visitors will see the new colors.";
+      } catch (error) {
+        $("contrib-appearance-status").textContent = (error.message || "Could not save colors.") + " If columns are missing, run the appearance SQL provided with this file.";
+      } finally {
+        button.disabled = false;
+      }
+    });
+    $("reset-contrib-appearance").addEventListener("click", () => {
+      $("contrib-card-color").value = "#0f1912";
+      $("contrib-gradient-a").value = "#16321f";
+      $("contrib-gradient-b").value = "#0a110c";
+      $("contrib-glow-color").value = "#438b55";
+      $("contrib-glow-strength").value = "22";
+      const defaults = readContributedAppearanceForm();
+      applyContributedAppearance(defaults);
+      $("contrib-glow-value").textContent = "22%";
+      $("contrib-appearance-status").textContent = "Default preview restored. Click Save appearance to publish it.";
     });
 
     initialize();
