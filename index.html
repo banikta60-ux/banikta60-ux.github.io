@@ -1,223 +1,312 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0a120d">
   <title>Banikta — Roblox Animator</title>
   <meta name="description" content="Roblox animation portfolio by Banikta.">
   <style>
+    :root {
+      --bg: #0a120d;
+      --surface: #111d16;
+      --surface-2: #16271d;
+      --line: #22402f;
+      --text: #e8f4ec;
+      --muted: #8aa597;
+      --green: #5ee08f;
+      --green-deep: #0d3b21;
+      --danger: #ff8080;
+    }
+
     * { box-sizing: border-box; }
+    [hidden] { display: none !important; }
 
     body {
       margin: 0;
-      background: #0c0c0f;
-      color: #f3f3f5;
-      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Trebuchet MS", "Segoe UI", system-ui, -apple-system, sans-serif;
+      line-height: 1.5;
     }
 
     a { color: inherit; text-decoration: none; }
 
+    :focus-visible { outline: 2px solid var(--green); outline-offset: 3px; }
+
     header {
       max-width: 1100px;
       margin: auto;
-      padding: 26px 24px;
+      padding: 24px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-bottom: 1px solid #242429;
+      border-bottom: 1px solid var(--line);
     }
 
-    .logo { font-weight: 700; letter-spacing: 1px; }
+    .logo { font-weight: 700; letter-spacing: 2px; color: var(--green); }
 
-    nav { display: flex; gap: 24px; color: #aaaab4; font-size: 14px; }
-    nav a:hover, .socials a:hover { color: white; }
+    nav { display: flex; gap: 22px; color: var(--muted); font-size: 15px; }
+    nav a:hover, nav a:focus-visible { color: var(--green); }
 
     main { max-width: 1100px; margin: auto; padding: 0 24px; }
 
-    .hero { padding: 100px 0 65px; }
+    .hero { padding: 90px 0 55px; }
 
-    .eyebrow {
-      color: #9999a5;
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 2px;
+    .tag {
+      display: inline-block;
+      border: 1px solid var(--green);
+      color: var(--green);
+      border-radius: 999px;
+      padding: 5px 14px;
+      font-size: 14px;
     }
 
     h1 {
-      font-size: clamp(42px, 7vw, 76px);
-      letter-spacing: -3px;
-      margin: 18px 0;
+      font-size: clamp(44px, 8vw, 86px);
+      letter-spacing: -2px;
+      line-height: 1.05;
+      margin: 22px 0 18px;
     }
 
-    .intro {
-      color: #a7a7b2;
-      font-size: 17px;
-      line-height: 1.7;
-      max-width: 520px;
-    }
+    .intro { color: var(--muted); font-size: 18px; max-width: 520px; margin: 0; }
 
-    section { padding: 35px 0 75px; }
+    section { padding: 30px 0 70px; }
 
     .section-heading {
       display: flex;
       justify-content: space-between;
       align-items: baseline;
       gap: 12px;
-      margin-bottom: 25px;
+      margin-bottom: 20px;
     }
 
-    h2 { font-size: 27px; margin: 0; }
-    .muted { color: #888894; font-size: 13px; }
+    h2 { font-size: 28px; margin: 0; }
+    h3 { margin: 0 0 6px; font-size: 18px; }
+    .muted { color: var(--muted); font-size: 14px; }
+    .small { font-size: 13px; }
 
-    .projects {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 24px;
+    /* ---------- category chips ---------- */
+    .chips { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 22px; }
+
+    .chip {
+      font: inherit;
+      font-size: 14px;
+      color: var(--text);
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 8px 16px;
+      cursor: pointer;
+    }
+    .chip:hover { border-color: var(--green); }
+    .chip[aria-pressed="true"] { background: var(--green); border-color: var(--green); color: #04210f; font-weight: 700; }
+    .chip .count { opacity: .7; margin-left: 6px; }
+
+    /* ---------- carousel ---------- */
+    .track {
+      position: relative;
+      display: flex;
+      gap: 20px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      padding-bottom: 14px;
+      scrollbar-width: thin;
+      scrollbar-color: var(--green) var(--surface);
     }
 
-    .project {
-      background: #141418;
-      border: 1px solid #26262d;
-      border-radius: 12px;
+    .card {
+      flex: 0 0 min(560px, 88%);
+      scroll-snap-align: start;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 20px;
       overflow: hidden;
     }
 
-    .video {
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      display: block;
-      border: 0;
-      background: #08080a;
+    .media { width: 100%; aspect-ratio: 16 / 9; background: #050a07; display: flex; align-items: center; justify-content: center; }
+    .media iframe, .media video { width: 100%; height: 100%; border: 0; display: block; background: #050a07; }
+    .media-fallback { color: var(--muted); padding: 20px; text-align: center; margin: 0; }
+
+    .card-info { padding: 16px 18px 20px; }
+    .card-info p { margin: 0; color: var(--muted); font-size: 14px; white-space: pre-line; }
+    .cat-tag {
+      display: inline-block;
+      font-size: 12px;
+      color: var(--green);
+      background: var(--green-deep);
+      border-radius: 999px;
+      padding: 2px 10px;
+      margin-bottom: 10px;
     }
 
-    .project-info { padding: 17px 18px 20px; }
-    h3 { margin: 0 0 8px; font-size: 17px; }
-    .project-info p { margin: 0; color: #9999a5; font-size: 14px; }
+    .controls { display: flex; align-items: center; justify-content: center; gap: 18px; margin-top: 6px; }
+    .arrow {
+      width: 46px; height: 46px;
+      border-radius: 50%;
+      border: 1px solid var(--green);
+      background: transparent;
+      color: var(--green);
+      font-size: 22px;
+      line-height: 1;
+      cursor: pointer;
+    }
+    .arrow:hover:not(:disabled) { background: var(--green); color: #04210f; }
+    .arrow:disabled { opacity: .3; cursor: default; }
+    .counter { min-width: 70px; text-align: center; color: var(--muted); font-size: 15px; }
 
-    .empty-note {
-      color: #92929d;
-      border: 1px dashed #303038;
-      border-radius: 12px;
+    .note {
+      color: var(--muted);
+      border: 1px dashed var(--line);
+      border-radius: 16px;
       padding: 24px;
-      line-height: 1.7;
-      grid-column: 1 / -1;
+      margin: 0;
     }
+    .note.error { color: var(--danger); border-color: var(--danger); }
 
-    .contact-text {
-      color: #a7a7b2;
-      line-height: 1.7;
-      max-width: 500px;
-    }
-
+    /* ---------- contact ---------- */
+    .contact-text { color: var(--muted); max-width: 500px; margin: 0; }
     .socials { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 22px; }
-
     .socials a, .discord {
-      border: 1px solid #34343d;
-      border-radius: 8px;
-      padding: 12px 16px;
-      font-size: 14px;
-      background: #141418;
+      border: 1px solid var(--green);
+      border-radius: 999px;
+      padding: 11px 20px;
+      font-size: 15px;
+      background: var(--surface);
     }
+    .socials a:hover { background: var(--green); color: #04210f; }
 
     footer {
-      border-top: 1px solid #242429;
-      color: #777782;
-      padding: 25px 24px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      padding: 24px;
       text-align: center;
       font-size: 13px;
     }
 
+    /* ---------- buttons & forms (admin) ---------- */
+    .btn {
+      font: inherit;
+      font-size: 15px;
+      font-weight: 700;
+      background: var(--green);
+      color: #04210f;
+      border: 1px solid var(--green);
+      border-radius: 999px;
+      padding: 11px 22px;
+      cursor: pointer;
+      display: inline-block;
+    }
+    .btn.ghost { background: transparent; color: var(--green); }
+    .btn.danger { background: transparent; color: var(--danger); border-color: var(--danger); }
+    .btn.small { font-size: 13px; padding: 7px 14px; }
+    .btn:disabled { opacity: .5; cursor: not-allowed; }
+
+    .admin { padding: 40px 0 70px; }
+    .admin-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 18px; }
+
+    .msg {
+      position: sticky;
+      top: 10px;
+      z-index: 5;
+      border-radius: 12px;
+      padding: 12px 16px;
+      margin-bottom: 18px;
+      border: 1px solid var(--line);
+      background: var(--surface-2);
+    }
+    .msg.ok { border-color: var(--green); color: var(--green); }
+    .msg.err { border-color: var(--danger); color: var(--danger); }
+
+    .box {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 22px;
+      margin-bottom: 22px;
+    }
+    .box h3 { font-size: 20px; margin-bottom: 14px; }
+
+    label { display: block; font-size: 14px; color: var(--muted); margin: 14px 0 6px; }
+    input[type="text"], input[type="email"], input[type="password"], input[type="url"], select, textarea {
+      width: 100%;
+      font: inherit;
+      color: var(--text);
+      background: #0b1510;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 11px 12px;
+    }
+    textarea { min-height: 90px; resize: vertical; }
+    input[type="file"] { color: var(--muted); max-width: 100%; }
+    .radios { display: flex; gap: 20px; flex-wrap: wrap; margin-top: 4px; }
+    .radios label { display: flex; align-items: center; gap: 8px; margin: 0; color: var(--text); }
+    .form-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 20px; }
+    .inline-form { display: flex; gap: 12px; flex-wrap: wrap; }
+    .inline-form input { flex: 1 1 200px; width: auto; }
+    .hint { color: var(--muted); font-size: 13px; margin: 6px 0 0; }
+
+    .row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 0;
+      border-top: 1px solid var(--line);
+    }
+    .row:first-of-type { border-top: 0; }
+    .row-main { display: flex; flex-direction: column; min-width: 0; }
+    .row-main strong { overflow-wrap: anywhere; }
+    .row-actions { display: flex; gap: 8px; flex-shrink: 0; }
+
+    .whoami { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 18px; color: var(--muted); }
+
     @media (max-width: 650px) {
-      header { padding: 20px 18px; }
-      nav { gap: 13px; }
+      header { padding: 18px; }
+      nav { gap: 14px; font-size: 14px; }
       main { padding: 0 18px; }
-      .hero { padding-top: 75px; }
-      .projects { grid-template-columns: 1fr; }
-      h1 { letter-spacing: -2px; }
+      .hero { padding-top: 60px; }
+      h1 { letter-spacing: -1px; }
+      .row { flex-direction: column; align-items: flex-start; }
     }
   </style>
 </head>
 <body>
   <header>
-    <a class="logo" href="#">BANIKTA</a>
+    <a class="logo" href="#top">BANIKTA</a>
     <nav>
       <a href="#animations">Animations</a>
       <a href="#contact">Contact</a>
+      <a href="#admin">Admin</a>
     </nav>
   </header>
 
-  <main>
-    <div class="hero">
-      <div class="eyebrow">Roblox Animator</div>
+  <noscript><main><p class="note">This site needs JavaScript to show the animations.</p></main></noscript>
+
+  <!-- ================= PUBLIC SITE ================= -->
+  <main id="siteView">
+    <div class="hero" id="top">
+      <span class="tag">Roblox animator</span>
       <h1>Hi, I'm Banikta.</h1>
-      <p class="intro">
-        I make animations for Roblox. Here are some of my works.
-      </p>
+      <p class="intro">I make animations for Roblox. Here are some of my works.</p>
     </div>
 
     <section id="animations">
       <div class="section-heading">
         <h2>Animations</h2>
-        <span class="muted">Selected works</span>
+        <span class="muted">Flip through them</span>
       </div>
 
-      <div class="projects">
-        <!-- VIDEO 1: Replace VIDEO_ID with your YouTube video ID -->
-        <article class="project">
-          <iframe class="video"
-            src="https://www.youtube.com/embed/VIDEO_ID_1"
-            title="Animation 1"
-            loading="lazy"
-            allowfullscreen>
-          </iframe>
-          <div class="project-info">
-            <h3>Animation 01</h3>
-            <p>Roblox animation</p>
-          </div>
-        </article>
+      <div id="chips" class="chips" hidden></div>
+      <p id="animStatus" class="note">Loading animations…</p>
 
-        <!-- VIDEO 2 -->
-        <article class="project">
-          <iframe class="video"
-            src="https://www.youtube.com/embed/VIDEO_ID_2"
-            title="Animation 2"
-            loading="lazy"
-            allowfullscreen>
-          </iframe>
-          <div class="project-info">
-            <h3>Animation 02</h3>
-            <p>Roblox animation</p>
-          </div>
-        </article>
-
-        <!-- VIDEO 3 -->
-        <article class="project">
-          <iframe class="video"
-            src="https://www.youtube.com/embed/VIDEO_ID_3"
-            title="Animation 3"
-            loading="lazy"
-            allowfullscreen>
-          </iframe>
-          <div class="project-info">
-            <h3>Animation 03</h3>
-            <p>Roblox animation</p>
-          </div>
-        </article>
-
-        <!-- VIDEO 4 -->
-        <article class="project">
-          <iframe class="video"
-            src="https://www.youtube.com/embed/VIDEO_ID_4"
-            title="Animation 4"
-            loading="lazy"
-            allowfullscreen>
-          </iframe>
-          <div class="project-info">
-            <h3>Animation 04</h3>
-            <p>Roblox animation</p>
-          </div>
-        </article>
+      <div id="carousel" hidden>
+        <div id="track" class="track" tabindex="0" aria-label="Animations"></div>
+        <div id="controls" class="controls">
+          <button id="prevBtn" class="arrow" type="button" aria-label="Previous animation">&#8249;</button>
+          <span id="counter" class="counter" aria-live="polite"></span>
+          <button id="nextBtn" class="arrow" type="button" aria-label="Next animation">&#8250;</button>
+        </div>
       </div>
     </section>
 
@@ -225,9 +314,7 @@
       <div class="section-heading">
         <h2>Contact</h2>
       </div>
-      <p class="contact-text">
-        Want to contact me? You can find me here.
-      </p>
+      <p class="contact-text">Wanna talk? You can find me here.</p>
 
       <div class="socials">
         <a href="https://www.youtube.com/@Banikta60" target="_blank" rel="noopener noreferrer">YouTube</a>
@@ -237,12 +324,754 @@
     </section>
   </main>
 
+  <!-- ================= ADMIN AREA ================= -->
+  <main id="adminView" class="admin" hidden>
+    <div class="admin-head">
+      <h2>Admin</h2>
+      <a class="btn ghost small" href="#animations">Back to site</a>
+    </div>
+
+    <div id="adminMsg" class="msg" role="status" aria-live="polite" hidden></div>
+
+    <p id="authLoading" class="note">Checking login…</p>
+
+    <form id="loginBox" class="box" hidden>
+      <h3>Sign in</h3>
+      <label for="loginEmail">Email</label>
+      <input id="loginEmail" type="email" autocomplete="username" required>
+      <label for="loginPass">Password</label>
+      <input id="loginPass" type="password" autocomplete="current-password" required>
+      <div class="form-actions">
+        <button id="loginBtn" class="btn" type="submit">Sign in</button>
+      </div>
+    </form>
+
+    <div id="deniedBox" class="box" hidden>
+      <h3>No access</h3>
+      <p class="muted">This account is not the admin of this site, so it can't change anything.</p>
+      <div class="form-actions">
+        <button id="deniedOut" class="btn ghost" type="button">Sign out</button>
+      </div>
+    </div>
+
+    <div id="panel" hidden>
+      <div class="whoami">
+        <span>Signed in as <strong id="who"></strong></span>
+        <button id="signOutBtn" class="btn ghost small" type="button">Sign out</button>
+      </div>
+
+      <form id="formBox" class="box">
+        <h3 id="formTitle">Add animation</h3>
+
+        <label for="fTitle">Title</label>
+        <input id="fTitle" type="text" maxlength="120" required>
+
+        <label for="fDesc">Description (optional)</label>
+        <textarea id="fDesc" maxlength="1000"></textarea>
+
+        <label for="fCat">Category</label>
+        <select id="fCat"></select>
+
+        <label>Video</label>
+        <div class="radios">
+          <label><input type="radio" name="vtype" value="youtube" checked> YouTube link</label>
+          <label><input type="radio" name="vtype" value="upload"> Upload a file</label>
+        </div>
+
+        <div id="ytRow">
+          <label for="fYt">YouTube link</label>
+          <input id="fYt" type="url" placeholder="https://www.youtube.com/watch?v=...">
+          <p class="hint">Works with youtube.com/watch, youtu.be and youtube.com/shorts links.</p>
+        </div>
+
+        <div id="fileRow" hidden>
+          <label for="fFile">Video file</label>
+          <input id="fFile" type="file" accept="video/mp4,video/webm">
+          <p id="fileHint" class="hint">MP4 or WebM, up to 50 MB.</p>
+        </div>
+
+        <div class="form-actions">
+          <button id="saveBtn" class="btn" type="submit" data-idle="Add animation">Add animation</button>
+          <button id="cancelBtn" class="btn ghost" type="button" hidden>Cancel editing</button>
+        </div>
+      </form>
+
+      <form id="catBox" class="box">
+        <h3>Add category</h3>
+        <div class="inline-form">
+          <input id="catName" type="text" maxlength="40" placeholder="Category name" aria-label="Category name">
+          <button id="catBtn" class="btn" type="submit" data-idle="Add category">Add category</button>
+        </div>
+        <p id="catList" class="hint"></p>
+      </form>
+
+      <div class="box">
+        <h3>Your works</h3>
+        <div id="adminList"></div>
+      </div>
+    </div>
+  </main>
+
   <footer>
     © <span id="year"></span> Banikta
   </footer>
 
+  <!-- Supabase JS library (pinned version) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.81.1/dist/umd/supabase.js"></script>
+
   <script>
-    document.getElementById("year").textContent = new Date().getFullYear();
+  (function () {
+    "use strict";
+
+    /* =====================================================
+       SETTINGS
+       >>> Paste your Supabase PUBLISHABLE key between the
+           quotes on the SUPABASE_KEY line below. <<<
+       Never put a secret / service_role key here.
+       ===================================================== */
+    const SUPABASE_URL = "https://rbaiursuzlvyyqdtctnq.supabase.co";
+    const SUPABASE_KEY = "PASTE_YOUR_PUBLISHABLE_KEY_HERE";
+    const ADMIN_UID = "3ca1b373-147a-4b86-90e9-c2806812edb4";
+    const BUCKET = "portfolio-videos";
+    const MAX_MB = 50;
+    /* ===================================================== */
+
+    const $ = (id) => document.getElementById(id);
+    const reduceMotion = !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+
+    let sb = null;
+    let setupProblem = null;
+    if (!SUPABASE_KEY || SUPABASE_KEY.indexOf("PASTE_") === 0) {
+      setupProblem = "The site isn't connected to the database yet: the Supabase key is missing in index.html.";
+    } else if (!window.supabase || !window.supabase.createClient) {
+      setupProblem = "Couldn't load the Supabase library. Check your connection and refresh the page.";
+    } else {
+      sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    }
+
+    const state = {
+      categories: [],
+      animations: [],
+      activeCat: "all",
+      session: null,
+      loaded: false,
+      error: null
+    };
+    let editingId = null;
+    let busy = false;
+
+    /* ---------- small helpers ---------- */
+    function el(tag, attrs, children) {
+      const node = document.createElement(tag);
+      if (attrs) {
+        Object.keys(attrs).forEach(function (k) {
+          const v = attrs[k];
+          if (k === "class") node.className = v;
+          else if (k === "text") node.textContent = v;
+          else if (k.indexOf("on") === 0) node.addEventListener(k.slice(2), v);
+          else node.setAttribute(k, v);
+        });
+      }
+      (children || []).forEach(function (c) {
+        if (c) node.appendChild(typeof c === "string" ? document.createTextNode(c) : c);
+      });
+      return node;
+    }
+
+    function getYouTubeId(raw) {
+      try {
+        let s = String(raw || "").trim();
+        if (!s) return null;
+        if (!/^https?:\/\//i.test(s)) s = "https://" + s;
+        const u = new URL(s);
+        const host = u.hostname.replace(/^www\./, "").replace(/^m\./, "");
+        let id = null;
+        if (host === "youtu.be") {
+          id = u.pathname.slice(1).split("/")[0];
+        } else if (host === "youtube.com" || host === "music.youtube.com" || host === "youtube-nocookie.com") {
+          if (u.pathname === "/watch") {
+            id = u.searchParams.get("v");
+          } else {
+            const m = u.pathname.match(/^\/(shorts|embed|live|v)\/([^/?#]+)/);
+            if (m) id = m[2];
+          }
+        }
+        return id && /^[A-Za-z0-9_-]{11}$/.test(id) ? id : null;
+      } catch (e) {
+        return null;
+      }
+    }
+
+    function catName(id) {
+      const c = state.categories.find(function (x) { return x.id === id; });
+      return c ? c.name : null;
+    }
+
+    function storagePathFromUrl(url) {
+      const prefix = SUPABASE_URL + "/storage/v1/object/public/" + BUCKET + "/";
+      if (!url || url.indexOf(prefix) !== 0) return null;
+      const rest = url.slice(prefix.length).split("?")[0];
+      if (!rest) return null;
+      try { return decodeURIComponent(rest); } catch (e) { return null; }
+    }
+
+    // Removes the stored file for one record, but only if no other record uses the same file.
+    async function removeFileFor(record) {
+      if (!record || record.video_type !== "upload") return { skipped: true };
+      const path = storagePathFromUrl(record.video_url);
+      if (!path) return { skipped: true };
+      const usedElsewhere = state.animations.some(function (a) {
+        return a.id !== record.id && a.video_url === record.video_url;
+      });
+      if (usedElsewhere) return { skipped: true };
+      const res = await sb.storage.from(BUCKET).remove([path]);
+      if (res.error) return { error: res.error };
+      if (!res.data || !res.data.length) return { error: { message: "The file was not removed (no permission or file not found)." } };
+      return { removed: true };
+    }
+
+    function errText(err) {
+      if (!err) return "Unknown error.";
+      const m = err.message || String(err);
+      if (/row-level security|permission denied|not authorized|unauthorized/i.test(m)) {
+        return m + " (You may not have permission. Make sure you're signed in as the admin.)";
+      }
+      return m;
+    }
+
+    /* ---------- loading data ---------- */
+    async function loadData() {
+      const results = await Promise.all([
+        sb.from("categories").select("id,name,created_at").order("name", { ascending: true }),
+        sb.from("animations")
+          .select("id,title,description,category_id,video_type,video_url,created_at")
+          .order("created_at", { ascending: false })
+      ]);
+      if (results[0].error) throw results[0].error;
+      if (results[1].error) throw results[1].error;
+      state.categories = results[0].data || [];
+      state.animations = results[1].data || [];
+    }
+
+    async function refreshData() {
+      try {
+        await loadData();
+        state.loaded = true;
+        state.error = null;
+      } catch (e) {
+        console.error("Load error:", e);
+        state.error = "Couldn't load the animations. Check your connection and refresh the page.";
+      }
+      renderPublic();
+      renderAdmin();
+    }
+
+    /* =====================================================
+       PUBLIC PAGE
+       ===================================================== */
+    const track = $("track");
+    const prevBtn = $("prevBtn");
+    const nextBtn = $("nextBtn");
+
+    function showStatus(text, isError) {
+      const s = $("animStatus");
+      s.textContent = text;
+      s.className = "note" + (isError ? " error" : "");
+      s.hidden = false;
+      $("carousel").hidden = true;
+      $("chips").hidden = true;
+    }
+
+    function buildCard(a) {
+      const media = el("div", { class: "media" });
+      if (a.video_type === "youtube") {
+        const id = getYouTubeId(a.video_url);
+        if (id) {
+          const f = el("iframe", {
+            src: "https://www.youtube.com/embed/" + id + "?rel=0",
+            title: a.title,
+            loading: "lazy",
+            allow: "accelerometer; encrypted-media; picture-in-picture; fullscreen",
+            referrerpolicy: "strict-origin-when-cross-origin"
+          });
+          f.setAttribute("allowfullscreen", "");
+          media.appendChild(f);
+        } else {
+          media.appendChild(el("p", { class: "media-fallback", text: "This video link looks broken." }));
+        }
+      } else if (/^https:\/\//i.test(a.video_url || "")) {
+        const v = el("video", { src: a.video_url, preload: "metadata", title: a.title });
+        v.setAttribute("controls", "");
+        v.setAttribute("playsinline", "");
+        media.appendChild(v);
+      } else {
+        media.appendChild(el("p", { class: "media-fallback", text: "This video file is missing." }));
+      }
+
+      const cname = catName(a.category_id);
+      const info = el("div", { class: "card-info" }, [
+        cname ? el("span", { class: "cat-tag", text: cname }) : null,
+        el("h3", { text: a.title }),
+        a.description ? el("p", { text: a.description }) : null
+      ]);
+      return el("article", { class: "card" }, [media, info]);
+    }
+
+    function renderPublic() {
+      if (setupProblem) { showStatus(setupProblem, true); return; }
+      if (state.error) { showStatus(state.error, true); return; }
+      if (!state.loaded) { showStatus("Loading animations…", false); return; }
+      if (state.animations.length === 0) {
+        showStatus("Nothing here yet, but new animations are on the way. Check back soon!", false);
+        return;
+      }
+
+      // groups (only categories that actually have works)
+      const groups = [];
+      state.categories.forEach(function (c) {
+        const count = state.animations.filter(function (a) { return a.category_id === c.id; }).length;
+        if (count > 0) groups.push({ key: String(c.id), label: c.name, count: count });
+      });
+      const otherCount = state.animations.filter(function (a) { return catName(a.category_id) === null; }).length;
+      if (otherCount > 0) groups.push({ key: "none", label: "Other", count: otherCount });
+
+      const keys = ["all"].concat(groups.map(function (g) { return g.key; }));
+      if (keys.indexOf(state.activeCat) === -1) state.activeCat = "all";
+
+      // chips
+      const chips = $("chips");
+      chips.replaceChildren();
+      if (groups.length > 1) {
+        const all = [{ key: "all", label: "All", count: state.animations.length }].concat(groups);
+        all.forEach(function (g) {
+          const b = el("button", {
+            class: "chip",
+            type: "button",
+            "aria-pressed": String(state.activeCat === g.key),
+            onclick: function () { state.activeCat = g.key; renderPublic(); }
+          }, [g.label, el("span", { class: "count", text: String(g.count) })]);
+          chips.appendChild(b);
+        });
+        chips.hidden = false;
+      } else {
+        chips.hidden = true;
+      }
+
+      // cards
+      const list = state.animations.filter(function (a) {
+        if (state.activeCat === "all") return true;
+        if (state.activeCat === "none") return catName(a.category_id) === null;
+        return String(a.category_id) === state.activeCat;
+      });
+
+      track.replaceChildren();
+      list.forEach(function (a) { track.appendChild(buildCard(a)); });
+      track.scrollLeft = 0;
+
+      $("animStatus").hidden = true;
+      $("carousel").hidden = false;
+      updateCarouselUI();
+    }
+
+    function updateCarouselUI() {
+      const cards = Array.prototype.slice.call(track.children);
+      const n = cards.length;
+      $("controls").hidden = n <= 1;
+      if (!n) return;
+      const max = track.scrollWidth - track.clientWidth;
+      let idx = 0;
+      if (track.scrollLeft >= max - 2 && max > 2) {
+        idx = n - 1;
+      } else {
+        let best = Infinity;
+        cards.forEach(function (c, i) {
+          const d = Math.abs(c.offsetLeft - track.scrollLeft);
+          if (d < best) { best = d; idx = i; }
+        });
+      }
+      $("counter").textContent = (idx + 1) + " of " + n;
+      prevBtn.disabled = track.scrollLeft <= 2;
+      nextBtn.disabled = track.scrollLeft >= max - 2;
+    }
+
+    function step(dir) {
+      const first = track.children[0];
+      if (!first) return;
+      const gap = parseFloat(getComputedStyle(track).columnGap) || 0;
+      track.scrollBy({ left: dir * (first.offsetWidth + gap), behavior: reduceMotion ? "auto" : "smooth" });
+    }
+
+    let ticking = false;
+    track.addEventListener("scroll", function () {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function () { ticking = false; updateCarouselUI(); });
+    }, { passive: true });
+    window.addEventListener("resize", updateCarouselUI);
+    prevBtn.addEventListener("click", function () { step(-1); });
+    nextBtn.addEventListener("click", function () { step(1); });
+
+    /* =====================================================
+       VIEW SWITCHING (#admin)
+       ===================================================== */
+    function route() {
+      const isAdmin = location.hash === "#admin";
+      $("siteView").hidden = isAdmin;
+      $("adminView").hidden = !isAdmin;
+      if (isAdmin) {
+        window.scrollTo(0, 0);
+      } else if (location.hash.length > 1) {
+        const t = document.getElementById(location.hash.slice(1));
+        if (t) t.scrollIntoView();
+      }
+      if (!isAdmin) updateCarouselUI();
+    }
+    window.addEventListener("hashchange", route);
+
+    /* =====================================================
+       ADMIN
+       ===================================================== */
+    function showMsg(text, kind) {
+      const m = $("adminMsg");
+      m.textContent = text;
+      m.className = "msg " + (kind || "info");
+      m.hidden = false;
+    }
+    function clearMsg() { $("adminMsg").hidden = true; }
+
+    function setAdminDisabled(d) {
+      document.querySelectorAll("#adminView button, #adminView input, #adminView select, #adminView textarea")
+        .forEach(function (n) { n.disabled = d; });
+    }
+
+    async function runBusy(btn, busyText, fn) {
+      if (busy) return;
+      busy = true;
+      const old = btn ? btn.textContent : null;
+      setAdminDisabled(true);
+      if (btn) btn.textContent = busyText;
+      try {
+        await fn();
+      } catch (e) {
+        console.error(e);
+        showMsg("Something went wrong: " + errText(e), "err");
+      } finally {
+        busy = false;
+        setAdminDisabled(false);
+        if (btn && btn.isConnected) btn.textContent = btn.dataset.idle || old;
+      }
+    }
+
+    /* ----- auth state ----- */
+    function onAuthChanged() {
+      $("authLoading").hidden = true;
+      if (!sb) {
+        showMsg(setupProblem, "err");
+        $("loginBox").hidden = true; $("deniedBox").hidden = true; $("panel").hidden = true;
+        return;
+      }
+      const s = state.session;
+      const isAdmin = !!(s && s.user && s.user.id === ADMIN_UID);
+      $("loginBox").hidden = !!s;
+      $("deniedBox").hidden = !(s && !isAdmin);
+      $("panel").hidden = !isAdmin;
+      if (isAdmin) {
+        $("who").textContent = s.user.email || "";
+        renderAdmin();
+      }
+    }
+
+    $("loginBox").addEventListener("submit", function (e) {
+      e.preventDefault();
+      runBusy($("loginBtn"), "Signing in…", async function () {
+        const email = $("loginEmail").value.trim();
+        const password = $("loginPass").value;
+        const res = await sb.auth.signInWithPassword({ email: email, password: password });
+        if (res.error) {
+          showMsg("Couldn't sign in. Check your email and password.", "err");
+          return;
+        }
+        $("loginPass").value = "";
+        clearMsg();
+      });
+    });
+
+    function doSignOut(e) {
+      runBusy(e.currentTarget, "Signing out…", async function () {
+        await sb.auth.signOut();
+        resetForm();
+        showMsg("You signed out.", "ok");
+      });
+    }
+    $("signOutBtn").addEventListener("click", doSignOut);
+    $("deniedOut").addEventListener("click", doSignOut);
+
+    /* ----- form helpers ----- */
+    function getVType() {
+      const r = document.querySelector('input[name="vtype"]:checked');
+      return r ? r.value : "youtube";
+    }
+    function setVType(t) {
+      document.querySelectorAll('input[name="vtype"]').forEach(function (r) { r.checked = r.value === t; });
+      syncVType();
+    }
+    function syncVType() {
+      const t = getVType();
+      $("ytRow").hidden = t !== "youtube";
+      $("fileRow").hidden = t !== "upload";
+    }
+    document.querySelectorAll('input[name="vtype"]').forEach(function (r) {
+      r.addEventListener("change", syncVType);
+    });
+
+    function updateFormMode(record) {
+      const editing = editingId !== null;
+      $("formTitle").textContent = editing ? "Edit animation" : "Add animation";
+      const label = editing ? "Save changes" : "Add animation";
+      $("saveBtn").dataset.idle = label;
+      $("saveBtn").textContent = label;
+      $("cancelBtn").hidden = !editing;
+      $("fileHint").textContent = (editing && record && record.video_type === "upload")
+        ? "A file is already uploaded. Pick a new one only if you want to replace it. MP4 or WebM, up to 50 MB."
+        : "MP4 or WebM, up to 50 MB.";
+    }
+
+    function resetForm() {
+      $("formBox").reset();
+      editingId = null;
+      setVType("youtube");
+      updateFormMode(null);
+    }
+
+    function fillCategorySelect() {
+      const sel = $("fCat");
+      const prev = sel.value;
+      sel.replaceChildren(el("option", { value: "", text: "No category" }));
+      state.categories.forEach(function (c) {
+        sel.appendChild(el("option", { value: String(c.id), text: c.name }));
+      });
+      sel.value = prev;
+      if (sel.value !== prev) sel.value = "";
+    }
+
+    function renderAdmin() {
+      fillCategorySelect();
+      $("catList").textContent = state.categories.length
+        ? "Existing categories: " + state.categories.map(function (c) { return c.name; }).join(", ")
+        : "No categories yet.";
+      const list = $("adminList");
+      list.replaceChildren();
+      if (!state.animations.length) {
+        list.appendChild(el("p", { class: "muted", text: "No works yet. Add the first one above." }));
+        return;
+      }
+      state.animations.forEach(function (a) {
+        const row = el("div", { class: "row" }, [
+          el("div", { class: "row-main" }, [
+            el("strong", { text: a.title }),
+            el("span", {
+              class: "muted small",
+              text: (catName(a.category_id) || "No category") + " • " + (a.video_type === "youtube" ? "YouTube" : "Uploaded file")
+            })
+          ]),
+          el("div", { class: "row-actions" }, [
+            el("button", { class: "btn ghost small", type: "button", text: "Edit", onclick: function () { startEdit(a.id); } }),
+            el("button", { class: "btn danger small", type: "button", text: "Delete", onclick: function (e) { onDelete(a.id, e.currentTarget); } })
+          ])
+        ]);
+        list.appendChild(row);
+      });
+    }
+
+    function startEdit(id) {
+      if (busy) return;
+      const a = state.animations.find(function (x) { return x.id === id; });
+      if (!a) return;
+      editingId = id;
+      $("fTitle").value = a.title;
+      $("fDesc").value = a.description || "";
+      $("fCat").value = a.category_id == null ? "" : String(a.category_id);
+      setVType(a.video_type);
+      $("fYt").value = a.video_type === "youtube" ? a.video_url : "";
+      $("fFile").value = "";
+      updateFormMode(a);
+      clearMsg();
+      $("formBox").scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
+      $("fTitle").focus();
+    }
+
+    $("cancelBtn").addEventListener("click", function () {
+      if (busy) return;
+      resetForm();
+      clearMsg();
+    });
+
+    /* ----- save (add / edit) ----- */
+    $("formBox").addEventListener("submit", function (e) {
+      e.preventDefault();
+      runBusy($("saveBtn"), "Saving…", async function () {
+        const title = $("fTitle").value.trim();
+        const description = $("fDesc").value.trim();
+        if (!title) { showMsg("Please enter a title.", "err"); return; }
+
+        const catVal = $("fCat").value;
+        const category_id = catVal === "" ? null : Number(catVal);
+        const type = getVType();
+        const editing = editingId !== null;
+        const existing = editing ? state.animations.find(function (a) { return a.id === editingId; }) : null;
+        if (editing && !existing) { showMsg("That work no longer exists. Refresh the page.", "err"); return; }
+
+        let video_url;
+        let uploadedPath = null;
+
+        if (type === "youtube") {
+          const link = $("fYt").value.trim();
+          if (!getYouTubeId(link)) {
+            showMsg("That doesn't look like a YouTube link. Use a youtube.com/watch, youtu.be or youtube.com/shorts link.", "err");
+            return;
+          }
+          video_url = link;
+        } else {
+          const file = $("fFile").files[0];
+          if (file) {
+            if (file.type !== "video/mp4" && file.type !== "video/webm") {
+              showMsg("Only MP4 or WebM videos are allowed.", "err");
+              return;
+            }
+            if (file.size > MAX_MB * 1024 * 1024) {
+              showMsg("That file is bigger than " + MAX_MB + " MB. Please pick a smaller one.", "err");
+              return;
+            }
+            const ext = file.type === "video/webm" ? "webm" : "mp4";
+            const uid = (window.crypto && crypto.randomUUID)
+              ? crypto.randomUUID()
+              : String(Date.now()) + "-" + Math.random().toString(36).slice(2, 10);
+            uploadedPath = uid + "." + ext;
+            $("saveBtn").textContent = "Uploading video…";
+            const up = await sb.storage.from(BUCKET).upload(uploadedPath, file, {
+              contentType: file.type,
+              cacheControl: "3600",
+              upsert: false
+            });
+            if (up.error) {
+              showMsg("Couldn't upload the video: " + errText(up.error), "err");
+              return;
+            }
+            video_url = sb.storage.from(BUCKET).getPublicUrl(uploadedPath).data.publicUrl;
+            $("saveBtn").textContent = "Saving…";
+          } else if (existing && existing.video_type === "upload") {
+            video_url = existing.video_url; // keep the current file
+          } else {
+            showMsg("Choose a video file to upload.", "err");
+            return;
+          }
+        }
+
+        const payload = {
+          title: title,
+          description: description || null,
+          category_id: category_id,
+          video_type: type,
+          video_url: video_url
+        };
+
+        const res = editing
+          ? await sb.from("animations").update(payload).eq("id", editingId).select()
+          : await sb.from("animations").insert(payload).select();
+
+        if (res.error || !res.data || !res.data.length) {
+          if (uploadedPath) await sb.storage.from(BUCKET).remove([uploadedPath]);
+          showMsg(res.error
+            ? "Couldn't save: " + errText(res.error)
+            : "Nothing was saved. Make sure you're signed in as the admin.", "err");
+          return;
+        }
+
+        let extra = "";
+        if (editing && existing.video_type === "upload" && existing.video_url !== video_url) {
+          const r = await removeFileFor(existing);
+          if (r.error) extra = " The old file could not be deleted from storage.";
+        }
+
+        showMsg((editing ? "Saved." : "Animation added.") + extra, extra ? "info" : "ok");
+        resetForm();
+        await refreshData();
+      });
+    });
+
+    /* ----- delete ----- */
+    function onDelete(id, btn) {
+      if (busy) return;
+      const a = state.animations.find(function (x) { return x.id === id; });
+      if (!a) return;
+      if (!window.confirm('Delete "' + a.title + '"? This can\'t be undone.')) return;
+      runBusy(btn, "Deleting…", async function () {
+        const res = await sb.from("animations").delete().eq("id", id).select();
+        if (res.error) { showMsg("Couldn't delete: " + errText(res.error), "err"); return; }
+        if (!res.data || !res.data.length) {
+          showMsg("Nothing was deleted. Make sure you're signed in as the admin.", "err");
+          return;
+        }
+        // the record is gone from the database; now remove its own uploaded file (if any)
+        const r = await removeFileFor(a);
+        if (editingId === id) resetForm();
+        showMsg(r.error
+          ? "Work deleted, but its video file could not be removed from storage."
+          : "Work deleted.", r.error ? "info" : "ok");
+        await refreshData();
+      });
+    }
+
+    /* ----- add category ----- */
+    $("catBox").addEventListener("submit", function (e) {
+      e.preventDefault();
+      runBusy($("catBtn"), "Adding…", async function () {
+        const name = $("catName").value.trim();
+        if (!name) { showMsg("Type a category name first.", "err"); return; }
+        if (state.categories.some(function (c) { return c.name.toLowerCase() === name.toLowerCase(); })) {
+          showMsg("That category already exists.", "err");
+          return;
+        }
+        const res = await sb.from("categories").insert({ name: name }).select();
+        if (res.error) {
+          showMsg(res.error.code === "23505"
+            ? "That category already exists."
+            : "Couldn't add the category: " + errText(res.error), "err");
+          return;
+        }
+        if (!res.data || !res.data.length) {
+          showMsg("Nothing was saved. Make sure you're signed in as the admin.", "err");
+          return;
+        }
+        $("catName").value = "";
+        showMsg('Category "' + name + '" added.', "ok");
+        await refreshData();
+      });
+    });
+
+    /* =====================================================
+       START
+       ===================================================== */
+    async function init() {
+      $("year").textContent = new Date().getFullYear();
+      route();
+      if (!sb) {
+        renderPublic();
+        onAuthChanged();
+        return;
+      }
+      // Don't await Supabase calls inside this callback (can deadlock), so defer the work.
+      sb.auth.onAuthStateChange(function (_event, session) {
+        state.session = session;
+        setTimeout(onAuthChanged, 0);
+      });
+      resetForm();
+      renderPublic();
+      await refreshData();
+    }
+
+    init();
+  })();
   </script>
 </body>
 </html>
