@@ -724,10 +724,32 @@
       $("contributed-form").scrollIntoView({behavior:"smooth", block:"center"});
     }
 
-    function setContributionPreview(url, name) {
+    function setContributionPreview(url, name, note) {
       const root = $("contributed-preview-avatar");
       root.innerHTML = url ? `<img src="${safeText(url)}" alt="" style="width:100%;height:100%;object-fit:cover" onerror="this.remove();this.parentElement.textContent='${safeText(initials(name))}'">` : safeText(initials(name));
-      $("contributed-preview-note").textContent = url ? "Avatar URL set (auto-loaded or custom)" : "No avatar found yet — initials will be shown as fallback";
+      $("contributed-preview-note").textContent = note || (url ? "Avatar URL set (auto-loaded or custom)" : "No avatar found yet — initials will be shown as fallback");
+    }
+
+    let contributionPreviewRequest = 0;
+    async function refreshContributionPreview() {
+      const requestId = ++contributionPreviewRequest;
+      const name = $("contributed-name").value.trim();
+      const kind = $("contributed-kind").value;
+      const url = normalizeContributionUrl(kind, $("contributed-url").value);
+      const customUrl = normalizeContributionUrl(kind, $("contributed-avatar-url").value);
+      if (customUrl) {
+        setContributionPreview(customUrl, name, "Custom image URL set");
+        return;
+      }
+      if (kind !== "game" || !robloxPlaceId(url)) {
+        setContributionPreview("", name);
+        return;
+      }
+      setContributionPreview("", name, "Looking up this Roblox game's icon...");
+      const imageUrl = await discoverContributionAvatar(kind, url);
+      if (requestId !== contributionPreviewRequest) return;
+      if (imageUrl) setContributionPreview(imageUrl, name, "Roblox icon found");
+      else setContributionPreview("", name, "Roblox did not return an icon. You can paste a direct image URL above.");
     }
 
     function renderFilters() {
@@ -1277,8 +1299,10 @@ Cancel to keep this category.`);
     });
 
 
-    $("contributed-name").addEventListener("input", () => setContributionPreview($("contributed-avatar-url").value.trim(), $("contributed-name").value));
-    $("contributed-avatar-url").addEventListener("input", () => setContributionPreview($("contributed-avatar-url").value.trim(), $("contributed-name").value));
+    $("contributed-name").addEventListener("input", () => refreshContributionPreview());
+    $("contributed-url").addEventListener("input", () => refreshContributionPreview());
+    $("contributed-kind").addEventListener("change", () => refreshContributionPreview());
+    $("contributed-avatar-url").addEventListener("input", () => refreshContributionPreview());
 
     $("contributed-form").addEventListener("submit", async event => {
       event.preventDefault();
