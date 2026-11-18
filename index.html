@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#0b0d0e">
+  <meta name="theme-color" content="#0b160d">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='15' fill='%23148A0F'/%3E%3C/svg%3E">
   <meta name="description" content="Banikta — Roblox animator. A collection of animation work and experiments.">
   <title>Banikta — Roblox Animator</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,19 +13,19 @@
   <style>
     :root {
       color-scheme: dark;
-      --bg: #080d0a;
-      --panel: #0e1711;
-      --panel-2: #142019;
-      --line: rgba(177, 205, 184, .10);
-      --text: #e8efe9;
-      --muted: #9aa99d;
-      --accent: #3f8057;
-      --accent-ink: #f0f7f1;
-      --contrib-card: #0f1912;
-      --contrib-gradient-a: #16321f;
-      --contrib-gradient-b: #0a110c;
-      --contrib-glow: #438b55;
-      --contrib-glow-strength: .22;
+      --bg: #071109;
+      --panel: #101d13;
+      --panel-2: #17271a;
+      --line: rgba(190, 222, 190, .14);
+      --text: #f0f6ef;
+      --muted: #b0c0b0;
+      --accent: #13a80d;
+      --accent-ink: #f5fff2;
+      --contrib-card: #132218;
+      --contrib-gradient-a: #1b3820;
+      --contrib-gradient-b: #0e1911;
+      --contrib-glow: #13a80d;
+      --contrib-glow-strength: .12;
       --danger: #ffaaa5;
       --radius: 22px;
       --max: 1080px;
@@ -33,7 +34,7 @@
     html { scroll-behavior: smooth; }
     body {
       margin: 0;
-      background: var(--bg);
+      background: linear-gradient(145deg, #071109 0%, #0a1b0d 48%, #071109 100%);
       color: var(--text); font-family: "DM Sans", sans-serif; line-height: 1.6;
       isolation: isolate; position: relative;
     }
@@ -41,15 +42,15 @@
     body::before {
       content: ""; position: fixed; inset: 0; z-index: 0; pointer-events: none;
       background:
-        radial-gradient(ellipse at 12% 18%, rgba(17, 91, 48, .28), transparent 38%),
-        radial-gradient(ellipse at 86% 30%, rgba(24, 91, 47, .23), transparent 35%),
-        radial-gradient(ellipse at 54% 88%, rgba(13, 79, 48, .24), transparent 42%);
+        radial-gradient(ellipse at 12% 18%, rgba(19, 168, 13, .20), transparent 38%),
+        radial-gradient(ellipse at 86% 30%, rgba(19, 168, 13, .15), transparent 35%),
+        radial-gradient(ellipse at 54% 88%, rgba(19, 168, 13, .13), transparent 42%);
       opacity: .9; transform: translate3d(0, 0, 0);
       animation: auroraShift 24s ease-in-out infinite alternate;
     }
     body::after {
       content: ""; position: fixed; inset: 0; z-index: 0; pointer-events: none;
-      background: radial-gradient(ellipse at 50% 50%, rgba(25, 83, 47, .10), transparent 65%);
+      background: radial-gradient(ellipse at 50% 50%, rgba(19, 168, 13, .09), transparent 65%);
       opacity: .8;
     }
     body > * { position: relative; z-index: 1; }
@@ -83,8 +84,8 @@
     .brand-mark { width: 28px; height: 28px; border-radius: 9px; display: grid; place-items: center; color: var(--accent-ink); background: var(--accent); font-size: 14px; }
     .nav { display: flex; gap: 10px; align-items: center; color: var(--muted); font-size: 15px; }
     .nav a { display: inline-flex; align-items: center; justify-content: center; padding: 11px 19px; border: 1px solid transparent; border-radius: 999px; transition: background .2s, border-color .2s, color .2s, transform .2s; }
-    .nav a:hover, .nav-contact:hover { color: var(--accent); border-color: rgba(63,128,87,.22); background: rgba(63,128,87,.07); transform: translateY(-1px); }
-    .nav-contact { display:inline-flex; align-items:center; justify-content:center; padding:11px 19px; border:1px solid rgba(63,128,87,.30); border-radius:999px; color:var(--text); background:rgba(63,128,87,.06); transition:background .25s,border-color .25s,color .25s,transform .25s; }
+    .nav a:hover, .nav-contact:hover { color: var(--accent); border-color: rgba(19,168,13,.22); background: rgba(19,168,13,.07); transform: translateY(-1px); }
+    .nav-contact { display:inline-flex; align-items:center; justify-content:center; padding:11px 19px; border:1px solid rgba(19,168,13,.30); border-radius:999px; color:var(--text); background:rgba(19,168,13,.06); transition:background .25s,border-color .25s,color .25s,transform .25s; }
     .nav a:focus-visible, button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
     .hero { padding: 70px 0 52px; display: grid; grid-template-columns: 1fr auto; gap: 32px; align-items: end; animation: enterUp .9s .16s both; }
     .eyebrow { display: flex; align-items: center; gap: 9px; color: var(--accent); font-size: 12px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
@@ -92,7 +93,7 @@
     h1, h2, h3, p { margin-top: 0; }
     h1 { margin: 18px 0 18px; font: 800 clamp(48px, 8vw, 88px)/.98 Manrope, sans-serif; letter-spacing: -.075em; max-width: 760px; }
     h1 span { color: var(--accent); }
-    .hero-copy { max-width: 680px; color: #bdcdbf; font-size: clamp(16px, 2vw, 19px); letter-spacing: -.015em; }
+    .hero-copy { max-width: 680px; color: #d0dfd1; font-size: clamp(16px, 2vw, 19px); letter-spacing: -.015em; }
     .hero-note { border: 1px solid var(--line); border-radius: 18px; padding: 17px 20px; min-width: 180px; background: rgba(255,255,255,.02); }
     .hero-note strong { display: block; font-family: Manrope, sans-serif; font-size: 14px; }
     .hero-note span { display: block; color: var(--muted); font-size: 12px; margin-top: 4px; }
@@ -103,8 +104,8 @@
     .pricing { padding: 68px 0 74px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: rgba(255,255,255,.018); animation: enterUp .8s both; }
     .pricing-intro { max-width: 620px; color: var(--muted); margin: 12px 0 26px; }
     .price-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
-    .price-card { border: 1px solid rgba(63,128,87,.17); border-radius: 20px; padding: 25px; background: linear-gradient(145deg, rgba(19,34,24,.96), rgba(9,16,11,.99)); box-shadow: 0 12px 35px rgba(0,0,0,.12); }
-    .price-card.featured { border-color: rgba(63,128,87,.42); box-shadow: 0 0 35px rgba(37,91,55,.06); }
+    .price-card { border: 1px solid rgba(19,168,13,.17); border-radius: 20px; padding: 25px; background: linear-gradient(145deg, rgba(25,48,29,.96), rgba(13,27,16,.99)); box-shadow: 0 12px 35px rgba(0,0,0,.12); }
+    .price-card.featured { border-color: rgba(19,168,13,.42); box-shadow: 0 0 35px rgba(37,91,55,.06); }
     .price-type { color: var(--accent); text-transform: uppercase; letter-spacing: .14em; font-size: 11px; font-weight: 800; }
     .price-amount { margin: 10px 0 4px; font: 800 clamp(30px,4vw,42px)/1.1 Manrope,sans-serif; letter-spacing: -.055em; }
     .price-amount span { font-size: 14px; font-weight: 600; letter-spacing: 0; color: var(--muted); }
@@ -119,17 +120,17 @@
     .filters {
       display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px;
       position: sticky; top: 10px; z-index: 5; padding: 10px;
-      border: 1px solid rgba(63,128,87,.12); border-radius: 16px;
-      background: rgba(13, 20, 15, .97);
+      border: 1px solid rgba(19,168,13,.12); border-radius: 16px;
+      background: rgba(13, 29, 16, .97);
       box-shadow: 0 10px 35px rgba(0,0,0,.12);
     }
     .filter { flex: 0 0 auto; border: 1px solid var(--line); background: rgba(255,255,255,.025); color: var(--muted); border-radius: 999px; padding: 8px 14px; font-size: 13px; transition: .2s; }
     .filter:hover, .filter.active { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); box-shadow: 0 0 22px rgba(37, 91, 55, .12); }
     .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 15px; align-items: start; }
-    .card { content-visibility: auto; contain-intrinsic-size: auto 250px; min-width: 0; border: 1px solid rgba(233,241,224,.11); background: linear-gradient(145deg, rgba(18,30,22,.97), rgba(10,17,12,.99)); border-radius: 18px; overflow: hidden; transition: transform .32s cubic-bezier(.2,.8,.2,1), border-color .32s ease, box-shadow .32s ease; animation: cardEnter .65s cubic-bezier(.2,.8,.2,1) both; }
+    .card { content-visibility: auto; contain-intrinsic-size: auto 250px; min-width: 0; border: 1px solid rgba(233,241,224,.11); background: linear-gradient(145deg, rgba(24,43,27,.97), rgba(13,25,16,.99)); border-radius: 18px; overflow: hidden; transition: transform .32s cubic-bezier(.2,.8,.2,1), border-color .32s ease, box-shadow .32s ease; animation: cardEnter .65s cubic-bezier(.2,.8,.2,1) both; }
     .card:nth-child(3n + 2) { animation-delay: .07s; }
     .card:nth-child(3n) { animation-delay: .14s; }
-    .card:hover { transform: translateY(-4px); border-color: rgba(63,128,87,.42); box-shadow: 0 16px 38px rgba(0,0,0,.22), 0 0 25px rgba(37,91,55,.05); }
+    .card:hover { transform: translateY(-4px); border-color: rgba(19,168,13,.42); box-shadow: 0 16px 38px rgba(0,0,0,.22), 0 0 25px rgba(37,91,55,.05); }
     .media { aspect-ratio: 16 / 9; background: #070c08; position: relative; overflow: hidden; }
     .media iframe, .media video { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; object-fit: cover; }
     .yt-preview { position: absolute; inset: 0; width: 100%; height: 100%; padding: 0; border: 0; background: #070c08; color: white; display: grid; place-items: center; }
@@ -170,7 +171,7 @@
     .contact p { color: var(--muted); margin: 12px 0 0; }
     .links { display: flex; flex-wrap: wrap; gap: 9px; align-items: center; }
     .button, .links a { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: 1px solid var(--line); border-radius: 999px; padding: 11px 17px; font-size: 14px; color: var(--text); background: rgba(255,255,255,.04); transition: .2s; }
-    .contact-trigger { border-color: rgba(63,128,87,.42); background: var(--accent); color: var(--accent-ink); font-weight: 800; box-shadow: 0 0 28px rgba(37,91,55,.10); }
+    .contact-trigger { border-color: rgba(19,168,13,.42); background: var(--accent); color: var(--accent-ink); font-weight: 800; box-shadow: 0 0 28px rgba(37,91,55,.10); }
     .contact-trigger:hover { background: #4b9164 !important; color: var(--accent-ink) !important; transform: translateY(-2px); }
     .button:hover, .links a:hover { border-color: var(--accent); color: var(--accent); }
     .button.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); font-weight: 700; }
@@ -184,9 +185,8 @@
     .contributed-head { display:flex; align-items:end; justify-content:space-between; gap:18px; margin-bottom:22px; }
     .contributed-head h2 { margin-top:7px; }
     .contributed-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px; }
-    .contributed-card { position:relative; isolation:isolate; display:flex; align-items:center; gap:14px; min-width:0; padding:16px; border:1px solid color-mix(in srgb, var(--contrib-glow) 28%, transparent); border-radius:16px; background:linear-gradient(135deg, color-mix(in srgb, var(--contrib-gradient-a) 72%, var(--contrib-card)), var(--contrib-card) 58%, var(--contrib-gradient-b)); text-decoration:none; color:var(--text); transition:border-color .2s, transform .2s, box-shadow .2s; box-shadow:0 0 24px color-mix(in srgb, var(--contrib-glow) calc(var(--contrib-glow-strength) * 100%), transparent); }
-    .contributed-card::before { content:""; position:absolute; z-index:-1; inset:-1px; border-radius:inherit; pointer-events:none; background:radial-gradient(ellipse at 18% 50%, color-mix(in srgb, var(--contrib-glow) calc(var(--contrib-glow-strength) * 100%), transparent), transparent 68%); opacity:.9; }
-    .contributed-card:hover { border-color:color-mix(in srgb, var(--contrib-glow) 70%, transparent); transform:translateY(-2px); box-shadow:0 8px 28px color-mix(in srgb, var(--contrib-glow) calc(var(--contrib-glow-strength) * 130%), transparent); }
+    .contributed-card { position:relative; isolation:isolate; display:flex; align-items:center; gap:14px; min-width:0; padding:16px; border:1px solid rgba(165,211,164,.16); border-radius:16px; background:linear-gradient(135deg, rgba(27,49,30,.96), rgba(15,29,18,.98)); text-decoration:none; color:var(--text); transition:border-color .2s, transform .2s, box-shadow .2s; box-shadow:0 8px 24px rgba(0,0,0,.12); }
+    .contributed-card:hover { border-color:rgba(19,168,13,.48); transform:translateY(-2px); box-shadow:0 10px 28px rgba(0,0,0,.18), 0 0 18px rgba(19,168,13,.08); }
     .contributed-avatar { width:58px; height:58px; flex:0 0 58px; border-radius:15px; overflow:hidden; display:grid; place-items:center; background:rgba(76,128,86,.18); color:var(--accent); font-weight:800; font-size:20px; }
     .contributed-avatar img { width:100%; height:100%; object-fit:cover; display:block; }
     .contributed-info { min-width:0; }
@@ -197,6 +197,16 @@
     .contributed-preview { display:flex; align-items:center; gap:10px; }
     .contributed-preview .contributed-avatar { width:44px; height:44px; flex-basis:44px; }
     @media (max-width:700px) { .contributed-head { align-items:start; flex-direction:column; } .contributed-grid { grid-template-columns:1fr; } }
+
+    .image-lightbox { position:fixed; inset:0; z-index:220; display:grid; place-items:center; padding:24px; background:rgba(2,8,3,.92); opacity:0; visibility:hidden; transition:opacity .24s ease, visibility .24s ease; backdrop-filter:blur(8px); }
+    .image-lightbox.open { opacity:1; visibility:visible; }
+    .image-lightbox img { display:block; max-width:min(94vw,1400px); max-height:88vh; width:auto; height:auto; object-fit:contain; border-radius:14px; box-shadow:0 24px 90px rgba(0,0,0,.48); transform:scale(.94) translateY(8px); transition:transform .28s cubic-bezier(.2,.8,.2,1); }
+    .image-lightbox.open img { transform:scale(1) translateY(0); }
+    .lightbox-close { position:absolute; top:18px; right:20px; width:44px; height:44px; border:1px solid rgba(255,255,255,.2); border-radius:50%; color:#fff; background:rgba(255,255,255,.09); font-size:27px; line-height:1; }
+    .lightbox-close:hover { background:rgba(19,168,13,.32); border-color:rgba(19,168,13,.7); }
+    .lightbox-image { cursor:zoom-in; }
+    .contributed-avatar img.lightbox-image { cursor:zoom-in; }
+    @media(max-width:600px) { .image-lightbox { padding:12px; } .image-lightbox img { max-width:96vw; max-height:82vh; border-radius:10px; } .lightbox-close { top:10px; right:10px; } }
     .admin-toggle { border: 0; background: transparent; color: #747b6e; font-size: 12px; padding: 0; }
     .admin-toggle:hover { color: var(--accent); }
     .admin-panel { display: none; padding: 30px 0 55px; border-top: 1px solid var(--line); }
@@ -209,7 +219,7 @@
     .field.full { grid-column: 1 / -1; }
     .field label { font-size: 12px; color: var(--muted); }
     .field input, .field textarea, .field select { width: 100%; border: 1px solid var(--line); background: #0a120c; color: var(--text); border-radius: 11px; padding: 11px 12px; outline: none; }
-    .field input:focus, .field textarea:focus, .field select:focus { border-color: rgba(63,128,87,.65); }
+    .field input:focus, .field textarea:focus, .field select:focus { border-color: rgba(19,168,13,.65); }
     .field textarea { min-height: 85px; resize: vertical; }
     .form-actions { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 16px; }
     .notice { color: var(--muted); font-size: 12px; margin: 13px 0 0; }
@@ -229,7 +239,7 @@
     .contact-dialog { width: min(100%, 420px); position: relative; padding: 30px; text-align: center; border: 1px solid rgba(63,128,87,.24); border-radius: 26px; background: linear-gradient(145deg, rgba(18,31,22,.99), rgba(9,15,11,.99)); box-shadow: 0 30px 100px rgba(0,0,0,.5), 0 0 45px rgba(74,101,94,.08); transform: translateY(12px) scale(.98); transition: transform .22s; }
     .contact-modal.open .contact-dialog { transform: translateY(0) scale(1); }
     .modal-close { position: absolute; top: 13px; right: 13px; width: 36px; height: 36px; border: 1px solid var(--line); border-radius: 50%; color: var(--muted); background: rgba(255,255,255,.04); font-size: 20px; }
-    .profile-avatar { width: 92px; height: 92px; display: grid; place-items: center; margin: 2px auto 17px; overflow: hidden; border: 2px solid rgba(63,128,87,.65); border-radius: 50%; background: rgba(63,128,87,.12); color: var(--accent); font: 800 34px Manrope, sans-serif; box-shadow: 0 0 35px rgba(74,101,94,.14); }
+    .profile-avatar { width: 92px; height: 92px; display: grid; place-items: center; margin: 2px auto 17px; overflow: hidden; border: 2px solid rgba(19,168,13,.65); border-radius: 50%; background: rgba(19,168,13,.12); color: var(--accent); font: 800 34px Manrope, sans-serif; box-shadow: 0 0 35px rgba(74,101,94,.14); }
     .profile-avatar img { width: 100%; height: 100%; object-fit: cover; }
     .contact-dialog h2 { margin: 0 0 8px; font-size: 28px; }
     .contact-dialog p { color: var(--muted); font-size: 14px; margin: 0 0 19px; }
@@ -319,10 +329,10 @@
         <div class="price-grid">
           <article class="price-card featured">
             <div class="price-type">Animation</div>
-            <div class="price-amount">2,143 <span>Robux</span></div>
+            <div class="price-amount">2,143 <span>R$</span></div>
             <div class="price-subtitle">For 1 animation</div>
             <div class="price-divider"></div>
-            <div class="price-extra"><span>Each additional rig</span><strong>+715 Robux</strong></div>
+            <div class="price-extra"><span>Each additional rig</span><strong>+715 R$</strong></div>
             <ul class="price-notes">
               <li>R6 rigs only by default.</li>
               <li>Custom rigs are accepted only if you provide a .blend rig.</li>
@@ -331,17 +341,17 @@
           </article>
           <article class="price-card">
             <div class="price-type">GFX / Render</div>
-            <div class="price-amount">358 <span>Robux</span></div>
+            <div class="price-amount">358 <span>R$</span></div>
             <div class="price-subtitle">For 1 GFX render</div>
             <div class="price-divider"></div>
-            <div class="price-extra"><span>Each additional character</span><strong>+100 Robux</strong></div>
+            <div class="price-extra"><span>Each additional character</span><strong>+100 R$</strong></div>
             <ul class="price-notes">
               <li>Roblox Studio renders only.</li>
               <li>No external 3D or effects software, including Blender or Adobe After Effects.</li>
             </ul>
           </article>
         </div>
-        <p class="price-footnote">Prices are listed in Robux. To discuss a commission, use the Contact button and message me on Discord.</p>
+        <p class="price-footnote">Prices are listed in R$. To discuss a commission, use the Contact button and message me on Discord.</p>
       </div>
     </section>
 
@@ -399,13 +409,7 @@
                 <div class="field"><label for="profile-avatar-file">Avatar image (PNG, max 5 MB)</label><input id="profile-avatar-file" type="file" accept="image/png"><span class="notice">Upload a square PNG for the cleanest result.</span></div>
                 <div class="field full"><div id="profile-preview-row" style="display:flex;align-items:center;gap:12px"><div class="profile-avatar" id="admin-avatar-preview" style="width:54px;height:54px;margin:0;font-size:20px">B</div><span class="notice" id="profile-save-note">Current profile preview</span></div></div>
                 <div class="field full"><div class="form-actions"><button class="button primary" type="submit" id="save-profile">Save profile settings</button></div></div>
-                <div class="field full"><hr style="width:100%;border:0;border-top:1px solid var(--line);margin:10px 0 2px"><h3 style="font:700 17px Manrope,sans-serif;margin:4px 0 0">Contributed to appearance</h3><p class="notice" style="margin:0">Customize the cards and the soft colored glow around them. These settings are shared with all visitors.</p></div>
-                <div class="field"><label for="contrib-card-color">Card base color</label><input id="contrib-card-color" type="color" value="#0f1912"></div>
-                <div class="field"><label for="contrib-gradient-a">Gradient color 1</label><input id="contrib-gradient-a" type="color" value="#16321f"></div>
-                <div class="field"><label for="contrib-gradient-b">Gradient color 2</label><input id="contrib-gradient-b" type="color" value="#0a110c"></div>
-                <div class="field"><label for="contrib-glow-color">Glow around cards</label><input id="contrib-glow-color" type="color" value="#438b55"></div>
-                <div class="field full"><label for="contrib-glow-strength">Glow intensity: <strong id="contrib-glow-value">22%</strong></label><input id="contrib-glow-strength" type="range" min="0" max="70" value="22" step="1"></div>
-                <div class="field full"><div class="form-actions"><button class="button primary" type="button" id="save-contrib-appearance">Save appearance</button><button class="button" type="button" id="reset-contrib-appearance">Reset colors</button></div><p class="notice" id="contrib-appearance-status" aria-live="polite"></p></div>
+
               </form>
             </div>
             <hr style="border:0;border-top:1px solid var(--line);margin:28px 0 22px">
@@ -417,7 +421,7 @@
             <div class="admin-list" id="category-list"></div>
             <hr style="border:0;border-top:1px solid var(--line);margin:28px 0 22px">
             <h3 style="font:700 17px Manrope,sans-serif">Contributed to</h3>
-            <p class="notice" style="margin-top:6px">Add games, YouTubers, or Discord servers. Paste their public page/invite link; the site will try to load the matching avatar automatically. You can also provide an image URL as a fallback.</p>
+            <p class="notice" style="margin-top:6px">Add games, YouTubers, or Discord servers. Paste their public page/invite link. For Roblox games, the site will try to fetch the game icon automatically; if it cannot, add a direct image URL below.</p>
             <form id="contributed-category-form" class="form-grid">
               <div class="field"><label for="contributed-new-category">New contribution category</label><input id="contributed-new-category" maxlength="50" placeholder="e.g. Games"></div>
               <div class="field" style="justify-content:end"><button class="button" type="submit">Add category</button></div>
@@ -430,7 +434,7 @@
                 <div class="field"><label for="contributed-kind">Type *</label><select id="contributed-kind"><option value="game">Game</option><option value="youtube">YouTuber</option><option value="discord">Discord server</option><option value="other">Other</option></select></div>
                 <div class="field"><label for="contributed-category">Category *</label><select id="contributed-category" required></select></div>
                 <div class="field"><label for="contributed-url">Public link *</label><input id="contributed-url" type="url" required placeholder="https://…"></div>
-                <div class="field full"><label for="contributed-avatar-url">Custom avatar image URL (optional)</label><input id="contributed-avatar-url" type="url" placeholder="https://…"><span class="notice">Leave blank to try to load the avatar from YouTube, Discord, or Roblox automatically.</span></div>
+                <div class="field full"><label for="contributed-avatar-url">Custom icon / image URL (optional)</label><input id="contributed-avatar-url" type="url" placeholder="https://…"><span class="notice">For Roblox games, automatic icon lookup uses the game link. If it fails, paste a direct image URL here.</span></div>
                 <div class="field full"><div class="contributed-preview"><div class="contributed-avatar" id="contributed-preview-avatar">?</div><span class="notice" id="contributed-preview-note">Avatar preview</span></div></div>
               </div>
               <div class="form-actions"><button class="button primary" type="submit" id="save-contributed">Add contribution</button><button class="button hidden" type="button" id="cancel-contributed-edit">Cancel edit</button></div>
@@ -473,6 +477,11 @@
     </div>
   </div>
 
+  <div class="image-lightbox" id="image-lightbox" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Image preview">
+    <button class="lightbox-close" id="lightbox-close" type="button" aria-label="Close image preview">×</button>
+    <img id="lightbox-image" src="" alt="Expanded image">
+  </div>
+
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
     // Public client settings. Never put a Supabase service_role/secret key in this file.
@@ -492,7 +501,7 @@
     let categoryScreenOpen = false;
     let currentUser = null;
     let editingAnimation = null;
-    let profileSettings = { discord_username: "@banikta", avatar_url: "", contrib_card_color: "#0f1912", contrib_gradient_a: "#16321f", contrib_gradient_b: "#0a110c", contrib_glow_color: "#438b55", contrib_glow_strength: 22 };
+    let profileSettings = { discord_username: "@banikta", avatar_url: "" };
     let contributedCategories = [];
     let contributedItems = [];
     let editingContribution = null;
@@ -625,7 +634,7 @@
 
     function avatarMarkup(name, url, className = "contributed-avatar") {
       const fallback = initials(name);
-      return `<div class="${className}">${url ? `<img src="${safeText(url)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove();this.parentElement.textContent='${safeText(fallback)}'">` : safeText(fallback)}</div>`;
+      return `<div class="${className}">${url ? `<img class="lightbox-image" src="${safeText(url)}" alt="${safeText(name)} icon" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.remove();this.parentElement.textContent='${safeText(fallback)}'">` : safeText(fallback)}</div>`;
     }
 
     function renderContributedPublic() {
@@ -643,6 +652,19 @@
           <div class="contributed-info"><strong>${safeText(item.name)}</strong><span>${safeText(contributionCategoryName(item.category_id))} · ${kindLabel}</span></div>
         </a>`;
       }).join("");
+      // Fill missing Roblox game icons from their public game links without requiring a database migration.
+      contributedItems.filter(item => item.kind === "game" && !item.avatar_url && robloxPlaceId(item.url)).forEach(async item => {
+        const imageUrl = await discoverContributionAvatar("game", item.url);
+        if (!imageUrl) return;
+        const card = [...root.querySelectorAll(".contributed-card")].find(el => el.getAttribute("href") === item.url);
+        const avatar = card?.querySelector(".contributed-avatar");
+        if (avatar && !avatar.querySelector("img")) {
+          const img = document.createElement("img");
+          img.className = "lightbox-image"; img.src = imageUrl; img.alt = `${item.name} icon`; img.loading = "lazy"; img.referrerPolicy = "no-referrer";
+          img.onerror = () => { img.remove(); };
+          avatar.textContent = ""; avatar.appendChild(img);
+        }
+      });
     }
 
     async function loadContributedData() {
@@ -740,7 +762,7 @@
       } else if (a.video_type === "upload" && a.video_url) {
         media = `<video src="${safeText(a.video_url)}" controls preload="metadata" playsinline></video>`;
       } else if (a.video_type === "image" && a.video_url) {
-        media = `<img src="${safeText(a.video_url)}" alt="${safeText(a.title)} render" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#070c08">`;
+        media = `<img class="lightbox-image" src="${safeText(a.video_url)}" alt="${safeText(a.title)} render" loading="lazy" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#0b160d">`;
       }
       return `<article class="card"><div class="media">${media}</div><div class="card-body"><div class="card-meta"><span class="tag">${safeText(categoryName(a.category_id))}</span></div><h3>${safeText(a.title)}</h3>${a.description ? `<p>${safeText(a.description)}</p>` : ""}</div></article>`;
     }
@@ -799,37 +821,15 @@
       renderAvatar($("public-avatar"), profileSettings.avatar_url);
       renderAvatar($("admin-avatar-preview"), profileSettings.avatar_url);
       if ($("discord-username")) $("discord-username").value = username;
-      applyContributedAppearance(profileSettings);
-      const appearanceFields = {"contrib-card-color":"contrib_card_color", "contrib-gradient-a":"contrib_gradient_a", "contrib-gradient-b":"contrib_gradient_b", "contrib-glow-color":"contrib_glow_color", "contrib-glow-strength":"contrib_glow_strength"};
-      for (const [field, key] of Object.entries(appearanceFields)) if ($(field)) $(field).value = profileSettings[key] ?? (field === "contrib-glow-strength" ? 22 : "#0f1912");
-      if ($("contrib-glow-value")) $("contrib-glow-value").textContent = `${Number(profileSettings.contrib_glow_strength ?? 22)}%`;
-    }
 
-    function applyContributedAppearance(settings) {
-      const root = document.documentElement;
-      root.style.setProperty("--contrib-card", settings.contrib_card_color || "#0f1912");
-      root.style.setProperty("--contrib-gradient-a", settings.contrib_gradient_a || "#16321f");
-      root.style.setProperty("--contrib-gradient-b", settings.contrib_gradient_b || "#0a110c");
-      root.style.setProperty("--contrib-glow", settings.contrib_glow_color || "#438b55");
-      root.style.setProperty("--contrib-glow-strength", Math.max(0, Math.min(70, Number(settings.contrib_glow_strength ?? 22))) / 100);
-    }
-
-    function readContributedAppearanceForm() {
-      return {
-        contrib_card_color: $("contrib-card-color").value,
-        contrib_gradient_a: $("contrib-gradient-a").value,
-        contrib_gradient_b: $("contrib-gradient-b").value,
-        contrib_glow_color: $("contrib-glow-color").value,
-        contrib_glow_strength: Number($("contrib-glow-strength").value)
-      };
     }
 
     async function loadProfileSettings() {
       if (!supabaseClient) return;
       try {
-        const { data, error } = await supabaseClient.from("portfolio_settings").select("discord_username,avatar_url,contrib_card_color,contrib_gradient_a,contrib_gradient_b,contrib_glow_color,contrib_glow_strength").eq("id", 1).maybeSingle();
+        const { data, error } = await supabaseClient.from("portfolio_settings").select("discord_username,avatar_url").eq("id", 1).maybeSingle();
         if (error) throw error;
-        if (data) profileSettings = { discord_username: data.discord_username || "@banikta", avatar_url: data.avatar_url || "", contrib_card_color: data.contrib_card_color || "#0f1912", contrib_gradient_a: data.contrib_gradient_a || "#16321f", contrib_gradient_b: data.contrib_gradient_b || "#0a110c", contrib_glow_color: data.contrib_glow_color || "#438b55", contrib_glow_strength: Number(data.contrib_glow_strength ?? 22) };
+        if (data) profileSettings = { discord_username: data.discord_username || "@banikta", avatar_url: data.avatar_url || "" };
         renderProfileSettings();
       } catch (error) {
         console.warn("Could not load public profile settings. Run the setup SQL from the instructions.", error.message);
@@ -1389,7 +1389,26 @@ Cancel to keep this category.`);
     document.querySelectorAll("[data-open-contact]").forEach(button => button.addEventListener("click", openContactModal));
     $("close-contact").addEventListener("click", closeContactModal);
     $("contact-modal").addEventListener("click", event => { if (event.target === $("contact-modal")) closeContactModal(); });
-    document.addEventListener("keydown", event => { if (event.key === "Escape" && $("contact-modal").classList.contains("open")) closeContactModal(); if (event.key === "Escape" && $("category-screen").classList.contains("open")) closeCategoryScreen(); });
+    document.addEventListener("keydown", event => { if (event.key === "Escape" && $("contact-modal").classList.contains("open")) closeContactModal(); if (event.key === "Escape" && $("category-screen").classList.contains("open")) closeCategoryScreen(); if (event.key === "Escape" && lightbox.classList.contains("open")) closeImageLightbox(); });
+    const lightbox = $("image-lightbox");
+    const lightboxImage = $("lightbox-image");
+    function openImageLightbox(src, alt = "Expanded image") {
+      if (!src) return;
+      lightboxImage.src = src; lightboxImage.alt = alt;
+      lightbox.classList.add("open"); lightbox.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden"; $("lightbox-close").focus();
+    }
+    function closeImageLightbox() {
+      lightbox.classList.remove("open"); lightbox.setAttribute("aria-hidden", "true");
+      lightboxImage.src = ""; document.body.style.overflow = "";
+    }
+    document.addEventListener("click", event => {
+      const image = event.target.closest("img.lightbox-image");
+      if (image) { event.preventDefault(); event.stopPropagation(); openImageLightbox(image.currentSrc || image.src, image.alt); }
+    });
+    $("lightbox-close").addEventListener("click", closeImageLightbox);
+    lightbox.addEventListener("click", event => { if (event.target === lightbox) closeImageLightbox(); });
+
     $("copy-discord").addEventListener("click", async () => {
       const username = profileSettings.discord_username || "@banikta";
       try {
@@ -1422,7 +1441,7 @@ Cancel to keep this category.`);
           if (uploadError) throw uploadError;
           avatarUrl = supabaseClient.storage.from(BUCKET).getPublicUrl(path).data.publicUrl;
         }
-        const row = { id: 1, discord_username: username, avatar_url: avatarUrl, ...readContributedAppearanceForm() };
+        const row = { id: 1, discord_username: username, avatar_url: avatarUrl };
         const { error } = await supabaseClient.from("portfolio_settings").upsert(row, { onConflict: "id" });
         if (error) throw error;
         profileSettings = { ...profileSettings, ...row, discord_username: username, avatar_url: avatarUrl || "" };
@@ -1436,48 +1455,6 @@ Cancel to keep this category.`);
       } finally {
         button.disabled = false;
       }
-    });
-
-    ["contrib-card-color", "contrib-gradient-a", "contrib-gradient-b", "contrib-glow-color", "contrib-glow-strength"].forEach(id => {
-      $(id).addEventListener("input", () => {
-        const previewSettings = readContributedAppearanceForm();
-        applyContributedAppearance(previewSettings);
-        $("contrib-glow-value").textContent = `${previewSettings.contrib_glow_strength}%`;
-        $("contrib-appearance-status").textContent = "Preview only — click Save appearance to publish for everyone.";
-      });
-    });
-    $("save-contrib-appearance").addEventListener("click", async () => {
-      if (!currentUser || currentUser.id !== ADMIN_UID) {
-        $("contrib-appearance-status").textContent = "Please sign in with the administrator account.";
-        return;
-      }
-      const button = $("save-contrib-appearance");
-      button.disabled = true;
-      $("contrib-appearance-status").textContent = "Saving…";
-      try {
-        const appearance = readContributedAppearanceForm();
-        const row = { id: 1, discord_username: profileSettings.discord_username || "@banikta", avatar_url: profileSettings.avatar_url || null, ...appearance };
-        const { error } = await supabaseClient.from("portfolio_settings").upsert(row, { onConflict: "id" });
-        if (error) throw error;
-        profileSettings = { ...profileSettings, ...appearance };
-        applyContributedAppearance(profileSettings);
-        $("contrib-appearance-status").textContent = "Saved! Visitors will see the new colors.";
-      } catch (error) {
-        $("contrib-appearance-status").textContent = (error.message || "Could not save colors.") + " If columns are missing, run the appearance SQL provided with this file.";
-      } finally {
-        button.disabled = false;
-      }
-    });
-    $("reset-contrib-appearance").addEventListener("click", () => {
-      $("contrib-card-color").value = "#0f1912";
-      $("contrib-gradient-a").value = "#16321f";
-      $("contrib-gradient-b").value = "#0a110c";
-      $("contrib-glow-color").value = "#438b55";
-      $("contrib-glow-strength").value = "22";
-      const defaults = readContributedAppearanceForm();
-      applyContributedAppearance(defaults);
-      $("contrib-glow-value").textContent = "22%";
-      $("contrib-appearance-status").textContent = "Default preview restored. Click Save appearance to publish it.";
     });
 
     initialize();
