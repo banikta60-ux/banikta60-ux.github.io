@@ -304,7 +304,7 @@
       <div>
         <div class="eyebrow"><span class="status-dot"></span> Roblox animator · Portfolio</div>
         <h1>Hi, I’m <span>Banikta.</span></h1>
-        <p class="hero-copy">Animations/Builds/GFX-Artist (renders)/Coder... who is that? That's me! Banikta!</p>
+        <p class="hero-copy">I create animations, maps, 3D renders and scripts for Roblox.</p>
       </div>
     </section>
 
@@ -421,7 +421,7 @@
             <div class="admin-list" id="category-list"></div>
             <hr style="border:0;border-top:1px solid var(--line);margin:28px 0 22px">
             <h3 style="font:700 17px Manrope,sans-serif">Contributed to</h3>
-            <p class="notice" style="margin-top:6px">Add games, YouTubers, or Discord servers. Paste their public page/invite link. For Roblox games, the site will try to fetch the game icon automatically; if it cannot, add a direct image URL below.</p>
+            <p class="notice" style="margin-top:6px">Add games, YouTubers, or Discord servers. Paste their public page/invite link. For Roblox games, add each game’s own link with its real numeric ID. The site fetches the icon from Roblox; if it cannot, add a direct image URL below.</p>
             <form id="contributed-category-form" class="form-grid">
               <div class="field"><label for="contributed-new-category">New contribution category</label><input id="contributed-new-category" maxlength="50" placeholder="e.g. Games"></div>
               <div class="field" style="justify-content:end"><button class="button" type="submit">Add category</button></div>
@@ -434,7 +434,7 @@
                 <div class="field"><label for="contributed-kind">Type *</label><select id="contributed-kind"><option value="game">Game</option><option value="youtube">YouTuber</option><option value="discord">Discord server</option><option value="other">Other</option></select></div>
                 <div class="field"><label for="contributed-category">Category *</label><select id="contributed-category" required></select></div>
                 <div class="field"><label for="contributed-url">Public link *</label><input id="contributed-url" type="url" required placeholder="https://…"></div>
-                <div class="field full"><label for="contributed-avatar-url">Custom icon / image URL (optional)</label><input id="contributed-avatar-url" type="url" placeholder="https://…"><span class="notice">For Roblox games, automatic icon lookup uses the game link. If it fails, paste a direct image URL here.</span></div>
+                <div class="field full"><label for="contributed-avatar-url">Custom icon / image URL (optional)</label><input id="contributed-avatar-url" type="url" placeholder="https://…"><span class="notice">For Roblox games, use the individual game link with its real numeric ID (not /games/0/). The site fetches its icon from Roblox; if lookup fails, paste a direct image URL here.</span></div>
                 <div class="field full"><div class="contributed-preview"><div class="contributed-avatar" id="contributed-preview-avatar">?</div><span class="notice" id="contributed-preview-note">Avatar preview</span></div></div>
               </div>
               <div class="form-actions"><button class="button primary" type="submit" id="save-contributed">Add contribution</button><button class="button hidden" type="button" id="cancel-contributed-edit">Cancel edit</button></div>
@@ -586,12 +586,13 @@
         const u = new URL(url);
         if (!/(^|\.)roblox\.com$/i.test(u.hostname)) return "";
         const m = u.pathname.match(/\/games\/(\d+)/i);
-        return m ? m[1] : "";
+        return m && m[1] !== "0" ? m[1] : "";
       } catch (_) { return ""; }
     }
 
     async function discoverContributionAvatar(kind, url) {
-      // External public endpoints are best-effort; custom image URL remains available as a fallback.
+      // Roblox's public place-icon endpoint accepts the place ID directly.
+      // This avoids the extra place-to-universe lookup, which can fail in browsers.
       if (kind === "youtube") {
         const handle = youtubeHandleFromUrl(url);
         if (handle) return `https://unavatar.io/youtube/${encodeURIComponent(handle)}`;
@@ -613,20 +614,18 @@
       }
       if (kind === "game") {
         const placeId = robloxPlaceId(url);
-        if (placeId) {
+        if (placeId && placeId !== "0") {
           try {
-            const universeResponse = await fetch(`https://apis.roblox.com/universes/v1/places/${placeId}/universe`);
-            if (universeResponse.ok) {
-              const universeData = await universeResponse.json();
-              if (universeData.universeId) {
-                const imageResponse = await fetch(`https://thumbnails.roblox.com/v1/games/icons?universeIds=${universeData.universeId}&size=150x150&format=Png&isCircular=false`);
-                if (imageResponse.ok) {
-                  const imageData = await imageResponse.json();
-                  if (imageData.data?.[0]?.imageUrl) return imageData.data[0].imageUrl;
-                }
-              }
+            const endpoint = `https://thumbnails.roblox.com/v1/places/gameicons?placeIds=${encodeURIComponent(placeId)}&size=150x150&format=Png&isCircular=false`;
+            const response = await fetch(endpoint, { headers: { "Accept": "application/json" } });
+            if (response.ok) {
+              const data = await response.json();
+              const match = data.data?.find(entry => entry.imageUrl && String(entry.targetId) === String(placeId)) || data.data?.find(entry => entry.imageUrl);
+              if (match?.imageUrl) return match.imageUrl;
             }
-          } catch (_) {}
+          } catch (error) {
+            console.warn("Roblox game icon lookup failed:", error);
+          }
         }
       }
       return "";
