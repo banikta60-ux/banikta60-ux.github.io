@@ -795,8 +795,9 @@
       if (a.video_type === "youtube") {
         const embed = youtubeEmbed(a.video_url || "");
         if (embed) {
-          const videoId = embed.split("/").pop();
-          media = `<button class="yt-preview" type="button" data-embed="${embed}" aria-label="Play ${safeText(a.title)}"><img src="https://i.ytimg.com/vi/${videoId}/hqdefault.jpg" alt="" loading="lazy" decoding="async"><span class="yt-play" aria-hidden="true">▶</span></button>`;
+          // Keep playback on the portfolio page using YouTube's official embedded player.
+          // This is not an MP4 conversion; YouTube still hosts and streams the video.
+          media = `<iframe src="${embed}?playsinline=1&controls=1&rel=0" title="${safeText(a.title)}" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>`;
         }
       } else if (a.video_type === "upload" && a.video_url) {
         media = `<video src="${safeText(a.video_url)}" controls preload="metadata" playsinline></video>`;
