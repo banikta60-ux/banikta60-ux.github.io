@@ -9,7 +9,7 @@
   <title>Banikta — Roblox Animator</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Impact&display=swap" rel="stylesheet">
   <style>
     :root {
       color-scheme: dark;
@@ -38,7 +38,7 @@
       color: var(--text); font-family: "DM Sans", sans-serif; line-height: 1.6;
       isolation: isolate; position: relative;
     }
-    /* Lightweight green atmosphere: avoids giant blurred layers and blend-mode repainting. */
+    /* Subtle neutral atmosphere; avoids heavy blurred layers. */
     body::before {
       content: ""; position: fixed; inset: 0; z-index: 0; pointer-events: none;
       background:
@@ -369,6 +369,109 @@
       .nav a { padding: 8px 10px; }
       .grid { gap: 12px; }
     }
+
+    /* Quiet black finish: neutral light, no colored neon or purple gradients. */
+    body::before {
+      background: radial-gradient(ellipse at 50% 0%, rgba(255,255,255,.035), transparent 55%);
+      opacity: .72;
+    }
+    .media-empty {
+      color: #999;
+      background: linear-gradient(135deg, #111, #080808);
+    }
+    .footer { color: #777; }
+    .visitor-counter { color: #999; }
+    .admin-toggle { color: #777; }
+    .field input, .field textarea, .field select { background: #090909; }
+    .card, .contributed-card, .price-card, .admin-box {
+      box-shadow: none;
+    }
+    .card:hover, .contributed-card:hover {
+      box-shadow: 0 12px 28px rgba(0,0,0,.24);
+    }
+    .button, .nav a, .filter, .contributed-card, .card {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+
+    /* IMPACT art direction: editorial, blunt typography, almost no decoration. */
+    :root { --bg:#080808; --panel:#101010; --panel-2:#171717; --line:rgba(255,255,255,.14); --text:#f2f2f2; --muted:#999; --accent:#f2f2f2; --radius:2px; }
+    body { background:#080808; font-family:"DM Sans",Arial,sans-serif; }
+    body::before, body::after { display:none !important; }
+    .wrap { --max:1160px; }
+    .topbar { padding:18px 0; border-bottom:1px solid #292929; animation:none; }
+    .brand, .brand > span:last-child { font-family:Impact,"Arial Narrow",sans-serif; font-weight:400; letter-spacing:.025em; text-transform:uppercase; font-size:22px; }
+    .brand-mark { width:30px; height:30px; border-radius:0; background:#eee; color:#080808; font:22px Impact,sans-serif; }
+    .nav { gap:2px; font-size:12px; text-transform:uppercase; letter-spacing:.08em; }
+    .nav a, .nav-contact { border-radius:0; padding:10px 13px; }
+    .nav a:hover { transform:none; background:#191919; border-color:#333; }
+    .nav-contact { background:transparent; color:#eee; border:1px solid #555; font-weight:500; }
+    .nav-contact:hover { background:#eee; color:#080808; }
+    .hero { padding:100px 0 86px; display:block; animation:none; border-bottom:1px solid #292929; }
+    .eyebrow,.section-kicker,.price-type { color:#888; font:12px "DM Sans",sans-serif; letter-spacing:.13em; }
+    .status-dot { display:none; }
+    h1,h2,h3,.price-amount,.empty strong { font-family:Impact,"Arial Narrow",sans-serif !important; font-weight:400 !important; letter-spacing:.015em !important; text-transform:uppercase; }
+    h1 { font-size:clamp(76px,14vw,172px); line-height:.82; margin:24px 0 22px; max-width:100%; }
+    h1 span { color:#777 !important; }
+    .hero-copy { max-width:520px; font-size:15px; line-height:1.7; color:#aaa; letter-spacing:0; }
+    .work { padding:60px 0 80px; animation:none; }
+    .section-head { align-items:end; margin-bottom:20px; }
+    h2 { font-size:clamp(38px,6vw,64px); line-height:.95; margin-top:8px; }
+    .filters { position:static; padding:0 0 14px; margin-bottom:20px; border:0; border-bottom:1px solid #292929; border-radius:0; background:transparent; box-shadow:none; gap:4px; }
+    .filter,.contributed-tab { border:1px solid transparent; border-radius:0; padding:8px 12px; text-transform:uppercase; font-size:11px; letter-spacing:.08em; background:transparent; }
+    .filter.active,.contributed-tab.active { background:#eee; color:#080808; border-color:#eee; box-shadow:none; }
+    .filter:hover,.contributed-tab:hover { background:#191919; border-color:#444; color:#fff; box-shadow:none; }
+    .grid { gap:12px; }
+    .card { border:1px solid #242424; border-radius:0; background:#0d0d0d; box-shadow:none; animation:none; }
+    .card:hover { transform:none; border-color:#777; box-shadow:none; }
+    .media { background:#050505; border-bottom:1px solid #222; }
+    .card-body { padding:15px; }
+    .card h3 { font-size:23px; }
+    .tag { border-radius:0; background:transparent; border-color:#333; color:#aaa; text-transform:uppercase; letter-spacing:.08em; }
+    .pricing,.about { background:transparent; border-color:#292929; animation:none; }
+    .pricing { padding:65px 0; }
+    .price-grid { gap:10px; }
+    .price-card,.price-card.featured { border:1px solid #292929; border-radius:0; background:#0d0d0d; box-shadow:none; }
+    .price-amount { font-size:46px; }
+    .contributed-section { padding:62px 0; }
+    .contributed-card { border-radius:0; border:1px solid #292929; background:#0d0d0d; box-shadow:none; }
+    .contributed-card:hover { transform:none; border-color:#777; box-shadow:none; }
+    .contributed-avatar { border-radius:0; background:#191919; }
+    .contributed-info strong { font-family:Impact,"Arial Narrow",sans-serif; font-size:19px; font-weight:400; text-transform:uppercase; letter-spacing:.02em; }
+    .contact { padding:70px 0 55px; animation:none; }
+    .button,.links a { border-radius:0; background:transparent; border-color:#444; text-transform:uppercase; letter-spacing:.05em; font-size:12px; }
+    .button.primary,.contact-trigger { background:#eee; border-color:#eee; color:#080808; box-shadow:none; }
+    .footer { border-color:#292929; color:#777; animation:none; }
+    .visitor-counter { color:#888; }
+    .admin-toggle { color:#777; }
+    .show-more { border-radius:0; background:#eee; color:#080808; border-color:#eee; box-shadow:none; text-transform:uppercase; letter-spacing:.08em; }
+    .show-more::before,.work-actions::before { display:none; }
+    .show-more:hover { transform:none; background:#fff; box-shadow:none; }
+    .category-screen { background:#080808; }
+    .category-screen-top { border-color:#292929; }
+    .category-screen-top h2 { font-size:52px; }
+    .admin-box,.field input,.field textarea,.field select { border-radius:0; }
+    .impact-player { position:fixed; z-index:80; right:18px; bottom:16px; width:min(340px,calc(100vw - 36px)); padding:12px; background:#101010; border:1px solid #3a3a3a; box-shadow:0 8px 30px #000; }
+    .impact-player-top { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:8px; }
+    .impact-player-label { font:17px Impact,"Arial Narrow",sans-serif; letter-spacing:.04em; }
+    .impact-player-state { color:#888; font-size:10px; text-transform:uppercase; letter-spacing:.1em; }
+    .impact-player-controls { display:flex; gap:7px; align-items:center; }
+    .impact-player button { border:1px solid #444; border-radius:0; background:transparent; color:#eee; padding:6px 9px; font-size:12px; }
+    .impact-player button:hover { background:#eee; color:#080808; }
+    .impact-player input[type=range] { width:70px; accent-color:#eee; }
+    .impact-player-add { display:flex; gap:6px; margin-top:9px; }
+    .impact-player-add input { min-width:0; flex:1; background:#080808; border:1px solid #333; color:#eee; padding:7px 8px; font-size:11px; border-radius:0; }
+    .impact-player-add button { white-space:nowrap; }
+    .impact-player-note { color:#777; font-size:10px; margin-top:7px; line-height:1.4; }
+    @media(max-width:700px) {
+      .hero { padding:70px 0 58px; }
+      h1 { font-size:clamp(66px,17vw,112px); }
+      .nav { gap:0; }
+      .nav a,.nav-contact { padding:8px 7px; font-size:10px; }
+      .impact-player { right:10px; bottom:10px; }
+      .price-grid { grid-template-columns:1fr; }
+    }
+
   </style>
 </head>
 <body>
@@ -377,7 +480,7 @@
     <nav class="nav" aria-label="Main navigation">
       <a href="#work">Work</a>
       <a href="#prices">Prices</a>
-      <a href="#contributed-to">Contributed to</a>
+      <a href="#contributed-to">CONTRIBUTIONS</a>
       <button type="button" class="nav-contact" data-open-contact>Contact</button>
     </nav>
   </header>
@@ -385,15 +488,15 @@
   <main>
     <section class="wrap hero">
       <div>
-        <div class="eyebrow"><span class="status-dot"></span> Roblox animator · Portfolio</div>
-        <h1>Hi, I’m <span>Banikta.</span></h1>
-        <p class="hero-copy">I create animations, maps, 3D renders and scripts for Roblox.</p>
+        <div class="eyebrow">ROBLOX / ANIMATION / CREATIVE WORK</div>
+        <h1>BANIKTA<span>.</span></h1>
+        <p class="hero-copy">Roblox animator. I make animations, builds, renders and other things for games.</p>
       </div>
     </section>
 
     <section class="wrap work" id="work">
       <div class="section-head">
-        <div><div class="section-kicker">Selected projects</div><h2>My work<span style="color:var(--accent)">.</span></h2></div>
+        <div><div class="section-kicker">SELECTED WORK</div><h2>WORK<span style="color:var(--accent)">.</span></h2></div>
         <div id="work-count" class="section-kicker">Loading projects…</div>
       </div>
       <div class="filters" id="filters"></div>
@@ -406,7 +509,7 @@
     <section class="pricing" id="prices">
       <div class="wrap">
         <div class="section-head">
-          <div><div class="section-kicker">Commission rates</div><h2>Simple prices<span style="color:var(--accent)">.</span></h2></div>
+          <div><div class="section-kicker">COMMISSIONS</div><h2>RATES<span style="color:var(--accent)">.</span></h2></div>
         </div>
         <p class="pricing-intro">Need an animation or a Roblox Studio render? Here are my current commission rates and limitations.</p>
         <div class="price-grid">
@@ -440,7 +543,7 @@
 
     <section class="wrap contributed-section" id="contributed-to">
       <div class="contributed-head">
-        <div><div class="section-kicker">Community & collaborations</div><h2>Contributed to</h2><p style="color:var(--muted);margin-top:8px">Games, creators, and communities I’ve been part of.</p></div>
+        <div><div class="section-kicker">Community & collaborations</div><h2>CONTRIBUTIONS</h2><p style="color:var(--muted);margin-top:8px">Games, creators, and communities I’ve been part of.</p></div>
       </div>
       <div class="contributed-tabs" id="contributed-tabs" aria-label="Contribution categories"></div>
       <div class="contributed-grid" id="contributed-grid"><p class="contributed-empty">Loading contributions…</p></div>
@@ -504,8 +607,8 @@
             </form>
             <div class="admin-list" id="category-list"></div>
             <hr style="border:0;border-top:1px solid var(--line);margin:28px 0 22px">
-            <h3 style="font:700 17px Manrope,sans-serif">Contributed to</h3>
-            <p class="notice" style="margin-top:6px">Add YouTubers or game communities. For Games, add the Discord invite for the community and, if available, a second invite for the game’s official Discord server. The first link is shown as the community server.</p>
+            <h3 style="font:700 17px Manrope,sans-serif">CONTRIBUTIONS</h3>
+            <p class="notice" style="margin-top:6px">Add YouTubers or Roblox games. For Games, provide the Roblox game page and the Discord server where you contributed.</p>
             <form id="contributed-category-form" class="form-grid">
               <div class="field"><label for="contributed-new-category">New contribution category</label><input id="contributed-new-category" maxlength="50" placeholder="YouTubers or Games"></div>
               <div class="field" style="justify-content:end"><button class="button" type="submit">Add category</button></div>
@@ -514,12 +617,12 @@
             <form id="contributed-form" class="contributed-admin-form">
               <input id="contributed-id" type="hidden">
               <div class="form-grid">
-                <div class="field"><label for="contributed-name">Name *</label><input id="contributed-name" maxlength="100" required placeholder="Game, YouTuber, or Discord server"></div>
-                <div class="field"><label for="contributed-kind">Type *</label><select id="contributed-kind"><option value="game">Game community (Discord)</option><option value="youtube">YouTuber</option></select></div>
+                <div class="field"><label for="contributed-name">Name *</label><input id="contributed-name" maxlength="100" required placeholder="Game or YouTuber name"></div>
+                <div class="field"><label for="contributed-kind">Type *</label><select id="contributed-kind"><option value="game">Roblox game</option><option value="youtube">YouTuber</option></select></div>
                 <div class="field"><label for="contributed-category">Category *</label><select id="contributed-category" required></select></div>
-                <div class="field"><label for="contributed-url">Public link *</label><input id="contributed-url" type="url" required placeholder="https://…"></div>
-                <div class="field full"><label for="contributed-game-discord-url">Game Discord server invite (optional)</label><input id="contributed-game-discord-url" type="url" placeholder="https://discord.gg/…"><span class="notice">For entries in Games, add the main community invite above and the game’s own Discord invite here.</span></div>
-                <div class="field full"><label for="contributed-avatar-url">Custom icon / image URL (optional)</label><input id="contributed-avatar-url" type="url" placeholder="https://…"><span class="notice">You can paste a direct image URL. Discord server icons are fetched automatically from the first invite link.</span></div>
+                <div class="field"><label for="contributed-url">Game page link *</label><input id="contributed-url" type="url" required placeholder="https://www.roblox.com/games/…"></div>
+                <div class="field full"><label for="contributed-game-discord-url">Game’s Discord server *</label><input id="contributed-game-discord-url" type="url" placeholder="https://discord.gg/…"><span class="notice">Add the Discord server for the game where you made a contribution.</span></div>
+                <div class="field full"><label for="contributed-avatar-url">Custom icon / image URL (optional)</label><input id="contributed-avatar-url" type="url" placeholder="https://…"><span class="notice">You can paste a direct image URL. Roblox game icons are fetched automatically from the game page link.</span></div>
                 <div class="field full"><div class="contributed-preview"><div class="contributed-avatar" id="contributed-preview-avatar">?</div><span class="notice" id="contributed-preview-note">Avatar preview</span></div></div>
               </div>
               <div class="form-actions"><button class="button primary" type="submit" id="save-contributed">Add contribution</button><button class="button hidden" type="button" id="cancel-contributed-edit">Cancel edit</button></div>
@@ -534,7 +637,7 @@
   </main>
 
   <footer class="wrap footer">
-    <span>© <span id="year"></span> Banikta. Made with care.</span>
+    <span>© <span id="year"></span> BANIKTA</span>
     <span class="visitor-counter" id="visitor-count" aria-live="polite">Visitors: …</span>
     <button class="admin-toggle" id="open-admin" type="button">Admin</button>
   </footer>
@@ -568,6 +671,19 @@
     <button class="lightbox-close" id="lightbox-close" type="button" aria-label="Close image preview">×</button>
     <img id="lightbox-image" src="" alt="Expanded image">
   </div>
+
+
+  <aside class="impact-player" aria-label="Background audio player">
+    <div class="impact-player-top"><span class="impact-player-label">BACKGROUND AUDIO</span><span class="impact-player-state" id="impact-track-state">NO TRACK</span></div>
+    <div class="impact-player-controls">
+      <button type="button" id="impact-play">PLAY</button>
+      <button type="button" id="impact-pause">PAUSE</button>
+      <label class="impact-player-state" for="impact-volume">VOL</label><input id="impact-volume" type="range" min="0" max="0.25" step="0.01" value="0.08" aria-label="Volume">
+    </div>
+    <div class="impact-player-add"><input id="impact-track-url" type="url" placeholder="Direct MP3 / audio URL" aria-label="Audio URL"><button type="button" id="impact-add-track">ADD</button></div>
+    <div class="impact-player-note" id="impact-player-note">Optional playlist. Add direct audio links; saved only in this browser, no Supabase changes.</div>
+    <audio id="impact-audio" preload="none"></audio>
+  </aside>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
@@ -770,9 +886,9 @@
         </button>`;
       }).join("");
       visibleItems.filter(item => item.kind === "game" && !item.avatar_url).forEach(async item => {
-        const invite = discordInviteCode(item.url);
+        const invite = discordInviteCode(item.game_discord_url);
         if (!invite) return;
-        const imageUrl = await discoverContributionAvatar("discord", item.url);
+        const imageUrl = await discoverContributionAvatar("discord", item.game_discord_url);
         if (!imageUrl) return;
         const card = root.querySelector(`[data-contribution-open="${CSS.escape(String(item.id))}"]`);
         const avatar = card?.querySelector(".contributed-avatar");
@@ -788,10 +904,10 @@
       $("contribution-modal-title").textContent = item.name;
       $("contribution-modal-avatar").innerHTML = avatarMarkup(item.name, item.avatar_url || "");
       const links = [];
-      if (item.url) links.push(`<a href="${safeText(item.url)}" target="_blank" rel="noopener noreferrer">${item.kind === "game" ? "Community Discord server ↗" : item.kind === "youtube" ? "YouTube channel ↗" : "Open link ↗"}</a>`);
+      if (item.url) links.push(`<a href="${safeText(item.url)}" target="_blank" rel="noopener noreferrer">${item.kind === "game" ? "Open game page ↗" : item.kind === "youtube" ? "YouTube channel ↗" : "Open link ↗"}</a>`);
       if (item.kind === "game" && item.game_discord_url) links.push(`<a href="${safeText(item.game_discord_url)}" target="_blank" rel="noopener noreferrer">Game’s Discord server ↗</a>`);
       $("contribution-modal-links").innerHTML = links.join("");
-      $("contribution-modal-description").textContent = item.kind === "game" ? "Choose which Discord server you want to open." : "Open this creator’s page.";
+      $("contribution-modal-description").textContent = item.kind === "game" ? "Open the game or its Discord server." : "Open this creator’s page.";
       $("contribution-modal").classList.add("open");
       $("contribution-modal").setAttribute("aria-hidden", "false");
     }
@@ -825,7 +941,7 @@
         return `<div class="admin-item"><div><strong>${safeText(c.name)}</strong><small>${count} contribution(s)</small></div><div class="admin-actions"><button class="small-btn" type="button" data-rename-contrib-category="${safeText(c.id)}">Rename</button><button class="small-btn delete" type="button" data-delete-contrib-category="${safeText(c.id)}">Delete</button></div></div>`;
       }).join("") : `<p class="notice">No contribution categories yet. Add one above.</p>`;
       $("contributed-item-list").innerHTML = contributedItems.length ? contributedItems.map(item => `
-        <div class="admin-item"><div><strong>${safeText(item.name)}</strong><small>${safeText(contributionCategoryName(item.category_id))} · ${item.kind === "game" ? "Game Discord" : item.kind === "youtube" ? "YouTuber" : safeText(item.kind)} </small></div>
+        <div class="admin-item"><div><strong>${safeText(item.name)}</strong><small>${safeText(contributionCategoryName(item.category_id))} · ${item.kind === "game" ? "Roblox game" : item.kind === "youtube" ? "YouTuber" : safeText(item.kind)} </small></div>
         <div class="admin-actions"><button class="small-btn" type="button" data-edit-contribution="${safeText(item.id)}">Edit</button><button class="small-btn delete" type="button" data-delete-contribution="${safeText(item.id)}">Delete</button></div></div>`).join("") : `<p class="notice">No contributions yet.</p>`;
     }
 
@@ -1450,7 +1566,8 @@ Cancel to keep this category.`);
         const gameDiscordUrl = normalizeContributionUrl("discord", $("contributed-game-discord-url").value);
         let avatarUrl = normalizeContributionUrl(kind, $("contributed-avatar-url").value);
         if (!name) throw new Error("Enter a name.");
-        if (!url) throw new Error("Enter a valid public link.");
+        if (!url) throw new Error(kind === "game" ? "Enter a valid Roblox game page link." : "Enter a valid public link.");
+        if (kind === "game" && !gameDiscordUrl) throw new Error("Enter the Discord server invite for the game.");
         if (!categoryId) throw new Error("Create/select a contribution category first.");
         if (!avatarUrl) avatarUrl = await discoverContributionAvatar(kind, url);
         const payload = { name, kind, category_id: categoryId, url, avatar_url: avatarUrl || null, game_discord_url: gameDiscordUrl || null };
@@ -1526,7 +1643,7 @@ Cancel to keep this category.`);
       if (!del) return;
       if (!currentUser || currentUser.id !== ADMIN_UID) { showMessage("Please sign in first.", true, "admin-status"); return; }
       const item = contributedItems.find(i => String(i.id) === String(del.dataset.deleteContribution));
-      if (!item || !confirm(`Delete "${item.name}" from Contributed to?`)) return;
+      if (!item || !confirm(`Delete "${item.name}" from CONTRIBUTIONS?`)) return;
       try {
         const { error } = await supabaseClient.from("contributed_items").delete().eq("id", item.id);
         if (error) throw error;
@@ -1619,6 +1736,40 @@ Cancel to keep this category.`);
     });
 
     initialize();
+
+    // Local-only background playlist. It does not read from or write to Supabase.
+    (() => {
+      const audio = document.getElementById('impact-audio');
+      const urlInput = document.getElementById('impact-track-url');
+      const state = document.getElementById('impact-track-state');
+      const note = document.getElementById('impact-player-note');
+      const playlistKey = 'banikta-impact-playlist-v1';
+      let playlist = [];
+      try { playlist = JSON.parse(localStorage.getItem(playlistKey) || '[]'); } catch (_) { playlist = []; }
+      let current = 0;
+      audio.volume = 0.08;
+      const update = () => { state.textContent = playlist.length ? `${current + 1} / ${playlist.length}` : 'NO TRACK'; };
+      const play = async () => {
+        if (!playlist.length) { note.textContent = 'Add a direct MP3 / audio URL above to start your playlist.'; return; }
+        if (!audio.src || audio.dataset.track !== playlist[current]) { audio.src = playlist[current]; audio.dataset.track = playlist[current]; }
+        try { await audio.play(); note.textContent = 'Playing quietly in the background. Audio links are stored locally.'; }
+        catch (_) { note.textContent = 'Could not play this link. Use a direct MP3 or supported audio file URL.'; }
+        update();
+      };
+      document.getElementById('impact-play').addEventListener('click', play);
+      document.getElementById('impact-pause').addEventListener('click', () => audio.pause());
+      document.getElementById('impact-volume').addEventListener('input', e => { audio.volume = Number(e.target.value); });
+      document.getElementById('impact-add-track').addEventListener('click', () => {
+        const value = urlInput.value.trim();
+        if (!/^https?:\/\//i.test(value)) { note.textContent = 'Paste a direct audio URL starting with https://'; return; }
+        if (!playlist.includes(value)) playlist.push(value);
+        localStorage.setItem(playlistKey, JSON.stringify(playlist));
+        current = playlist.length - 1; urlInput.value = ''; update();
+        note.textContent = 'Track added. Press PLAY when you want to listen.';
+      });
+      audio.addEventListener('ended', () => { if (playlist.length > 1) { current = (current + 1) % playlist.length; play(); } else update(); });
+      update();
+    })();
   </script>
 </body>
 </html>
