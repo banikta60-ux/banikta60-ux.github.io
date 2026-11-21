@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#080808">
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='15' fill='%23148A0F'/%3E%3C/svg%3E">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='15' fill='%23101010'/%3E%3C/svg%3E">
   <meta name="description" content="Banikta — Roblox animator. A collection of animation work and experiments.">
   <title>Banikta — Roblox Animator</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -182,6 +182,9 @@
     .contributed-section { padding: 54px 0 68px; }
     .contributed-head { display:flex; align-items:end; justify-content:space-between; gap:18px; margin-bottom:22px; }
     .contributed-head h2 { margin-top:7px; }
+    .contributed-tabs { display:flex; flex-wrap:wrap; gap:8px; margin:0 0 18px; }
+    .contributed-tab { border:1px solid var(--line); border-radius:999px; padding:8px 15px; background:transparent; color:var(--muted); font-size:13px; cursor:pointer; }
+    .contributed-tab.active,.contributed-tab:hover { color:var(--text); border-color:rgba(255,255,255,.4); background:#191919; }
     .contributed-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px; }
     .contributed-card { position:relative; isolation:isolate; display:flex; align-items:center; gap:14px; min-width:0; padding:16px; border:1px solid rgba(255,255,255,.07); border-radius:16px; background:linear-gradient(135deg, rgba(28,28,28,.96), rgba(17,17,17,.98)); text-decoration:none; color:var(--text); transition:border-color .2s, transform .2s, box-shadow .2s; box-shadow:0 8px 24px rgba(0,0,0,.12); }
     .contributed-card:hover { border-color:rgba(230,230,230,.48); transform:translateY(-2px); box-shadow:0 10px 28px rgba(0,0,0,.18), 0 0 18px rgba(230,230,230,.08); }
@@ -194,6 +197,14 @@
     .contributed-admin-form { margin-top:18px; padding:18px; border:1px solid var(--line); border-radius:14px; }
     .contributed-preview { display:flex; align-items:center; gap:10px; }
     .contributed-preview .contributed-avatar { width:44px; height:44px; flex-basis:44px; }
+    .contribution-modal { position:fixed; inset:0; z-index:150; display:grid; place-items:center; padding:20px; background:rgba(0,0,0,.88); opacity:0; visibility:hidden; transition:opacity .2s,visibility .2s; }
+    .contribution-modal.open { opacity:1; visibility:visible; }
+    .contribution-dialog { width:min(100%,420px); position:relative; padding:28px; border:1px solid var(--line); border-radius:20px; background:#111; text-align:center; }
+    .contribution-dialog h3 { margin:12px 0 5px; font:700 21px Manrope,sans-serif; }
+    .contribution-dialog p { color:var(--muted); font-size:13px; margin:0 0 18px; }
+    .contribution-links { display:grid; gap:9px; }
+    .contribution-links a { display:block; padding:12px 15px; border:1px solid var(--line); border-radius:11px; background:#191919; font-size:13px; }
+    .contribution-links a:hover { border-color:rgba(255,255,255,.4); }
     @media (max-width:700px) { .contributed-head { align-items:start; flex-direction:column; } .contributed-grid { grid-template-columns:1fr; } }
 
     .image-lightbox { position:fixed; inset:0; z-index:220; display:grid; place-items:center; padding:24px; background:rgba(2,8,3,.92); opacity:0; visibility:hidden; transition:opacity .24s ease, visibility .24s ease; backdrop-filter:blur(8px); }
@@ -284,6 +295,80 @@
       .hero h1 { font-size: clamp(44px, 13vw, 62px); }
       .filter { padding: 7px 11px; font-size: 12px; }
     }
+
+    /* Final visual polish: restrained monochrome portfolio */
+    :root {
+      --bg: #080808;
+      --panel: #101010;
+      --panel-2: #171717;
+      --line: rgba(255,255,255,.10);
+      --text: #f3f3f3;
+      --muted: #969696;
+      --accent: #f0f0f0;
+      --accent-ink: #090909;
+      --radius: 18px;
+    }
+    body { background: #080808; color: #f1f1f1; }
+    body::before { background: radial-gradient(ellipse at 50% -18%, rgba(255,255,255,.055), transparent 52%); opacity: .8; }
+    body::after { display: none; }
+    .wrap { --max: 1120px; }
+    .topbar { padding: 21px 0; border-bottom-color: rgba(255,255,255,.08); }
+    .brand { letter-spacing: -.055em; }
+    .brand-mark { background: #ededed; color: #090909; border-radius: 8px; }
+    .nav { gap: 5px; }
+    .nav a { padding: 9px 15px; }
+    .nav a:hover { background: rgba(255,255,255,.055); border-color: rgba(255,255,255,.12); }
+    .nav-contact { border-color: rgba(255,255,255,.22); background: #ededed; color: #090909; padding: 9px 17px; font-weight: 700; }
+    .nav-contact:hover { background: #fff; color: #000; border-color: #fff; }
+    .hero { padding-top: 82px; padding-bottom: 64px; }
+    .eyebrow, .section-kicker, .price-type { color: #a5a5a5; }
+    .status-dot { background: #d8d8d8; box-shadow: none; }
+    h1 { letter-spacing: -.085em; line-height: .96; }
+    h1 span, h2 span { color: #f1f1f1 !important; }
+    .hero-copy { color: #b0b0b0; line-height: 1.75; }
+    .section-head { margin-bottom: 22px; }
+    h2 { letter-spacing: -.065em; }
+    .filters { background: rgba(12,12,12,.96); border-color: rgba(255,255,255,.09); border-radius: 14px; padding: 8px; }
+    .filter { background: transparent; border-color: transparent; }
+    .filter:hover { background: rgba(255,255,255,.07); color: #fff; border-color: rgba(255,255,255,.12); box-shadow: none; }
+    .filter.active { background: #ededed; color: #090909; border-color: #ededed; box-shadow: none; }
+    .grid { gap: 17px; }
+    .card { border-color: rgba(255,255,255,.085); background: #101010; border-radius: 15px; box-shadow: 0 8px 24px rgba(0,0,0,.18); }
+    .card:hover { border-color: rgba(255,255,255,.25); box-shadow: 0 16px 34px rgba(0,0,0,.32); transform: translateY(-3px); }
+    .media { background: #050505; }
+    .card-body { padding: 17px; }
+    .card h3 { letter-spacing: -.025em; }
+    .card p { color: #a1a1a1; line-height: 1.65; }
+    .pricing { background: #0b0b0b; border-color: rgba(255,255,255,.08); }
+    .price-card, .price-card.featured { background: #101010; border-color: rgba(255,255,255,.11); box-shadow: none; border-radius: 16px; }
+    .price-card.featured { border-color: rgba(255,255,255,.27); }
+    .price-amount { letter-spacing: -.07em; }
+    .contributed-card { background: #101010; border-color: rgba(255,255,255,.085); border-radius: 14px; box-shadow: none; }
+    .contributed-card:hover { border-color: rgba(255,255,255,.25); box-shadow: 0 12px 28px rgba(0,0,0,.25); }
+    .contributed-avatar { background: #1b1b1b; color: #eee; }
+    .button, .links a { background: #121212; border-color: rgba(255,255,255,.13); }
+    .button:hover, .links a:hover { border-color: rgba(255,255,255,.42); color: #fff; }
+    .button.primary, .contact-trigger { background: #ededed; color: #090909; border-color: #ededed; box-shadow: none; }
+    .button.primary:hover, .contact-trigger:hover { background: #fff !important; color: #000 !important; }
+    .footer { color: #777; border-color: rgba(255,255,255,.08); }
+    .visitor-counter { color: #999; }
+    .visitor-counter::before { background: #aaa; box-shadow: none; }
+    .admin-toggle { color: #777; }
+    .admin-toggle:hover { color: #fff; }
+    .admin-box { background: #101010; border-color: rgba(255,255,255,.11); }
+    .field input, .field textarea, .field select { background: #090909; border-color: rgba(255,255,255,.13); }
+    .field input:focus, .field textarea:focus, .field select:focus { border-color: rgba(255,255,255,.48); }
+    .message { color: #ddd; }
+    .profile-avatar { border-color: rgba(255,255,255,.35); background: #191919; color: #eee; box-shadow: none; }
+    .discord-name { color: #eee; }
+    .image-lightbox { background: rgba(0,0,0,.94); }
+    @media (max-width: 700px) {
+      .hero { padding-top: 58px; padding-bottom: 44px; }
+      .topbar { align-items: flex-start; gap: 14px; }
+      .nav { flex-wrap: wrap; justify-content: flex-end; }
+      .nav a { padding: 8px 10px; }
+      .grid { gap: 12px; }
+    }
   </style>
 </head>
 <body>
@@ -357,6 +442,7 @@
       <div class="contributed-head">
         <div><div class="section-kicker">Community & collaborations</div><h2>Contributed to</h2><p style="color:var(--muted);margin-top:8px">Games, creators, and communities I’ve been part of.</p></div>
       </div>
+      <div class="contributed-tabs" id="contributed-tabs" aria-label="Contribution categories"></div>
       <div class="contributed-grid" id="contributed-grid"><p class="contributed-empty">Loading contributions…</p></div>
     </section>
 
@@ -419,9 +505,9 @@
             <div class="admin-list" id="category-list"></div>
             <hr style="border:0;border-top:1px solid var(--line);margin:28px 0 22px">
             <h3 style="font:700 17px Manrope,sans-serif">Contributed to</h3>
-            <p class="notice" style="margin-top:6px">Add games, YouTubers, or Discord servers. Paste their public page/invite link. For Roblox games, add each game’s own link with its real numeric ID. The site fetches the icon from Roblox; if it cannot, add a direct image URL below.</p>
+            <p class="notice" style="margin-top:6px">Add YouTubers or game communities. For Games, add the Discord invite for the community and, if available, a second invite for the game’s official Discord server. The first link is shown as the community server.</p>
             <form id="contributed-category-form" class="form-grid">
-              <div class="field"><label for="contributed-new-category">New contribution category</label><input id="contributed-new-category" maxlength="50" placeholder="e.g. Games"></div>
+              <div class="field"><label for="contributed-new-category">New contribution category</label><input id="contributed-new-category" maxlength="50" placeholder="YouTubers or Games"></div>
               <div class="field" style="justify-content:end"><button class="button" type="submit">Add category</button></div>
             </form>
             <div class="admin-list" id="contributed-category-list"></div>
@@ -429,10 +515,11 @@
               <input id="contributed-id" type="hidden">
               <div class="form-grid">
                 <div class="field"><label for="contributed-name">Name *</label><input id="contributed-name" maxlength="100" required placeholder="Game, YouTuber, or Discord server"></div>
-                <div class="field"><label for="contributed-kind">Type *</label><select id="contributed-kind"><option value="game">Game</option><option value="youtube">YouTuber</option><option value="discord">Discord server</option><option value="other">Other</option></select></div>
+                <div class="field"><label for="contributed-kind">Type *</label><select id="contributed-kind"><option value="game">Game community (Discord)</option><option value="youtube">YouTuber</option></select></div>
                 <div class="field"><label for="contributed-category">Category *</label><select id="contributed-category" required></select></div>
                 <div class="field"><label for="contributed-url">Public link *</label><input id="contributed-url" type="url" required placeholder="https://…"></div>
-                <div class="field full"><label for="contributed-avatar-url">Custom icon / image URL (optional)</label><input id="contributed-avatar-url" type="url" placeholder="https://…"><span class="notice">For Roblox games, use the individual game link with its real numeric ID (not /games/0/). The site fetches its icon from Roblox; if lookup fails, paste a direct image URL here.</span></div>
+                <div class="field full"><label for="contributed-game-discord-url">Game Discord server invite (optional)</label><input id="contributed-game-discord-url" type="url" placeholder="https://discord.gg/…"><span class="notice">For entries in Games, add the main community invite above and the game’s own Discord invite here.</span></div>
+                <div class="field full"><label for="contributed-avatar-url">Custom icon / image URL (optional)</label><input id="contributed-avatar-url" type="url" placeholder="https://…"><span class="notice">You can paste a direct image URL. Discord server icons are fetched automatically from the first invite link.</span></div>
                 <div class="field full"><div class="contributed-preview"><div class="contributed-avatar" id="contributed-preview-avatar">?</div><span class="notice" id="contributed-preview-note">Avatar preview</span></div></div>
               </div>
               <div class="form-actions"><button class="button primary" type="submit" id="save-contributed">Add contribution</button><button class="button hidden" type="button" id="cancel-contributed-edit">Cancel edit</button></div>
@@ -461,6 +548,8 @@
       <div class="grid" id="category-screen-projects"></div>
     </div>
   </section>
+
+  <div class="contribution-modal" id="contribution-modal" aria-hidden="true"><div class="contribution-dialog" role="dialog" aria-modal="true" aria-labelledby="contribution-modal-title"><button class="modal-close" type="button" id="close-contribution" aria-label="Close">×</button><div id="contribution-modal-avatar"></div><h3 id="contribution-modal-title"></h3><p id="contribution-modal-description">Choose a Discord server to open.</p><div class="contribution-links" id="contribution-modal-links"></div></div></div>
 
   <div class="contact-modal" id="contact-modal" aria-hidden="true">
     <div class="contact-dialog" role="dialog" aria-modal="true" aria-labelledby="contact-modal-title">
@@ -503,6 +592,7 @@
     let contributedCategories = [];
     let contributedItems = [];
     let editingContribution = null;
+    let activeContributionCategory = "";
 
     function showMessage(text, isError = false, target = "admin-message") {
       const el = $(target);
@@ -593,7 +683,7 @@
         const handle = youtubeHandleFromUrl(url);
         if (handle) return `https://unavatar.io/youtube/${encodeURIComponent(handle)}`;
       }
-      if (kind === "discord") {
+      if (kind === "discord" || kind === "game") {
         const invite = discordInviteCode(url);
         if (invite) {
           try {
@@ -656,40 +746,63 @@
 
     function renderContributedPublic() {
       const root = $("contributed-grid");
-      if (!root) return;
-      if (!contributedItems.length) {
-        root.innerHTML = `<p class="contributed-empty">No contributions added yet.</p>`;
+      const tabs = $("contributed-tabs");
+      if (!root || !tabs) return;
+      if (!contributedCategories.length) {
+        tabs.innerHTML = "";
+        root.innerHTML = `<p class="contributed-empty">No contribution categories yet.</p>`;
         return;
       }
-      root.innerHTML = contributedItems.map(item => {
-        const kindLabel = ({game:"Game",youtube:"YouTuber",discord:"Discord server",other:"Other"})[item.kind] || "Other";
+      if (!activeContributionCategory || !contributedCategories.some(c => String(c.id) === String(activeContributionCategory))) activeContributionCategory = String(contributedCategories[0].id);
+      tabs.innerHTML = contributedCategories.map(c => `<button type="button" class="contributed-tab${String(c.id) === String(activeContributionCategory) ? " active" : ""}" data-contribution-tab="${safeText(c.id)}">${safeText(c.name)}</button>`).join("");
+      const visibleItems = contributedItems.filter(item => String(item.category_id) === String(activeContributionCategory));
+      if (!visibleItems.length) {
+        root.innerHTML = `<p class="contributed-empty">Nothing here yet.</p>`;
+        return;
+      }
+      root.innerHTML = visibleItems.map(item => {
+        const isGame = item.kind === "game";
+        const kindLabel = isGame ? "Game community" : item.kind === "youtube" ? "YouTuber" : "Community";
         const avatar = item.avatar_url || "";
-        return `<a class="contributed-card" href="${safeText(item.url)}" target="_blank" rel="noopener noreferrer">
+        return `<button class="contributed-card" type="button" data-contribution-open="${safeText(item.id)}" style="text-align:left;width:100%;font:inherit;cursor:pointer">
           ${avatarMarkup(item.name, avatar)}
-          <div class="contributed-info"><strong>${safeText(item.name)}</strong><span>${safeText(contributionCategoryName(item.category_id))} · ${kindLabel}</span></div>
-        </a>`;
+          <div class="contributed-info"><strong>${safeText(item.name)}</strong><span>${kindLabel}</span></div>
+        </button>`;
       }).join("");
-      // Fill missing Roblox game icons from their public game links without requiring a database migration.
-      contributedItems.filter(item => item.kind === "game" && !item.avatar_url && robloxPlaceId(item.url)).forEach(async item => {
-        const imageUrl = await discoverContributionAvatar("game", item.url);
+      visibleItems.filter(item => item.kind === "game" && !item.avatar_url).forEach(async item => {
+        const invite = discordInviteCode(item.url);
+        if (!invite) return;
+        const imageUrl = await discoverContributionAvatar("discord", item.url);
         if (!imageUrl) return;
-        const card = [...root.querySelectorAll(".contributed-card")].find(el => el.getAttribute("href") === item.url);
+        const card = root.querySelector(`[data-contribution-open="${CSS.escape(String(item.id))}"]`);
         const avatar = card?.querySelector(".contributed-avatar");
         if (avatar && !avatar.querySelector("img")) {
-          const img = document.createElement("img");
-          img.className = "lightbox-image"; img.src = imageUrl; img.alt = `${item.name} icon`; img.loading = "lazy"; img.referrerPolicy = "no-referrer";
-          img.onerror = () => { img.remove(); };
+          const img = document.createElement("img"); img.src = imageUrl; img.alt = `${item.name} icon`; img.loading = "lazy"; img.referrerPolicy = "no-referrer"; img.onerror = () => img.remove();
           avatar.textContent = ""; avatar.appendChild(img);
         }
       });
     }
+
+    function openContribution(item) {
+      if (!item) return;
+      $("contribution-modal-title").textContent = item.name;
+      $("contribution-modal-avatar").innerHTML = avatarMarkup(item.name, item.avatar_url || "");
+      const links = [];
+      if (item.url) links.push(`<a href="${safeText(item.url)}" target="_blank" rel="noopener noreferrer">${item.kind === "game" ? "Community Discord server ↗" : item.kind === "youtube" ? "YouTube channel ↗" : "Open link ↗"}</a>`);
+      if (item.kind === "game" && item.game_discord_url) links.push(`<a href="${safeText(item.game_discord_url)}" target="_blank" rel="noopener noreferrer">Game’s Discord server ↗</a>`);
+      $("contribution-modal-links").innerHTML = links.join("");
+      $("contribution-modal-description").textContent = item.kind === "game" ? "Choose which Discord server you want to open." : "Open this creator’s page.";
+      $("contribution-modal").classList.add("open");
+      $("contribution-modal").setAttribute("aria-hidden", "false");
+    }
+    function closeContribution() { $("contribution-modal").classList.remove("open"); $("contribution-modal").setAttribute("aria-hidden", "true"); }
 
     async function loadContributedData() {
       const root = $("contributed-grid");
       try {
         const [catResult, itemResult] = await Promise.all([
           supabaseClient.from("contributed_categories").select("id,name,sort_order").order("sort_order", {ascending:true}).order("name"),
-          supabaseClient.from("contributed_items").select("id,name,kind,url,avatar_url,category_id,created_at").order("created_at", {ascending:false})
+          supabaseClient.from("contributed_items").select("id,name,kind,url,avatar_url,category_id,game_discord_url,created_at").order("created_at", {ascending:false})
         ]);
         if (catResult.error) throw catResult.error;
         if (itemResult.error) throw itemResult.error;
@@ -712,7 +825,7 @@
         return `<div class="admin-item"><div><strong>${safeText(c.name)}</strong><small>${count} contribution(s)</small></div><div class="admin-actions"><button class="small-btn" type="button" data-rename-contrib-category="${safeText(c.id)}">Rename</button><button class="small-btn delete" type="button" data-delete-contrib-category="${safeText(c.id)}">Delete</button></div></div>`;
       }).join("") : `<p class="notice">No contribution categories yet. Add one above.</p>`;
       $("contributed-item-list").innerHTML = contributedItems.length ? contributedItems.map(item => `
-        <div class="admin-item"><div><strong>${safeText(item.name)}</strong><small>${safeText(contributionCategoryName(item.category_id))} · ${safeText(item.kind)} </small></div>
+        <div class="admin-item"><div><strong>${safeText(item.name)}</strong><small>${safeText(contributionCategoryName(item.category_id))} · ${item.kind === "game" ? "Game Discord" : item.kind === "youtube" ? "YouTuber" : safeText(item.kind)} </small></div>
         <div class="admin-actions"><button class="small-btn" type="button" data-edit-contribution="${safeText(item.id)}">Edit</button><button class="small-btn delete" type="button" data-delete-contribution="${safeText(item.id)}">Delete</button></div></div>`).join("") : `<p class="notice">No contributions yet.</p>`;
     }
 
@@ -735,6 +848,7 @@
       $("contributed-kind").value = item.kind || "other";
       $("contributed-category").value = String(item.category_id || "");
       $("contributed-url").value = item.url || "";
+      $("contributed-game-discord-url").value = item.game_discord_url || "";
       $("contributed-avatar-url").value = item.avatar_url || "";
       $("save-contributed").textContent = "Save contribution";
       $("cancel-contributed-edit").classList.remove("hidden");
@@ -1333,12 +1447,13 @@ Cancel to keep this category.`);
         const kind = $("contributed-kind").value;
         const categoryId = Number($("contributed-category").value);
         const url = normalizeContributionUrl(kind, $("contributed-url").value);
+        const gameDiscordUrl = normalizeContributionUrl("discord", $("contributed-game-discord-url").value);
         let avatarUrl = normalizeContributionUrl(kind, $("contributed-avatar-url").value);
         if (!name) throw new Error("Enter a name.");
         if (!url) throw new Error("Enter a valid public link.");
         if (!categoryId) throw new Error("Create/select a contribution category first.");
         if (!avatarUrl) avatarUrl = await discoverContributionAvatar(kind, url);
-        const payload = { name, kind, category_id: categoryId, url, avatar_url: avatarUrl || null };
+        const payload = { name, kind, category_id: categoryId, url, avatar_url: avatarUrl || null, game_discord_url: gameDiscordUrl || null };
         const { error } = editingContribution
           ? await supabaseClient.from("contributed_items").update(payload).eq("id", editingContribution.id)
           : await supabaseClient.from("contributed_items").insert(payload);
@@ -1352,6 +1467,10 @@ Cancel to keep this category.`);
     });
 
     $("cancel-contributed-edit").addEventListener("click", resetContributionForm);
+    $("contributed-tabs").addEventListener("click", event => { const tab = event.target.closest("[data-contribution-tab]"); if (!tab) return; activeContributionCategory = tab.dataset.contributionTab; renderContributedPublic(); });
+    $("contributed-grid").addEventListener("click", event => { const card = event.target.closest("[data-contribution-open]"); if (!card) return; openContribution(contributedItems.find(item => String(item.id) === String(card.dataset.contributionOpen))); });
+    $("close-contribution").addEventListener("click", closeContribution);
+    $("contribution-modal").addEventListener("click", event => { if (event.target === $("contribution-modal")) closeContribution(); });
 
     $("contributed-category-form").addEventListener("submit", async event => {
       event.preventDefault();
@@ -1431,7 +1550,7 @@ Cancel to keep this category.`);
     document.querySelectorAll("[data-open-contact]").forEach(button => button.addEventListener("click", openContactModal));
     $("close-contact").addEventListener("click", closeContactModal);
     $("contact-modal").addEventListener("click", event => { if (event.target === $("contact-modal")) closeContactModal(); });
-    document.addEventListener("keydown", event => { if (event.key === "Escape" && $("contact-modal").classList.contains("open")) closeContactModal(); if (event.key === "Escape" && $("category-screen").classList.contains("open")) closeCategoryScreen(); if (event.key === "Escape" && lightbox.classList.contains("open")) closeImageLightbox(); });
+    document.addEventListener("keydown", event => { if (event.key === "Escape" && $("contact-modal").classList.contains("open")) closeContactModal(); if (event.key === "Escape" && $("contribution-modal").classList.contains("open")) closeContribution(); if (event.key === "Escape" && $("category-screen").classList.contains("open")) closeCategoryScreen(); if (event.key === "Escape" && lightbox.classList.contains("open")) closeImageLightbox(); });
     const lightbox = $("image-lightbox");
     const lightboxImage = $("lightbox-image");
     function openImageLightbox(src, alt = "Expanded image") {
