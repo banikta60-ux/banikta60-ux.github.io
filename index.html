@@ -9,7 +9,7 @@
   <title>Banikta — Roblox Animator</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Impact&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
       color-scheme: dark;
@@ -393,85 +393,38 @@
       -webkit-tap-highlight-color: transparent;
     }
 
-
-    /* IMPACT art direction: editorial, blunt typography, almost no decoration. */
-    :root { --bg:#080808; --panel:#101010; --panel-2:#171717; --line:rgba(255,255,255,.14); --text:#f2f2f2; --muted:#999; --accent:#f2f2f2; --radius:2px; }
-    body { background:#080808; font-family:"DM Sans",Arial,sans-serif; }
-    body::before, body::after { display:none !important; }
-    .wrap { --max:1160px; }
-    .topbar { padding:18px 0; border-bottom:1px solid #292929; animation:none; }
-    .brand, .brand > span:last-child { font-family:Impact,"Arial Narrow",sans-serif; font-weight:400; letter-spacing:.025em; text-transform:uppercase; font-size:22px; }
-    .brand-mark { width:30px; height:30px; border-radius:0; background:#eee; color:#080808; font:22px Impact,sans-serif; }
-    .nav { gap:2px; font-size:12px; text-transform:uppercase; letter-spacing:.08em; }
-    .nav a, .nav-contact { border-radius:0; padding:10px 13px; }
-    .nav a:hover { transform:none; background:#191919; border-color:#333; }
-    .nav-contact { background:transparent; color:#eee; border:1px solid #555; font-weight:500; }
-    .nav-contact:hover { background:#eee; color:#080808; }
-    .hero { padding:100px 0 86px; display:block; animation:none; border-bottom:1px solid #292929; }
-    .eyebrow,.section-kicker,.price-type { color:#888; font:12px "DM Sans",sans-serif; letter-spacing:.13em; }
-    .status-dot { display:none; }
-    h1,h2,h3,.price-amount,.empty strong { font-family:Impact,"Arial Narrow",sans-serif !important; font-weight:400 !important; letter-spacing:.015em !important; text-transform:uppercase; }
-    h1 { font-size:clamp(76px,14vw,172px); line-height:.82; margin:24px 0 22px; max-width:100%; }
-    h1 span { color:#777 !important; }
-    .hero-copy { max-width:520px; font-size:15px; line-height:1.7; color:#aaa; letter-spacing:0; }
-    .work { padding:60px 0 80px; animation:none; }
-    .section-head { align-items:end; margin-bottom:20px; }
-    h2 { font-size:clamp(38px,6vw,64px); line-height:.95; margin-top:8px; }
-    .filters { position:static; padding:0 0 14px; margin-bottom:20px; border:0; border-bottom:1px solid #292929; border-radius:0; background:transparent; box-shadow:none; gap:4px; }
-    .filter,.contributed-tab { border:1px solid transparent; border-radius:0; padding:8px 12px; text-transform:uppercase; font-size:11px; letter-spacing:.08em; background:transparent; }
-    .filter.active,.contributed-tab.active { background:#eee; color:#080808; border-color:#eee; box-shadow:none; }
-    .filter:hover,.contributed-tab:hover { background:#191919; border-color:#444; color:#fff; box-shadow:none; }
-    .grid { gap:12px; }
-    .card { border:1px solid #242424; border-radius:0; background:#0d0d0d; box-shadow:none; animation:none; }
-    .card:hover { transform:none; border-color:#777; box-shadow:none; }
-    .media { background:#050505; border-bottom:1px solid #222; }
-    .card-body { padding:15px; }
-    .card h3 { font-size:23px; }
-    .tag { border-radius:0; background:transparent; border-color:#333; color:#aaa; text-transform:uppercase; letter-spacing:.08em; }
-    .pricing,.about { background:transparent; border-color:#292929; animation:none; }
-    .pricing { padding:65px 0; }
-    .price-grid { gap:10px; }
-    .price-card,.price-card.featured { border:1px solid #292929; border-radius:0; background:#0d0d0d; box-shadow:none; }
-    .price-amount { font-size:46px; }
-    .contributed-section { padding:62px 0; }
-    .contributed-card { border-radius:0; border:1px solid #292929; background:#0d0d0d; box-shadow:none; }
-    .contributed-card:hover { transform:none; border-color:#777; box-shadow:none; }
-    .contributed-avatar { border-radius:0; background:#191919; }
-    .contributed-info strong { font-family:Impact,"Arial Narrow",sans-serif; font-size:19px; font-weight:400; text-transform:uppercase; letter-spacing:.02em; }
-    .contact { padding:70px 0 55px; animation:none; }
-    .button,.links a { border-radius:0; background:transparent; border-color:#444; text-transform:uppercase; letter-spacing:.05em; font-size:12px; }
-    .button.primary,.contact-trigger { background:#eee; border-color:#eee; color:#080808; box-shadow:none; }
-    .footer { border-color:#292929; color:#777; animation:none; }
-    .visitor-counter { color:#888; }
-    .admin-toggle { color:#777; }
-    .show-more { border-radius:0; background:#eee; color:#080808; border-color:#eee; box-shadow:none; text-transform:uppercase; letter-spacing:.08em; }
-    .show-more::before,.work-actions::before { display:none; }
-    .show-more:hover { transform:none; background:#fff; box-shadow:none; }
-    .category-screen { background:#080808; }
-    .category-screen-top { border-color:#292929; }
-    .category-screen-top h2 { font-size:52px; }
-    .admin-box,.field input,.field textarea,.field select { border-radius:0; }
-    .impact-player { position:fixed; z-index:80; right:18px; bottom:16px; width:min(340px,calc(100vw - 36px)); padding:12px; background:#101010; border:1px solid #3a3a3a; box-shadow:0 8px 30px #000; }
-    .impact-player-top { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:8px; }
-    .impact-player-label { font:17px Impact,"Arial Narrow",sans-serif; letter-spacing:.04em; }
-    .impact-player-state { color:#888; font-size:10px; text-transform:uppercase; letter-spacing:.1em; }
-    .impact-player-controls { display:flex; gap:7px; align-items:center; }
-    .impact-player button { border:1px solid #444; border-radius:0; background:transparent; color:#eee; padding:6px 9px; font-size:12px; }
-    .impact-player button:hover { background:#eee; color:#080808; }
-    .impact-player input[type=range] { width:70px; accent-color:#eee; }
-    .impact-player-add { display:flex; gap:6px; margin-top:9px; }
-    .impact-player-add input { min-width:0; flex:1; background:#080808; border:1px solid #333; color:#eee; padding:7px 8px; font-size:11px; border-radius:0; }
-    .impact-player-add button { white-space:nowrap; }
-    .impact-player-note { color:#777; font-size:10px; margin-top:7px; line-height:1.4; }
-    @media(max-width:700px) {
-      .hero { padding:70px 0 58px; }
-      h1 { font-size:clamp(66px,17vw,112px); }
-      .nav { gap:0; }
-      .nav a,.nav-contact { padding:8px 7px; font-size:10px; }
-      .impact-player { right:10px; bottom:10px; }
-      .price-grid { grid-template-columns:1fr; }
-    }
-
+    /* v11: quieter editorial layout and a softer charcoal atmosphere */
+    :root { --bg:#101112; --panel:#17191b; --panel-2:#202326; --text:#dedfdf; --muted:#92979a; --line:rgba(225,230,232,.12); --accent:#c2c8c5; }
+    body { background:radial-gradient(ellipse at 78% 8%, rgba(205,211,211,.13), transparent 34%),radial-gradient(ellipse at 8% 34%, rgba(105,119,116,.12), transparent 32%),linear-gradient(145deg,#17191a 0%,#0d0f10 48%,#151718 100%); color:#dedfdf; }
+    body::before { opacity:.34; background:radial-gradient(ellipse at 50% 0%,rgba(255,255,255,.10),transparent 48%); }
+    .wrap { width:min(1160px,calc(100% - 56px)); }
+    .topbar { padding-top:24px; padding-bottom:24px; }
+    .brand { font-family:Impact,Haettenschweiler,"Arial Narrow Bold",sans-serif; font-size:19px; letter-spacing:.025em; }
+    .hero { padding-top:82px; padding-bottom:70px; }
+    .hero h1 { font-size:clamp(42px,6vw,70px); line-height:.98; letter-spacing:-.025em; color:#d7d9d8; font-weight:500; }
+    .hero h1 span { color:#aeb6b2; }
+    .hero-copy { max-width:520px; color:#a4aaa7; font-size:15px; }
+    h2 { color:#d4d7d5; font-size:clamp(25px,3vw,34px); font-weight:500; letter-spacing:-.025em; }
+    .section-kicker,.price-type { color:#8e9692; letter-spacing:.14em; font-size:10px; }
+    .card,.price-card,.contributed-card { border-color:rgba(225,230,232,.10); box-shadow:0 16px 44px rgba(0,0,0,.16); }
+    .contributed-section { padding-top:72px; padding-bottom:82px; }
+    .contributed-head { margin-bottom:26px; }
+    .contributed-grid { grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:13px; }
+    .contributed-card { min-height:94px; padding:17px 18px; border-radius:13px; background:linear-gradient(120deg,var(--card-a),var(--card-b) 42%,rgba(19,21,22,.96) 100%),#17191a; border-color:rgba(235,238,237,.10); box-shadow:0 12px 30px rgba(0,0,0,.16); transition:transform .22s ease,border-color .22s ease,background .35s ease; }
+    .contributed-card:hover { transform:translateY(-3px); border-color:rgba(235,238,237,.25); box-shadow:0 16px 36px rgba(0,0,0,.24); }
+    .contributed-avatar { width:54px; height:54px; flex-basis:54px; border-radius:12px; background:rgba(12,14,15,.55); color:#c1c8c4; }
+    .contributed-info strong { font-size:15px; font-weight:600; color:#e0e2e1; letter-spacing:-.015em; }
+    .contributed-info .contributed-kind { margin-top:4px; color:#a1a8a4; font-size:10px; letter-spacing:.12em; text-transform:uppercase; }
+    .contributed-info .contributed-members { margin-top:5px; color:#c1c7c3; font-size:12px; letter-spacing:0; text-transform:none; }
+    .contributed-arrow { margin-left:auto; align-self:flex-start; color:#b9c0bc; font-size:17px; }
+    .contributed-tab { border-radius:7px; padding:8px 13px; }
+    .contributed-tab.active,.contributed-tab:hover { background:rgba(220,226,223,.09); border-color:rgba(220,226,223,.24); color:#e0e3e1; }
+    .contribution-dialog { background:#191c1d; border:1px solid rgba(255,255,255,.12); box-shadow:0 25px 80px rgba(0,0,0,.45); }
+    .contribution-modal { background:rgba(8,10,10,.78); backdrop-filter:blur(12px); }
+    .contribution-modal-description:empty { display:none; }
+    .price-card { background:linear-gradient(145deg,rgba(255,255,255,.045),rgba(255,255,255,.012)); }
+    .button,.nav a,.filter { box-shadow:none; }
+    @media(max-width:700px) { .wrap{width:min(100% - 34px,1160px)} .hero{padding-top:58px;padding-bottom:48px} .contributed-grid{grid-template-columns:1fr} }
   </style>
 </head>
 <body>
@@ -480,7 +433,7 @@
     <nav class="nav" aria-label="Main navigation">
       <a href="#work">Work</a>
       <a href="#prices">Prices</a>
-      <a href="#contributed-to">CONTRIBUTIONS</a>
+      <a href="#contributed-to">Contributed to</a>
       <button type="button" class="nav-contact" data-open-contact>Contact</button>
     </nav>
   </header>
@@ -488,15 +441,15 @@
   <main>
     <section class="wrap hero">
       <div>
-        <div class="eyebrow">ROBLOX / ANIMATION / CREATIVE WORK</div>
-        <h1>BANIKTA<span>.</span></h1>
-        <p class="hero-copy">Roblox animator. I make animations, builds, renders and other things for games.</p>
+        <div class="eyebrow"><span class="status-dot"></span> Roblox animator · Portfolio</div>
+        <h1>Hi, I’m <span>Banikta.</span></h1>
+        <p class="hero-copy">I create animations, maps, 3D renders and scripts for Roblox.</p>
       </div>
     </section>
 
     <section class="wrap work" id="work">
       <div class="section-head">
-        <div><div class="section-kicker">SELECTED WORK</div><h2>WORK<span style="color:var(--accent)">.</span></h2></div>
+        <div><div class="section-kicker">Selected projects</div><h2>My work<span style="color:var(--accent)">.</span></h2></div>
         <div id="work-count" class="section-kicker">Loading projects…</div>
       </div>
       <div class="filters" id="filters"></div>
@@ -509,7 +462,7 @@
     <section class="pricing" id="prices">
       <div class="wrap">
         <div class="section-head">
-          <div><div class="section-kicker">COMMISSIONS</div><h2>RATES<span style="color:var(--accent)">.</span></h2></div>
+          <div><div class="section-kicker">Commission rates</div><h2>Simple prices<span style="color:var(--accent)">.</span></h2></div>
         </div>
         <p class="pricing-intro">Need an animation or a Roblox Studio render? Here are my current commission rates and limitations.</p>
         <div class="price-grid">
@@ -527,10 +480,10 @@
           </article>
           <article class="price-card">
             <div class="price-type">GFX / Render</div>
-            <div class="price-amount">358 <span>R$</span></div>
-            <div class="price-subtitle">For 1 GFX render</div>
+            <div class="price-amount">150 <span>R$</span></div>
+            <div class="price-subtitle">For 1 render</div>
             <div class="price-divider"></div>
-            <div class="price-extra"><span>Each additional character</span><strong>+100 R$</strong></div>
+            <div class="price-extra"><span>Each additional rig</span><strong>+50 R$</strong></div>
             <ul class="price-notes">
               <li>Roblox Studio renders only.</li>
               <li>No external 3D or effects software, including Blender or Adobe After Effects.</li>
@@ -543,7 +496,7 @@
 
     <section class="wrap contributed-section" id="contributed-to">
       <div class="contributed-head">
-        <div><div class="section-kicker">Community & collaborations</div><h2>CONTRIBUTIONS</h2><p style="color:var(--muted);margin-top:8px">Games, creators, and communities I’ve been part of.</p></div>
+        <div><div class="section-kicker">Community & collaborations</div><h2>Contributed to</h2><p style="color:var(--muted);margin-top:8px">Games, creators, and communities I’ve been part of.</p></div>
       </div>
       <div class="contributed-tabs" id="contributed-tabs" aria-label="Contribution categories"></div>
       <div class="contributed-grid" id="contributed-grid"><p class="contributed-empty">Loading contributions…</p></div>
@@ -607,7 +560,7 @@
             </form>
             <div class="admin-list" id="category-list"></div>
             <hr style="border:0;border-top:1px solid var(--line);margin:28px 0 22px">
-            <h3 style="font:700 17px Manrope,sans-serif">CONTRIBUTIONS</h3>
+            <h3 style="font:700 17px Manrope,sans-serif">Contributed to</h3>
             <p class="notice" style="margin-top:6px">Add YouTubers or Roblox games. For Games, provide the Roblox game page and the Discord server where you contributed.</p>
             <form id="contributed-category-form" class="form-grid">
               <div class="field"><label for="contributed-new-category">New contribution category</label><input id="contributed-new-category" maxlength="50" placeholder="YouTubers or Games"></div>
@@ -637,7 +590,7 @@
   </main>
 
   <footer class="wrap footer">
-    <span>© <span id="year"></span> BANIKTA</span>
+    <span>© <span id="year"></span> Banikta. Made with care.</span>
     <span class="visitor-counter" id="visitor-count" aria-live="polite">Visitors: …</span>
     <button class="admin-toggle" id="open-admin" type="button">Admin</button>
   </footer>
@@ -671,19 +624,6 @@
     <button class="lightbox-close" id="lightbox-close" type="button" aria-label="Close image preview">×</button>
     <img id="lightbox-image" src="" alt="Expanded image">
   </div>
-
-
-  <aside class="impact-player" aria-label="Background audio player">
-    <div class="impact-player-top"><span class="impact-player-label">BACKGROUND AUDIO</span><span class="impact-player-state" id="impact-track-state">NO TRACK</span></div>
-    <div class="impact-player-controls">
-      <button type="button" id="impact-play">PLAY</button>
-      <button type="button" id="impact-pause">PAUSE</button>
-      <label class="impact-player-state" for="impact-volume">VOL</label><input id="impact-volume" type="range" min="0" max="0.25" step="0.01" value="0.08" aria-label="Volume">
-    </div>
-    <div class="impact-player-add"><input id="impact-track-url" type="url" placeholder="Direct MP3 / audio URL" aria-label="Audio URL"><button type="button" id="impact-add-track">ADD</button></div>
-    <div class="impact-player-note" id="impact-player-note">Optional playlist. Add direct audio links; saved only in this browser, no Supabase changes.</div>
-    <audio id="impact-audio" preload="none"></audio>
-  </aside>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
@@ -866,36 +806,59 @@
       if (!root || !tabs) return;
       if (!contributedCategories.length) {
         tabs.innerHTML = "";
-        root.innerHTML = `<p class="contributed-empty">No contribution categories yet.</p>`;
+        root.innerHTML = `<p class="contributed-empty">No contributions yet.</p>`;
         return;
       }
       if (!activeContributionCategory || !contributedCategories.some(c => String(c.id) === String(activeContributionCategory))) activeContributionCategory = String(contributedCategories[0].id);
       tabs.innerHTML = contributedCategories.map(c => `<button type="button" class="contributed-tab${String(c.id) === String(activeContributionCategory) ? " active" : ""}" data-contribution-tab="${safeText(c.id)}">${safeText(c.name)}</button>`).join("");
       const visibleItems = contributedItems.filter(item => String(item.category_id) === String(activeContributionCategory));
-      if (!visibleItems.length) {
-        root.innerHTML = `<p class="contributed-empty">Nothing here yet.</p>`;
-        return;
-      }
+      if (!visibleItems.length) { root.innerHTML = `<p class="contributed-empty">Nothing here yet.</p>`; return; }
       root.innerHTML = visibleItems.map(item => {
         const isGame = item.kind === "game";
-        const kindLabel = isGame ? "Game community" : item.kind === "youtube" ? "YouTuber" : "Community";
-        const avatar = item.avatar_url || "";
-        return `<button class="contributed-card" type="button" data-contribution-open="${safeText(item.id)}" style="text-align:left;width:100%;font:inherit;cursor:pointer">
+        const noGamePage = isGame && !item.url && item.game_discord_url;
+        const tag = noGamePage ? "a" : "button";
+        const attrs = noGamePage
+          ? `href="${safeText(item.game_discord_url)}" target="_blank" rel="noopener noreferrer"`
+          : `type="button" data-contribution-open="${safeText(item.id)}"`;
+        const avatar = isGame ? "" : (item.avatar_url || "");
+        return `<${tag} class="contributed-card${isGame ? " is-game" : ""}" ${attrs} style="--card-a:rgba(105,116,132,.22);--card-b:rgba(55,62,74,.12);text-align:left;width:100%;font:inherit;cursor:pointer">
           ${avatarMarkup(item.name, avatar)}
-          <div class="contributed-info"><strong>${safeText(item.name)}</strong><span>${kindLabel}</span></div>
-        </button>`;
+          <div class="contributed-info"><strong>${safeText(item.name)}</strong><span class="contributed-kind">${isGame ? "Discord community" : item.kind === "youtube" ? "YouTube creator" : "Community"}</span><span class="contributed-members" data-member-count="${safeText(item.id)}"></span></div>
+          ${isGame && item.url ? `<span class="contributed-arrow" aria-hidden="true">↗</span>` : ""}
+        </${tag}>`;
       }).join("");
-      visibleItems.filter(item => item.kind === "game" && !item.avatar_url).forEach(async item => {
+      visibleItems.filter(item => item.kind === "game").forEach(async item => {
         const invite = discordInviteCode(item.game_discord_url);
         if (!invite) return;
-        const imageUrl = await discoverContributionAvatar("discord", item.game_discord_url);
-        if (!imageUrl) return;
-        const card = root.querySelector(`[data-contribution-open="${CSS.escape(String(item.id))}"]`);
-        const avatar = card?.querySelector(".contributed-avatar");
-        if (avatar && !avatar.querySelector("img")) {
-          const img = document.createElement("img"); img.src = imageUrl; img.alt = `${item.name} icon`; img.loading = "lazy"; img.referrerPolicy = "no-referrer"; img.onerror = () => img.remove();
-          avatar.textContent = ""; avatar.appendChild(img);
-        }
+        try {
+          const response = await fetch(`https://discord.com/api/v10/invites/${encodeURIComponent(invite)}?with_counts=true`, {headers:{"Accept":"application/json"}});
+          if (!response.ok) return;
+          const data = await response.json();
+          const guild = data.guild;
+          const card = root.querySelector(`[data-contribution-open="${CSS.escape(String(item.id))}"], a[href="${CSS.escape(item.game_discord_url)}"]`);
+          if (!card) return;
+          if (guild?.icon && guild?.id) {
+            const ext = guild.icon.startsWith("a_") ? "gif" : "png";
+            const iconUrl = `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.${ext}?size=128`;
+            const avatar = card.querySelector(".contributed-avatar");
+            if (avatar) {
+              avatar.innerHTML = `<img src="${iconUrl}" alt="${safeText(item.name)} Discord server" crossorigin="anonymous" loading="lazy">`;
+              const img = avatar.querySelector("img");
+              img.addEventListener("load", () => {
+                try {
+                  const canvas = document.createElement("canvas"); canvas.width = canvas.height = 24;
+                  const ctx = canvas.getContext("2d", {willReadFrequently:true}); ctx.drawImage(img,0,0,24,24);
+                  const px = ctx.getImageData(0,0,24,24).data; let r=0,g=0,b=0,n=0;
+                  for(let i=0;i<px.length;i+=16){ if(px[i+3]>100){r+=px[i];g+=px[i+1];b+=px[i+2];n++;} }
+                  if(n){r=Math.round(r/n);g=Math.round(g/n);b=Math.round(b/n);card.style.setProperty("--card-a",`rgba(${r},${g},${b},.30)`);card.style.setProperty("--card-b",`rgba(${r},${g},${b},.10)`);}
+                } catch(_) {}
+              }, {once:true});
+            }
+          }
+          const count = Number(data.approximate_member_count || 0);
+          const countNode = card.querySelector(".contributed-members");
+          if (countNode && count > 0) countNode.textContent = `${count.toLocaleString("en-US")} members`;
+        } catch (_) {}
       });
     }
 
@@ -907,7 +870,7 @@
       if (item.url) links.push(`<a href="${safeText(item.url)}" target="_blank" rel="noopener noreferrer">${item.kind === "game" ? "Open game page ↗" : item.kind === "youtube" ? "YouTube channel ↗" : "Open link ↗"}</a>`);
       if (item.kind === "game" && item.game_discord_url) links.push(`<a href="${safeText(item.game_discord_url)}" target="_blank" rel="noopener noreferrer">Game’s Discord server ↗</a>`);
       $("contribution-modal-links").innerHTML = links.join("");
-      $("contribution-modal-description").textContent = item.kind === "game" ? "Open the game or its Discord server." : "Open this creator’s page.";
+      $("contribution-modal-description").textContent = item.kind === "game" ? "" : "Creator page";
       $("contribution-modal").classList.add("open");
       $("contribution-modal").setAttribute("aria-hidden", "false");
     }
@@ -1643,7 +1606,7 @@ Cancel to keep this category.`);
       if (!del) return;
       if (!currentUser || currentUser.id !== ADMIN_UID) { showMessage("Please sign in first.", true, "admin-status"); return; }
       const item = contributedItems.find(i => String(i.id) === String(del.dataset.deleteContribution));
-      if (!item || !confirm(`Delete "${item.name}" from CONTRIBUTIONS?`)) return;
+      if (!item || !confirm(`Delete "${item.name}" from Contributed to?`)) return;
       try {
         const { error } = await supabaseClient.from("contributed_items").delete().eq("id", item.id);
         if (error) throw error;
@@ -1736,40 +1699,6 @@ Cancel to keep this category.`);
     });
 
     initialize();
-
-    // Local-only background playlist. It does not read from or write to Supabase.
-    (() => {
-      const audio = document.getElementById('impact-audio');
-      const urlInput = document.getElementById('impact-track-url');
-      const state = document.getElementById('impact-track-state');
-      const note = document.getElementById('impact-player-note');
-      const playlistKey = 'banikta-impact-playlist-v1';
-      let playlist = [];
-      try { playlist = JSON.parse(localStorage.getItem(playlistKey) || '[]'); } catch (_) { playlist = []; }
-      let current = 0;
-      audio.volume = 0.08;
-      const update = () => { state.textContent = playlist.length ? `${current + 1} / ${playlist.length}` : 'NO TRACK'; };
-      const play = async () => {
-        if (!playlist.length) { note.textContent = 'Add a direct MP3 / audio URL above to start your playlist.'; return; }
-        if (!audio.src || audio.dataset.track !== playlist[current]) { audio.src = playlist[current]; audio.dataset.track = playlist[current]; }
-        try { await audio.play(); note.textContent = 'Playing quietly in the background. Audio links are stored locally.'; }
-        catch (_) { note.textContent = 'Could not play this link. Use a direct MP3 or supported audio file URL.'; }
-        update();
-      };
-      document.getElementById('impact-play').addEventListener('click', play);
-      document.getElementById('impact-pause').addEventListener('click', () => audio.pause());
-      document.getElementById('impact-volume').addEventListener('input', e => { audio.volume = Number(e.target.value); });
-      document.getElementById('impact-add-track').addEventListener('click', () => {
-        const value = urlInput.value.trim();
-        if (!/^https?:\/\//i.test(value)) { note.textContent = 'Paste a direct audio URL starting with https://'; return; }
-        if (!playlist.includes(value)) playlist.push(value);
-        localStorage.setItem(playlistKey, JSON.stringify(playlist));
-        current = playlist.length - 1; urlInput.value = ''; update();
-        note.textContent = 'Track added. Press PLAY when you want to listen.';
-      });
-      audio.addEventListener('ended', () => { if (playlist.length > 1) { current = (current + 1) % playlist.length; play(); } else update(); });
-      update();
-    })();
   </script>
 </body>
 </html>
